@@ -18,7 +18,7 @@ from .config import (
 
 
 def _normalize(text: object) -> str:
-    if text is None or (isinstance(text, float) and pd.isna(text)):
+    if text is None or pd.isna(text):
         return ""
     return str(text).strip()
 
@@ -43,6 +43,10 @@ def _match_multiple_categories(text: str, mapping: dict[str, list[str]]) -> list
                 hits.append(category)
                 break
     return hits
+
+
+def classify_action(text: object) -> str:
+    return _match_first_category(_to_lower(text), ACTION_STATUS_PATTERNS, "Other")
 
 
 @dataclass
@@ -106,13 +110,7 @@ class BOFTransformer:
         out["reasoning_text"] = out[reasoning_col].map(_normalize) if reasoning_col else ""
         out["proposer_text"] = out[proposer_col].map(_normalize) if proposer_col else ""
 
-        # Status classification from Action vernacular. Empty Action → Unknown
-        # (source spreadsheets for FY1903-1908 left this column blank).
-        def _classify_status(t: str) -> str:
-            if not _normalize(t):
-                return "Unknown"
-            return _match_first_category(_to_lower(t), ACTION_STATUS_PATTERNS, "Investigating")
-        out["status"] = out["action_text"].map(_classify_status)
+        out["status"] = out["action_text"].map(classify_action)
 
         # Technology taxonomy from Subject.
         out["technology_clusters"] = out["subject_text"].map(
@@ -142,16 +140,10 @@ class BOFTransformer:
                 axis=1,
             )
 
-        # Filename fallback for when the row-level fields don't contain a year
-        # (1905-1906 source file has only "BOF.AR.16" with no year).
-        fname_year = self._extract_year(self.input_path.name)
-        if fname_year is not pd.NA:
-            out["year"] = out["year"].fillna(fname_year)
-
         out["is_approved"] = (out["status"] == "Approved").astype(int)
         out["is_rejected"] = (out["status"] == "Rejected").astype(int)
         out["is_investigating"] = (out["status"] == "Investigating").astype(int)
-        out["is_unknown"] = (out["status"] == "Unknown").astype(int)
+        out["is_unknown"] = out["action_text"].eq("").astype(int)
         return out
 
     def _classify_proposer_type(self, row: pd.Series) -> str:

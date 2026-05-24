@@ -8,6 +8,14 @@ const BUDGET_CSV_URL = 'output/budget_master_ledger.csv';
 const APPROPRIATIONS_CSV_URL = 'output/bof_appropriations.csv';
 const ALLOTMENTS_CSV_URL = 'output/bof_allotments.csv';
 
+document.querySelector('.skip-link')?.addEventListener('click', event => {
+  const main = document.getElementById('archive-content');
+  if (!main) return;
+  event.preventDefault();
+  main.focus({ preventScroll: true });
+  main.scrollIntoView({ block: 'start' });
+});
+
 // Null-safe Plotly.react: skip rendering if the target div was removed
 // from the DOM (so cutting chart panels in index.html doesn't blow up
 // the rest of the dashboard). Returns a resolved Promise to keep
@@ -39,24 +47,24 @@ const THEMES = {
       'Logistics and Support':          '#D6A0A0',
       'Other/Unclassified':             '#8E939C',
     },
-    fontFamily: "'Inter', -apple-system, system-ui, sans-serif",
+    fontFamily: "'Public Sans', -apple-system, system-ui, sans-serif",
   },
   paper: {
-    bg: '#FFFFFF', panel: '#FFFFFF', border: '#E1E3E6',
-    text: '#1A1F36', textMid: '#5A6075', textSoft: '#8C92A4',
-    accent: '#635BFF', amber: '#B45309', red: '#B91C1C',
-    cyan: '#0570DE', magenta: '#9333EA',
+    bg: '#FFFFFF', panel: '#FFFFFF', border: '#d7dddc',
+    text: '#263239', textMid: '#5d6a70', textSoft: '#65747a',
+    accent: '#294c5b', amber: '#956b32', red: '#a64d43',
+    cyan: '#527b8b', magenta: '#7b6d89',
     cluster: {
-      'Artillery':                      '#0570DE',
-      'Explosives':                     '#9333EA',
-      'Small Arms':                     '#0E7C66',
-      'Armor and Protection':           '#B45309',
-      'Fortification and Engineering':  '#15803D',
-      'Communications and Observation': '#4F46E5',
-      'Logistics and Support':          '#B91C1C',
-      'Other/Unclassified':             '#697386',
+      'Artillery':                      '#294c5b',
+      'Explosives':                     '#7b6d89',
+      'Small Arms':                     '#5d7969',
+      'Armor and Protection':           '#956b32',
+      'Fortification and Engineering':  '#788461',
+      'Communications and Observation': '#527b8b',
+      'Logistics and Support':          '#a64d43',
+      'Other/Unclassified':             '#7b858b',
     },
-    fontFamily: "'Inter', -apple-system, system-ui, sans-serif",
+    fontFamily: "'Public Sans', -apple-system, system-ui, sans-serif",
   },
 };
 
@@ -76,7 +84,7 @@ function makeStatusColor(c) {
 }
 
 function makePlotFont(c) {
-  return { family: c.fontFamily, size: 11, color: c.text };
+  return { family: c.fontFamily, size: 12, color: c.text };
 }
 
 function heatmapScale() {
@@ -103,7 +111,7 @@ function makeBaseLayout() {
     hoverlabel: {
       bgcolor: COLORS.panel,
       bordercolor: COLORS.border,
-      font: { family: PLOT_FONT.family, size: 11.5, color: COLORS.text },
+      font: { family: PLOT_FONT.family, size: 12, color: COLORS.text },
       align: 'left',
     },
   };
@@ -115,9 +123,9 @@ function makeAxis() {
     linecolor: COLORS.border,
     zerolinecolor: COLORS.border,
     tickcolor: COLORS.border,
-    tickfont: { color: COLORS.textMid, size: 10 },
+    tickfont: { color: COLORS.textMid, size: 12 },
     titlefont: {
-      color: COLORS.textSoft, size: 10,
+      color: COLORS.textSoft, size: 12,
       family: PLOT_FONT.family,
     },
     automargin: false,
@@ -126,7 +134,7 @@ function makeAxis() {
 
 const AXIS_TITLE = (text) => ({
   text,
-  font: { color: COLORS.textSoft, size: 10, family: PLOT_FONT.family },
+  font: { color: COLORS.textSoft, size: 12, family: PLOT_FONT.family },
   standoff: 12,
 });
 
@@ -149,8 +157,9 @@ function eraShapes(yMinYear, yMaxYear) {
     y: 1, yref: 'paper',
     yanchor: 'bottom',
     text: e.label,
+    yshift: -30,
     showarrow: false,
-    font: { color: COLORS.textSoft, size: 9, family: PLOT_FONT.family },
+    font: { color: COLORS.textSoft, size: 12, family: PLOT_FONT.family },
     bgcolor: 'rgba(255,255,255,0.85)',
     borderpad: 2,
   }));
@@ -201,6 +210,7 @@ let FILTERS = {
   status:  '',
   proposer: '',
   search:  '',
+  includeUndated: true,
 };
 let SORT = { key: 'year', dir: 'asc' };
 let PAGE = 1;
@@ -230,6 +240,29 @@ let SPENDING_FILTERS = {
 let SPENDING_SORT = { key: 'year', dir: 'asc' };
 let SPENDING_PAGE = 1;
 let SPENDING_RENDERED = false;
+const SEARCH_TIMERS = { proposals: null, timeline: null, spending: null };
+
+function clearSearchTimer(view) {
+  clearTimeout(SEARCH_TIMERS[view]);
+  SEARCH_TIMERS[view] = null;
+}
+
+function normalizeYearRange(filters, defaults) {
+  const normalize = (value, fallback) => {
+    const number = Number(value);
+    if (value === '' || value == null || !Number.isFinite(number)) return fallback;
+    return Math.max(defaults.min - 5, Math.min(defaults.max + 5, Math.trunc(number)));
+  };
+  const min = normalize(filters.yearMin, defaults.min);
+  const max = normalize(filters.yearMax, defaults.max);
+  filters.yearMin = Math.min(min, max);
+  filters.yearMax = Math.max(min, max);
+}
+
+function recordText(value) {
+  const text = String(value ?? '').trim();
+  return /^nan$/i.test(text) ? '' : text;
+}
 
 // ── Bucketing ─────────────────────────────────────────────────────────
 function statusBucket(s) {
@@ -250,34 +283,66 @@ function proposerType(t) {
 }
 
 // ── Load ──────────────────────────────────────────────────────────────
+async function loadCSV(url, requiredFields) {
+  const response = await fetch(url, { cache: 'no-cache' });
+  if (!response.ok) throw new Error(`${url} returned HTTP ${response.status}.`);
+  const parsed = Papa.parse(await response.text(), { header: true, skipEmptyLines: true });
+  if (!requiredFields.every(field => parsed.meta.fields?.includes(field))) {
+    throw new Error(`${url} does not contain the expected archive columns.`);
+  }
+  if (parsed.errors.length) throw new Error(`${url} could not be read as CSV.`);
+  return parsed;
+}
+
+function showDataStatus(message, failed = false) {
+  let status = document.getElementById('data-status');
+  if (!status) {
+    status = document.createElement('div');
+    status.id = 'data-status';
+    status.className = 'data-status';
+    document.querySelector('.main-wrap').prepend(status);
+  }
+  status.hidden = !message;
+  status.setAttribute('role', failed ? 'alert' : 'status');
+  status.textContent = message;
+  if (failed) {
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.textContent = 'Try again';
+    retry.addEventListener('click', () => window.location.reload());
+    status.appendChild(retry);
+  }
+}
+
 async function load() {
-  const [propText, budgetText, approText, allotText] = await Promise.all([
-    fetch(CSV_URL).then(r => r.text()),
-    fetch(BUDGET_CSV_URL).then(r => r.text()),
-    fetch(APPROPRIATIONS_CSV_URL).then(r => r.text()),
-    fetch(ALLOTMENTS_CSV_URL).then(r => r.text()),
+  showDataStatus('Loading archive records…');
+  if (typeof Papa === 'undefined' || typeof Plotly === 'undefined') {
+    throw new Error('A required chart or data library did not load. Check your connection.');
+  }
+  const [parsed, bparsed, aparsed, lparsed] = await Promise.all([
+    loadCSV(CSV_URL, ['year', 'Subject', 'Action']),
+    loadCSV(BUDGET_CSV_URL, ['year', 'branch', 'appropriation_usd']),
+    loadCSV(APPROPRIATIONS_CSV_URL, ['Year', 'Amount_Numeric']),
+    loadCSV(ALLOTMENTS_CSV_URL, ['Year', 'Project/Line Item Description', 'Allotted_Numeric']),
   ]);
 
   // Proposals
-  const parsed = Papa.parse(propText, { header: true, skipEmptyLines: true });
   ALL = parsed.data
     .map((r, i) => ({
       id: i,
-      year: parseInt(r.year, 10),
+      year: Number.isFinite(parseInt(r.year, 10)) ? parseInt(r.year, 10) : null,
       cluster: (r.primary_cluster || 'Other/Unclassified').trim() || 'Other/Unclassified',
       status: statusBucket(r.status),
       statusRaw: r.status || '',
-      proposer: (r['Proposed By'] || r.proposer_text || '').trim(),
+      proposer: recordText(r['Proposed By'] || r.proposer_text),
       proposerType: proposerType(r.proposer_type),
-      subject: (r.Subject || r.subject_text || '').trim(),
-      action: (r.Action || r.action_text || '').trim(),
-      reasoning: (r['Recommendation Reasoning'] || r.reasoning_text || '').trim(),
+      subject: recordText(r.Subject || r.subject_text),
+      action: recordText(r.Action || r.action_text),
+      reasoning: recordText(r['Recommendation Reasoning'] || r.reasoning_text),
       report: r['BOF Annual Report #'] || '',
-    }))
-    .filter(r => Number.isFinite(r.year));
+    }));
 
   // Budget
-  const bparsed = Papa.parse(budgetText, { header: true, skipEmptyLines: true });
   ALL_BUDGET = bparsed.data
     .map((r, i) => ({
       id: i,
@@ -290,7 +355,6 @@ async function load() {
     .filter(r => Number.isFinite(r.year) && r.branch);
 
   // BOF appropriations (annual congressional give to the Board)
-  const aparsed = Papa.parse(approText, { header: true, skipEmptyLines: true });
   ALL_APPROPRIATIONS = aparsed.data
     .map((r, i) => ({
       id: i,
@@ -305,7 +369,6 @@ async function load() {
     .filter(r => Number.isFinite(r.year));
 
   // BOF allotments (individual research expenditures)
-  const lparsed = Papa.parse(allotText, { header: true, skipEmptyLines: true });
   ALL_ALLOTMENTS = lparsed.data
     .map((r, i) => ({
       id: i,
@@ -356,7 +419,8 @@ async function load() {
   computePresetCounts();
   stateFromHash();
   apply();
-  // stateFromHash already calls setView('budget') if needed, which triggers applyBudget()
+  window.addEventListener('hashchange', () => { stateFromHash(); apply(); });
+  showDataStatus('');
 }
 
 function wireFilters() {
@@ -365,19 +429,20 @@ function wireFilters() {
   document.getElementById('f-cluster').addEventListener('change', e => { FILTERS.cluster = e.target.value; PAGE = 1; apply(); });
   document.getElementById('f-status').addEventListener('change', e => { FILTERS.status = e.target.value; PAGE = 1; apply(); });
   document.getElementById('f-proposer').addEventListener('change', e => { FILTERS.proposer = e.target.value; PAGE = 1; apply(); });
+  document.getElementById('f-include-undated').addEventListener('change', e => { FILTERS.includeUndated = e.target.checked; PAGE = 1; apply(); });
   document.getElementById('btn-clear').addEventListener('click', resetFilters);
 
   // Search (debounced)
   const searchInput = document.getElementById('f-search');
   const searchWrap = document.getElementById('search-wrap');
-  let searchTimer;
   searchInput.addEventListener('input', e => {
-    clearTimeout(searchTimer);
+    clearSearchTimer('proposals');
     const v = e.target.value;
     if (v) searchWrap.classList.add('has-value'); else searchWrap.classList.remove('has-value');
-    searchTimer = setTimeout(() => { FILTERS.search = v.trim(); PAGE = 1; apply(); }, 180);
+    SEARCH_TIMERS.proposals = setTimeout(() => { FILTERS.search = v.trim(); PAGE = 1; apply(); }, 180);
   });
   document.getElementById('btn-clear-search').addEventListener('click', () => {
+    clearSearchTimer('proposals');
     searchInput.value = '';
     searchWrap.classList.remove('has-value');
     FILTERS.search = '';
@@ -397,17 +462,17 @@ function wirePresets() {
 function applyPreset(name) {
   // Toggle behavior: clicking active preset resets
   const presets = {
-    'approved':  { yearMin: 1897, yearMax: 1908, cluster: '', status: 'Approved', proposer: '', search: '' },
-    '1901':      { yearMin: 1901, yearMax: 1901, cluster: '', status: '',         proposer: '', search: '' },
-    'private':   { yearMin: 1897, yearMax: 1908, cluster: '', status: '',         proposer: 'private', search: '' },
-    'comm-zero': { yearMin: 1897, yearMax: 1908, cluster: 'Communications and Observation', status: '', proposer: '', search: '' },
-    'artillery': { yearMin: 1897, yearMax: 1908, cluster: 'Artillery', status: '', proposer: '', search: '' },
+    'approved':  { yearMin: 1897, yearMax: 1908, cluster: '', status: 'Approved', proposer: '', search: '', includeUndated: true },
+    '1901':      { yearMin: 1901, yearMax: 1901, cluster: '', status: '',         proposer: '', search: '', includeUndated: true },
+    'private':   { yearMin: 1897, yearMax: 1908, cluster: '', status: '',         proposer: 'private', search: '', includeUndated: true },
+    'comm-zero': { yearMin: 1897, yearMax: 1908, cluster: 'Communications and Observation', status: '', proposer: '', search: '', includeUndated: true },
+    'artillery': { yearMin: 1897, yearMax: 1908, cluster: 'Artillery', status: '', proposer: '', search: '', includeUndated: true },
   };
   const p = presets[name];
   if (!p) return;
   // If preset is already active (exact match), toggle off
   const active = JSON.stringify(FILTERS) === JSON.stringify(p);
-  FILTERS = active ? { yearMin: 1897, yearMax: 1908, cluster: '', status: '', proposer: '', search: '' } : { ...p };
+  FILTERS = active ? { yearMin: PROP_DEFAULT.min, yearMax: PROP_DEFAULT.max, cluster: '', status: '', proposer: '', search: '', includeUndated: true } : { ...p };
   syncFilterControls();
   PAGE = 1;
   apply();
@@ -415,18 +480,20 @@ function applyPreset(name) {
 }
 
 function resetFilters() {
-  FILTERS = { yearMin: PROP_DEFAULT.min, yearMax: PROP_DEFAULT.max, cluster: '', status: '', proposer: '', search: '' };
+  FILTERS = { yearMin: PROP_DEFAULT.min, yearMax: PROP_DEFAULT.max, cluster: '', status: '', proposer: '', search: '', includeUndated: true };
   syncFilterControls();
   PAGE = 1;
   apply();
 }
 
 function syncFilterControls() {
+  clearSearchTimer('proposals');
   document.getElementById('f-year-min').value = FILTERS.yearMin;
   document.getElementById('f-year-max').value = FILTERS.yearMax;
   document.getElementById('f-cluster').value = FILTERS.cluster;
   document.getElementById('f-status').value = FILTERS.status;
   document.getElementById('f-proposer').value = FILTERS.proposer;
+  document.getElementById('f-include-undated').checked = FILTERS.includeUndated;
   const searchInput = document.getElementById('f-search');
   searchInput.value = FILTERS.search;
   document.getElementById('search-wrap').classList.toggle('has-value', !!FILTERS.search);
@@ -434,10 +501,12 @@ function syncFilterControls() {
 
 // ── Filter + apply ────────────────────────────────────────────────────
 function apply() {
+  normalizeYearRange(FILTERS, PROP_DEFAULT);
+  document.getElementById('f-year-min').value = FILTERS.yearMin;
+  document.getElementById('f-year-max').value = FILTERS.yearMax;
   const q = FILTERS.search.toLowerCase();
   FILTERED = ALL.filter(r =>
-    r.year >= FILTERS.yearMin &&
-    r.year <= FILTERS.yearMax &&
+    (r.year == null ? FILTERS.includeUndated : r.year >= FILTERS.yearMin && r.year <= FILTERS.yearMax) &&
     (!FILTERS.cluster  || r.cluster === FILTERS.cluster) &&
     (!FILTERS.status   || r.status === FILTERS.status) &&
     (!FILTERS.proposer || r.proposerType === FILTERS.proposer) &&
@@ -472,7 +541,9 @@ function resizeCharts() {
 }
 
 window.addEventListener('resize', () => {
-  if (typeof resizeCharts === 'function') resizeCharts();
+  if (VIEW === 'proposals') resizeCharts();
+  else if (VIEW === 'budget') resizeBudgetCharts();
+  else if (VIEW === 'spending') resizeSpendingCharts();
 });
 
 // ── Active filter chips ───────────────────────────────────────────────
@@ -486,10 +557,11 @@ function renderActiveChips() {
   if (FILTERS.status)   chips.push({ key: 'status',   label: 'STATUS',   val: FILTERS.status });
   if (FILTERS.proposer) chips.push({ key: 'proposer', label: 'PROPOSER', val: FILTERS.proposer });
   if (FILTERS.search)   chips.push({ key: 'search',   label: 'Q',        val: `"${FILTERS.search}"` });
+  if (!FILTERS.includeUndated) chips.push({ key: 'undated', label: 'Records', val: 'Dated only' });
 
   const container = document.getElementById('active-chips');
   container.innerHTML = chips.map(c =>
-    `<span class="chip" data-clear="${c.key}"><span class="label">${c.label}</span><span class="val">${escapeHTML(c.val)}</span><span class="x">✕</span></span>`
+    `<button type="button" class="chip" data-clear="${c.key}" aria-label="Remove ${escapeHTML(c.label)} filter: ${escapeHTML(c.val)}"><span class="label">${c.label}</span><span class="val">${escapeHTML(c.val)}</span><span class="x" aria-hidden="true">×</span></button>`
   ).join('');
   container.querySelectorAll('.chip').forEach(el => {
     el.addEventListener('click', () => clearFilter(el.dataset.clear));
@@ -497,7 +569,8 @@ function renderActiveChips() {
 }
 
 function clearFilter(key) {
-  if (key === 'year') { FILTERS.yearMin = 1897; FILTERS.yearMax = 1908; }
+  if (key === 'year') { FILTERS.yearMin = PROP_DEFAULT.min; FILTERS.yearMax = PROP_DEFAULT.max; }
+  else if (key === 'undated') FILTERS.includeUndated = true;
   else if (key === 'search') FILTERS.search = '';
   else FILTERS[key] = '';
   syncFilterControls();
@@ -507,11 +580,11 @@ function clearFilter(key) {
 
 function syncPresetActive() {
   const presetMap = {
-    'approved':  { yearMin: 1897, yearMax: 1908, cluster: '', status: 'Approved', proposer: '', search: '' },
-    '1901':      { yearMin: 1901, yearMax: 1901, cluster: '', status: '',         proposer: '', search: '' },
-    'private':   { yearMin: 1897, yearMax: 1908, cluster: '', status: '',         proposer: 'private', search: '' },
-    'comm-zero': { yearMin: 1897, yearMax: 1908, cluster: 'Communications and Observation', status: '', proposer: '', search: '' },
-    'artillery': { yearMin: 1897, yearMax: 1908, cluster: 'Artillery', status: '', proposer: '', search: '' },
+    'approved':  { yearMin: 1897, yearMax: 1908, cluster: '', status: 'Approved', proposer: '', search: '', includeUndated: true },
+    '1901':      { yearMin: 1901, yearMax: 1901, cluster: '', status: '',         proposer: '', search: '', includeUndated: true },
+    'private':   { yearMin: 1897, yearMax: 1908, cluster: '', status: '',         proposer: 'private', search: '', includeUndated: true },
+    'comm-zero': { yearMin: 1897, yearMax: 1908, cluster: 'Communications and Observation', status: '', proposer: '', search: '', includeUndated: true },
+    'artillery': { yearMin: 1897, yearMax: 1908, cluster: 'Artillery', status: '', proposer: '', search: '', includeUndated: true },
   };
   const cur = JSON.stringify(FILTERS);
   document.querySelectorAll('.preset').forEach(btn => {
@@ -602,7 +675,9 @@ function renderTimeline() {
   for (let y = FILTERS.yearMin; y <= FILTERS.yearMax; y++) {
     byYearStatus[y] = { Approved: 0, Investigating: 0, Rejected: 0, Other: 0 };
   }
-  for (const r of FILTERED) byYearStatus[r.year][r.status]++;
+  for (const r of FILTERED) {
+    if (r.year != null) byYearStatus[r.year][r.status]++;
+  }
 
   const years = Object.keys(byYearStatus).map(Number).sort((a, b) => a - b);
   const traces = statuses.map(s => ({
@@ -621,7 +696,7 @@ function renderTimeline() {
     showlegend: true,
     legend: {
       orientation: 'h', x: 0, y: 1.12,
-      font: { color: COLORS.textMid, size: 10 },
+      font: { color: COLORS.textMid, size: 12 },
       bgcolor: 'rgba(0,0,0,0)',
     },
     xaxis: { ...PLOT_AXIS, dtick: 1, title: AXIS_TITLE('Year of report') },
@@ -640,42 +715,28 @@ function renderTimeline() {
 
 function renderClusterMix() {
   const counts = {};
-  for (const r of FILTERED) counts[r.cluster] = (counts[r.cluster] || 0) + 1;
+  for (const record of FILTERED) counts[record.cluster] = (counts[record.cluster] || 0) + 1;
   const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  const labels = entries.map(e => e[0]);
-  const values = entries.map(e => e[1]);
-  const colors = labels.map(l => CLUSTER_COLOR[l] || COLORS.textSoft);
+  const clusters = entries.map(([cluster]) => cluster);
+  const values = entries.map(([, count]) => count);
+  const labels = clusters.map(cluster => cluster.replace(' and ', '<br>& '));
 
   Plotly.react('chart-cluster', [{
-    type: 'pie',
-    hole: 0.66,
-    sort: false,
-    direction: 'clockwise',
-    labels,
-    values,
-    marker: {
-      colors,
-      line: { color: COLORS.panel, width: 2 },
-    },
-    textinfo: 'none',
-    hovertemplate: '<b>%{label}</b><br>%{value} proposals · %{percent} <span style="opacity:.6">click to filter</span><extra></extra>',
+    type: 'bar', orientation: 'h', x: values, y: labels,
+    customdata: clusters,
+    marker: { color: clusters.map(cluster => CLUSTER_COLOR[cluster] || COLORS.textSoft) },
+    text: values.map(value => value.toLocaleString()), textposition: 'outside', cliponaxis: false,
+    textfont: { ...PLOT_FONT, size: 12 },
+    hovertemplate: '<b>%{customdata}</b><br>%{x} records · click to filter<extra></extra>',
   }], {
     ...PLOT_BASE_LAYOUT,
-    showlegend: true,
-    legend: {
-      orientation: 'v', x: 1.02, y: 0.5,
-      font: { color: COLORS.textMid, size: 9.5 },
-      bgcolor: 'rgba(0,0,0,0)',
-      itemsizing: 'constant',
-    },
-    margin: { l: 8, r: 4, t: 8, b: 8 },
-    annotations: [{
-      text: `<b style="font-size:22px">${FILTERED.length.toLocaleString()}</b><br><span style="color:${COLORS.textSoft};font-size:9px;letter-spacing:1.6px;">PROPOSALS</span>`,
-      showarrow: false, font: { color: COLORS.text, family: PLOT_FONT.family },
-      x: 0.5, y: 0.5,
-    }],
-  }, PLOT_CONFIG).then(() => attachClick('chart-cluster', e => {
-    const cluster = e.points[0].label;
+    showlegend: false,
+    xaxis: { ...PLOT_AXIS, rangemode: 'tozero', range: [0, Math.max(1, ...values) * 1.2], title: AXIS_TITLE('Records') },
+    yaxis: { ...PLOT_AXIS, autorange: 'reversed', automargin: true, tickfont: { ...PLOT_AXIS.tickfont, size: 12 } },
+    margin: { l: 8, r: 32, t: 8, b: 44 },
+    bargap: 0.3,
+  }, PLOT_CONFIG).then(() => attachClick('chart-cluster', event => {
+    const cluster = event.points[0].customdata;
     FILTERS.cluster = FILTERS.cluster === cluster ? '' : cluster;
     syncFilterControls(); PAGE = 1; apply();
     toast(FILTERS.cluster ? `Cluster: ${cluster}` : 'Cluster cleared');
@@ -708,7 +769,7 @@ function renderStatusByCluster() {
     ...PLOT_BASE_LAYOUT,
     barmode: 'stack',
     showlegend: true,
-    legend: { orientation: 'h', x: 0, y: 1.16, font: { color: COLORS.textMid, size: 10 } },
+    legend: { orientation: 'h', x: 0, y: 1.16, font: { color: COLORS.textMid, size: 12 } },
     xaxis: { ...PLOT_AXIS, range: [0, 100], ticksuffix: '%' },
     yaxis: { ...PLOT_AXIS, automargin: true },
     margin: { l: 12, r: 16, t: 36, b: 32 },
@@ -745,12 +806,12 @@ function renderTopProposers() {
     marker: { color: COLORS.cyan, line: { width: 0 } },
     text: values.map(v => v.toString()),
     textposition: 'outside',
-    textfont: { color: COLORS.textMid, size: 10, family: PLOT_FONT.family },
+    textfont: { color: COLORS.textMid, size: 12, family: PLOT_FONT.family },
     hovertemplate: '<b>%{customdata}</b><br>%{x} submissions <span style="opacity:.6">click to search</span><extra></extra>',
   }], {
     ...PLOT_BASE_LAYOUT,
     xaxis: { ...PLOT_AXIS, title: '' },
-    yaxis: { ...PLOT_AXIS, automargin: true, tickfont: { ...PLOT_AXIS.tickfont, size: 9 } },
+    yaxis: { ...PLOT_AXIS, automargin: true, tickfont: { ...PLOT_AXIS.tickfont, size: 12 } },
     margin: { l: 8, r: 36, t: 12, b: 32 },
   }, PLOT_CONFIG).then(() => attachClick('chart-proposers', e => {
     const full = e.points[0].customdata;
@@ -778,13 +839,13 @@ function renderHeatmap() {
     showscale: true,
     colorbar: {
       thickness: 8, len: 0.8, outlinewidth: 0,
-      tickfont: { color: COLORS.textMid, size: 9, family: PLOT_FONT.family },
+      tickfont: { color: COLORS.textMid, size: 12, family: PLOT_FONT.family },
     },
     hovertemplate: '<b>%{y}</b> · %{x}<br>%{z} submissions <span style="opacity:.6">click to drill</span><extra></extra>',
   }], {
     ...PLOT_BASE_LAYOUT,
     xaxis: { ...PLOT_AXIS, dtick: 1 },
-    yaxis: { ...PLOT_AXIS, automargin: true, tickfont: { ...PLOT_AXIS.tickfont, size: 9 } },
+    yaxis: { ...PLOT_AXIS, automargin: true, tickfont: { ...PLOT_AXIS.tickfont, size: 12 } },
     margin: { l: 8, r: 50, t: 12, b: 36 },
   }, PLOT_CONFIG).then(() => attachClick('chart-heatmap', e => {
     const p = e.points[0];
@@ -796,8 +857,16 @@ function renderHeatmap() {
 }
 
 // ── Records table ─────────────────────────────────────────────────────
+function makeSortableHeader(th) {
+  th.tabIndex = 0;
+  th.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); th.click(); }
+  });
+}
+
 function wireTable() {
-  document.querySelectorAll('.records-table thead th').forEach(th => {
+  document.querySelectorAll('#records-table thead th').forEach(th => {
+    makeSortableHeader(th);
     th.addEventListener('click', () => {
       const key = th.dataset.sort;
       if (SORT.key === key) SORT.dir = SORT.dir === 'asc' ? 'desc' : 'asc';
@@ -810,6 +879,7 @@ function wireTable() {
 function renderTable() {
   const sorted = [...FILTERED].sort((a, b) => {
     const av = a[SORT.key], bv = b[SORT.key];
+    if (av == null || bv == null) return av == null ? (bv == null ? 0 : 1) : -1;
     if (typeof av === 'number') return SORT.dir === 'asc' ? av - bv : bv - av;
     const as = String(av || '').toLowerCase();
     const bs = String(bv || '').toLowerCase();
@@ -822,8 +892,9 @@ function renderTable() {
   const slice = sorted.slice(start, start + PAGE_SIZE);
 
   // Header sort indicators
-  document.querySelectorAll('.records-table thead th').forEach(th => {
+  document.querySelectorAll('#records-table thead th').forEach(th => {
     th.classList.toggle('sorted', th.dataset.sort === SORT.key);
+    th.setAttribute('aria-sort', th.dataset.sort === SORT.key ? (SORT.dir === 'asc' ? 'ascending' : 'descending') : 'none');
     const ind = th.querySelector('.sort-ind');
     ind.textContent = SORT.dir === 'asc' ? '▲' : '▼';
   });
@@ -838,8 +909,8 @@ function renderTable() {
     document.getElementById('records-empty').style.display = 'none';
     document.getElementById('records-table').style.display = '';
     tbody.innerHTML = slice.map(r => `
-      <tr data-id="${r.id}">
-        <td class="col-year">${r.year}</td>
+      <tr data-id="${r.id}" tabindex="0" aria-label="Open proposal: ${escapeHTML(r.subject || 'Untitled record')}">
+        <td class="col-year">${r.year ?? 'Not dated'}</td>
         <td class="col-subject" title="${escapeHTML(r.subject)}">${highlightMatch(r.subject)}</td>
         <td class="col-proposer" title="${escapeHTML(r.proposer)}">${highlightMatch(r.proposer)}</td>
         <td class="col-cluster">${escapeHTML(r.cluster)}</td>
@@ -848,6 +919,9 @@ function renderTable() {
     `).join('');
     tbody.querySelectorAll('tr').forEach(tr => {
       tr.addEventListener('click', () => openDetail(parseInt(tr.dataset.id, 10)));
+      tr.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tr.click(); }
+      });
     });
   }
 
@@ -899,7 +973,11 @@ function renderPager(totalPages) {
 }
 
 // ── Detail modal ──────────────────────────────────────────────────────
+let detailReturnFocus = null;
+let detailScrollStyle = '';
+
 function wireModal() {
+  document.getElementById('modal').setAttribute('aria-labelledby', 'm-subject');
   document.getElementById('modal-close').addEventListener('click', closeDetail);
   document.getElementById('modal-backdrop').addEventListener('click', e => {
     if (e.target.id === 'modal-backdrop') closeDetail();
@@ -909,7 +987,9 @@ function wireModal() {
 function openDetail(id) {
   const r = ALL.find(x => x.id === id);
   if (!r) return;
-  document.getElementById('m-year').textContent = r.year;
+  detailReturnFocus = document.activeElement;
+  detailScrollStyle = document.body.style.overflow;
+  document.getElementById('m-year').textContent = r.year ?? 'Not dated';
   document.getElementById('m-cluster').textContent = r.cluster;
   document.getElementById('m-status').textContent = r.status.toUpperCase();
   document.getElementById('m-status').style.color = STATUS_COLOR[r.status];
@@ -922,22 +1002,44 @@ function openDetail(id) {
   document.getElementById('m-action-section').style.display = r.action ? '' : 'none';
   document.getElementById('m-reasoning-section').style.display = r.reasoning ? '' : 'none';
   document.getElementById('modal-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.querySelectorAll('.sidebar, .main-wrap').forEach(el => { el.inert = true; });
+  document.getElementById('modal-close').focus();
 }
 
 function closeDetail() {
+  if (!document.getElementById('modal-backdrop').classList.contains('open')) return;
   document.getElementById('modal-backdrop').classList.remove('open');
+  document.body.style.overflow = detailScrollStyle;
+  document.querySelectorAll('.sidebar, .main-wrap').forEach(el => { el.inert = false; });
+  if (detailReturnFocus?.isConnected) detailReturnFocus.focus();
+  detailReturnFocus = null;
 }
 
 // ── Keyboard shortcuts ────────────────────────────────────────────────
 function wireKeyboard() {
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeDetail();
-    if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
-      e.preventDefault();
-      document.getElementById('f-search').focus();
+    if (e.key === 'Escape') { closeDetail(); hideTimelineTooltip(); return; }
+    if (document.getElementById('modal-backdrop').classList.contains('open')) {
+      if (e.key === 'Tab') {
+        const controls = [...document.getElementById('modal').querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
+          .filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length);
+        const first = controls[0], last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+      return;
     }
-    if (e.key === 'r' && e.metaKey === false && e.ctrlKey === false && document.activeElement.tagName !== 'INPUT') {
-      resetFilters();
+    if (e.metaKey || e.ctrlKey || e.altKey || document.activeElement?.closest('input, select, textarea, [contenteditable="true"]')) return;
+    if (e.key === '/') {
+      const searchId = { proposals: 'f-search', timeline: 't-search', spending: 's-search' }[VIEW];
+      if (searchId) { e.preventDefault(); document.getElementById(searchId).focus(); }
+    }
+    if (e.key.toLowerCase() === 'r') {
+      const resetId = { proposals: 'btn-clear', budget: 'btn-clear-budget', timeline: 'btn-clear-timeline', spending: 'btn-clear-spending' }[VIEW];
+      if (!resetId) return;
+      e.preventDefault();
+      document.getElementById(resetId).click();
       toast('Filters reset');
     }
   });
@@ -953,6 +1055,7 @@ function updateHash() {
     if (FILTERS.status)   params.set('s', FILTERS.status);
     if (FILTERS.proposer) params.set('p', FILTERS.proposer);
     if (FILTERS.search)   params.set('q', FILTERS.search);
+    if (!FILTERS.includeUndated) params.set('dated', '1');
   } else if (VIEW === 'budget') {
     if (BUDGET_FILTERS.yearMin !== BUDGET_DEFAULT.min || BUDGET_FILTERS.yearMax !== BUDGET_DEFAULT.max) params.set('by', `${BUDGET_FILTERS.yearMin}-${BUDGET_FILTERS.yearMax}`);
     if (BUDGET_FILTERS.branch) params.set('bb', BUDGET_FILTERS.branch);
@@ -972,41 +1075,45 @@ function updateHash() {
 }
 
 function stateFromHash() {
-  if (!window.location.hash) return;
   const params = new URLSearchParams(window.location.hash.slice(1));
-  if (params.has('view')) VIEW = params.get('view');
-  if (params.has('y')) {
-    const [a, b] = params.get('y').split('-').map(Number);
-    if (Number.isFinite(a) && Number.isFinite(b)) { FILTERS.yearMin = a; FILTERS.yearMax = b; }
-  }
-  if (params.has('c')) FILTERS.cluster = params.get('c');
-  if (params.has('s')) FILTERS.status  = params.get('s');
-  if (params.has('p')) FILTERS.proposer = params.get('p');
-  if (params.has('q')) FILTERS.search   = params.get('q');
-  if (params.has('by')) {
-    const [a, b] = params.get('by').split('-').map(Number);
-    if (Number.isFinite(a) && Number.isFinite(b)) { BUDGET_FILTERS.yearMin = a; BUDGET_FILTERS.yearMax = b; }
-  }
-  if (params.has('bb')) BUDGET_FILTERS.branch = params.get('bb');
-  if (params.has('bu')) BUDGET_FILTERS.units = params.get('bu');
-  if (params.has('tc')) TIMELINE_FILTERS.category = params.get('tc');
-  if (params.has('to')) TIMELINE_FILTERS.outcome = params.get('to');
-  if (params.has('ts')) TIMELINE_FILTERS.source = params.get('ts');
-  if (params.has('tq')) TIMELINE_FILTERS.search = params.get('tq');
-  if (params.has('sy')) {
-    const [a, b] = params.get('sy').split('-').map(Number);
-    if (Number.isFinite(a) && Number.isFinite(b)) { SPENDING_FILTERS.yearMin = a; SPENDING_FILTERS.yearMax = b; }
-  }
-  if (params.has('sr')) SPENDING_FILTERS.revoked = params.get('sr');
-  if (params.has('sq')) SPENDING_FILTERS.search = params.get('sq');
+  const selectValue = (key, id) => {
+    const value = params.get(key) || '';
+    return [...document.getElementById(id).options].some(option => option.value === value) ? value : '';
+  };
+  const years = (key, defaults) => {
+    const match = /^(\d+)-(\d+)$/.exec(params.get(key) || '');
+    const range = { yearMin: match ? Number(match[1]) : defaults.min, yearMax: match ? Number(match[2]) : defaults.max };
+    normalizeYearRange(range, defaults);
+    return range;
+  };
+  FILTERS = {
+    ...years('y', PROP_DEFAULT), cluster: selectValue('c', 'f-cluster'),
+    status: selectValue('s', 'f-status'), proposer: selectValue('p', 'f-proposer'),
+    search: (params.get('q') || '').trim(), includeUndated: params.get('dated') !== '1',
+  };
+  BUDGET_FILTERS = {
+    ...years('by', BUDGET_DEFAULT), branch: selectValue('bb', 'b-branch'),
+    units: params.get('bu') === 'nominal' ? 'nominal' : '2025',
+  };
+  TIMELINE_FILTERS = {
+    category: selectValue('tc', 't-category'), outcome: selectValue('to', 't-outcome'),
+    source: selectValue('ts', 't-source'), search: (params.get('tq') || '').trim().toLowerCase(),
+  };
+  SPENDING_FILTERS = {
+    ...years('sy', SPENDING_DEFAULT), revoked: selectValue('sr', 's-revoked'),
+    search: (params.get('sq') || '').trim().toLowerCase(),
+  };
+  PAGE = BUDGET_PAGE = SPENDING_PAGE = 1;
+  BUDGET_RENDERED = TIMELINE_RENDERED = SPENDING_RENDERED = false;
   syncFilterControls();
   syncBudgetControls();
   syncTimelineControls();
   syncSpendingControls();
-  if (VIEW !== 'proposals') setView(VIEW);
+  setView(params.get('view') || 'proposals');
 }
 
 function syncTimelineControls() {
+  clearSearchTimer('timeline');
   document.getElementById('t-category').value = TIMELINE_FILTERS.category;
   document.getElementById('t-outcome').value = TIMELINE_FILTERS.outcome;
   document.getElementById('t-source').value = TIMELINE_FILTERS.source;
@@ -1149,6 +1256,7 @@ function wireBudgetPresets() {
 
 function wireBudgetTable() {
   document.querySelectorAll('#b-records-table thead th').forEach(th => {
+    makeSortableHeader(th);
     th.addEventListener('click', () => {
       const key = th.dataset.bsort;
       if (BUDGET_SORT.key === key) BUDGET_SORT.dir = BUDGET_SORT.dir === 'asc' ? 'desc' : 'asc';
@@ -1173,6 +1281,8 @@ function syncBudgetControls() {
 }
 
 function applyBudget() {
+  normalizeYearRange(BUDGET_FILTERS, BUDGET_DEFAULT);
+  syncBudgetControls();
   FILTERED_BUDGET = ALL_BUDGET.filter(r =>
     r.year >= BUDGET_FILTERS.yearMin &&
     r.year <= BUDGET_FILTERS.yearMax &&
@@ -1202,13 +1312,13 @@ function renderBudgetActiveChips() {
 
   const c = document.getElementById('budget-active-chips');
   c.innerHTML = chips.map(ch =>
-    `<span class="chip" data-bclear="${ch.key}"><span class="label">${ch.label}</span><span class="val">${escapeHTML(ch.val)}</span><span class="x">✕</span></span>`
+    `<button type="button" class="chip" data-bclear="${ch.key}" aria-label="Remove ${escapeHTML(ch.label)} filter: ${escapeHTML(ch.val)}"><span class="label">${ch.label}</span><span class="val">${escapeHTML(ch.val)}</span><span class="x" aria-hidden="true">×</span></button>`
   ).join('');
   c.querySelectorAll('.chip').forEach(el => el.addEventListener('click', () => clearBudgetFilter(el.dataset.bclear)));
 }
 
 function clearBudgetFilter(key) {
-  if (key === 'year') { BUDGET_FILTERS.yearMin = 1866; BUDGET_FILTERS.yearMax = 1920; }
+  if (key === 'year') { BUDGET_FILTERS.yearMin = BUDGET_DEFAULT.min; BUDGET_FILTERS.yearMax = BUDGET_DEFAULT.max; }
   else if (key === 'units') BUDGET_FILTERS.units = '2025';
   else BUDGET_FILTERS[key] = '';
   syncBudgetControls();
@@ -1217,8 +1327,10 @@ function clearBudgetFilter(key) {
 }
 
 function renderBudgetKPIs() {
-  if (!document.querySelector('[data-bkpi="total"]')) return;  // KPIs cut from index.html
   const total = FILTERED_BUDGET.reduce((s, r) => s + budgetVal(r), 0);
+  document.getElementById('b-match-sum').textContent = fmtUSD(total);
+  document.getElementById('b-match-n').textContent = FILTERED_BUDGET.length.toLocaleString();
+  if (!document.querySelector('[data-bkpi="total"]')) return;
   const years = [...new Set(FILTERED_BUDGET.map(r => r.year))];
   const yearTotals = {};
   for (const r of FILTERED_BUDGET) yearTotals[r.year] = (yearTotals[r.year] || 0) + budgetVal(r);
@@ -1229,10 +1341,6 @@ function renderBudgetKPIs() {
 
   const armyTotal = FILTERED_BUDGET.filter(r => r.branch === 'Army').reduce((s, r) => s + budgetVal(r), 0);
   const armyShare = total > 0 ? (armyTotal / total * 100) : 0;
-
-  const fmtSum = document.getElementById('b-match-sum');
-  fmtSum.textContent = fmtUSD(total);
-  document.getElementById('b-match-n').textContent = FILTERED_BUDGET.length.toLocaleString();
 
   document.querySelector('[data-bkpi="total"]').textContent = fmtUSD(total);
   document.getElementById('bkpi-total-sub').innerHTML = `<strong>${budgetUnitLabel()}</strong> over ${years.length} years`;
@@ -1253,14 +1361,17 @@ function renderBudgetKPIs() {
 }
 
 function renderBudgetTimeline() {
-  const yearsAll = [...new Set(FILTERED_BUDGET.map(r => r.year))].sort((a, b) => a - b);
+  const recordedYears = [...new Set(FILTERED_BUDGET.map(r => r.year))].sort((a, b) => a - b);
+  const yearsAll = recordedYears.length
+    ? Array.from({ length: recordedYears[recordedYears.length - 1] - recordedYears[0] + 1 }, (_, i) => recordedYears[0] + i)
+    : [];
   const branches = BUDGET_FILTERS.branch ? [BUDGET_FILTERS.branch] : ['Army', 'Navy'];
   const colors = BRANCH_COLOR();
 
   const traces = branches.map(b => {
     const yvals = yearsAll.map(y => {
       const rec = FILTERED_BUDGET.find(r => r.year === y && r.branch === b);
-      return rec ? budgetVal(rec) : 0;
+      return rec ? budgetVal(rec) : null;
     });
     return {
       type: 'scatter',
@@ -1268,8 +1379,7 @@ function renderBudgetTimeline() {
       name: b,
       x: yearsAll,
       y: yvals,
-      stackgroup: 'one',
-      fillcolor: colors[b],
+      connectgaps: false,
       line: { color: colors[b], width: 1.5 },
       hovertemplate: `<b>${b}</b><br>%{x}: %{y:$,.0f}<extra></extra>`,
     };
@@ -1282,7 +1392,7 @@ function renderBudgetTimeline() {
     showlegend: true,
     legend: {
       orientation: 'h', x: 0, y: 1.12,
-      font: { color: COLORS.textMid, size: 10 },
+      font: { color: COLORS.textMid, size: 12 },
       bgcolor: 'rgba(0,0,0,0)',
     },
     xaxis: { ...PLOT_AXIS, dtick: 5, title: AXIS_TITLE('Fiscal year') },
@@ -1317,13 +1427,13 @@ function renderBudgetBranch() {
     showlegend: true,
     legend: {
       orientation: 'v', x: 1.02, y: 0.5,
-      font: { color: COLORS.textMid, size: 10 },
+      font: { color: COLORS.textMid, size: 12 },
       bgcolor: 'rgba(0,0,0,0)',
       itemsizing: 'constant',
     },
     margin: { l: 8, r: 4, t: 8, b: 8 },
     annotations: [{
-      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:9px;letter-spacing:1.6px;">TOTAL</span>`,
+      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:12px;">Total</span>`,
       showarrow: false, font: { color: COLORS.text, family: PLOT_FONT.family },
       x: 0.5, y: 0.5,
     }],
@@ -1350,7 +1460,7 @@ function renderBudgetDecade() {
     ...PLOT_BASE_LAYOUT,
     barmode: 'stack',
     showlegend: true,
-    legend: { orientation: 'h', x: 0, y: 1.16, font: { color: COLORS.textMid, size: 10 } },
+    legend: { orientation: 'h', x: 0, y: 1.16, font: { color: COLORS.textMid, size: 12 } },
     xaxis: { ...PLOT_AXIS, title: '' },
     yaxis: { ...PLOT_AXIS, title: '', tickformat: '$.2s' },
     margin: { l: 64, r: 16, t: 36, b: 36 },
@@ -1365,7 +1475,10 @@ function renderBudgetYoY() {
   }
   const years = Object.keys(yearTotals).map(Number).sort((a, b) => a - b);
   const changes = [];
+  const branches = BUDGET_FILTERS.branch ? [BUDGET_FILTERS.branch] : ['Army', 'Navy'];
+  const hasCompleteYear = year => branches.every(branch => FILTERED_BUDGET.some(record => record.year === year && record.branch === branch));
   for (let i = 1; i < years.length; i++) {
+    if (years[i] !== years[i - 1] + 1 || !hasCompleteYear(years[i]) || !hasCompleteYear(years[i - 1])) continue;
     const prev = yearTotals[years[i - 1]];
     const cur = yearTotals[years[i]];
     if (prev > 0) changes.push({ year: years[i], pct: (cur - prev) / prev * 100 });
@@ -1406,6 +1519,7 @@ function renderBudgetTable() {
 
   document.querySelectorAll('#b-records-table thead th').forEach(th => {
     th.classList.toggle('sorted', th.dataset.bsort === BUDGET_SORT.key);
+    th.setAttribute('aria-sort', th.dataset.bsort === BUDGET_SORT.key ? (BUDGET_SORT.dir === 'asc' ? 'ascending' : 'descending') : 'none');
     const ind = th.querySelector('.sort-ind');
     if (ind) ind.textContent = BUDGET_SORT.dir === 'asc' ? '▲' : '▼';
   });
@@ -1517,6 +1631,20 @@ function setupYearBounds() {
   PROP_DEFAULT.min = propMin;     PROP_DEFAULT.max = propMax;
   BUDGET_DEFAULT.min = budgetMin; BUDGET_DEFAULT.max = budgetMax;
   SPENDING_DEFAULT.min = spendMin; SPENDING_DEFAULT.max = spendMax;
+  const proposalSummary = document.getElementById('proposal-data-summary');
+  if (proposalSummary) {
+    proposalSummary.textContent = `${ALL.length.toLocaleString()} records · ${propYears.length.toLocaleString()} dated ${propMin}–${propMax} · ${(ALL.length - propYears.length).toLocaleString()} undated`;
+  }
+  const budgetSummary = document.getElementById('budget-data-summary');
+  if (budgetSummary) {
+    const missing = [];
+    for (let year = budgetMin; year <= budgetMax; year++) {
+      for (const branch of ['Army', 'Navy']) {
+        if (!ALL_BUDGET.some(record => record.year === year && record.branch === branch)) missing.push(`${branch} ${year}`);
+      }
+    }
+    budgetSummary.textContent = `${ALL_BUDGET.length.toLocaleString()} records · ${budgetMin}–${budgetMax}${missing.length ? ` · Not recorded: ${missing.join(', ')}` : ''}`;
+  }
 
   // Initial filter values — start at the data span on first load.
   if (FILTERS.yearMin === 1897 && FILTERS.yearMax === 1908) {
@@ -1555,6 +1683,7 @@ let TIMELINE_FILTERS = { category: '', outcome: '', source: '', search: '' };
 
 function timelineOutcome(action) {
   const s = (action || '').toLowerCase();
+  if (/^no changes recommended[.!]?$/.test(s.trim())) return 'o';
   if (/adopted|recommended\.?$|accepted/.test(s) && !/not\s+rec/.test(s)) return 'a';
   if (/not\s+rec|rejected|failed|adverse|revoked/.test(s)) return 'r';
   if (/allotment|under test|provision made|test\b|granted|under review/.test(s)) return 't';
@@ -1563,10 +1692,10 @@ function timelineOutcome(action) {
 
 function timelineColor(action) {
   const o = timelineOutcome(action);
-  if (o === 'a') return '#0E7C66';
-  if (o === 'r') return '#B91C1C';
-  if (o === 't') return '#B45309';
-  return '#8C92A4';
+  if (o === 'a') return COLORS.accent;
+  if (o === 'r') return COLORS.red;
+  if (o === 't') return COLORS.amber;
+  return COLORS.textSoft;
 }
 
 function wireTimelineFilters() {
@@ -1581,20 +1710,21 @@ function wireTimelineFilters() {
   });
   const searchInput = document.getElementById('t-search');
   const searchWrap = document.getElementById('t-search-wrap');
-  let searchTimer;
   searchInput.addEventListener('input', e => {
-    clearTimeout(searchTimer);
+    clearSearchTimer('timeline');
     const v = e.target.value;
     if (v) searchWrap.classList.add('has-value'); else searchWrap.classList.remove('has-value');
-    searchTimer = setTimeout(() => { TIMELINE_FILTERS.search = v.trim().toLowerCase(); applyTimeline(); }, 180);
+    SEARCH_TIMERS.timeline = setTimeout(() => { TIMELINE_FILTERS.search = v.trim().toLowerCase(); applyTimeline(); }, 180);
   });
   document.getElementById('t-btn-clear-search').addEventListener('click', () => {
+    clearSearchTimer('timeline');
     searchInput.value = '';
     searchWrap.classList.remove('has-value');
     TIMELINE_FILTERS.search = '';
     applyTimeline();
   });
   document.getElementById('btn-clear-timeline').addEventListener('click', () => {
+    clearSearchTimer('timeline');
     TIMELINE_FILTERS = { category: '', outcome: '', source: '', search: '' };
     document.getElementById('t-category').value = '';
     document.getElementById('t-outcome').value = '';
@@ -1733,7 +1863,7 @@ function renderTimelineTable(entries) {
           cnt: arr.length,
           src: [...sources].join(' + ')
         }));
-        h += `<div class="t-bar" style="${dashStyle}" data-meta="${meta}"></div>`;
+        h += `<button type="button" class="t-bar" style="${dashStyle}" data-meta="${meta}" aria-label="${escapeHTML(g.name)} · ${escapeHTML(p)}: ${escapeHTML(last.action)}"></button>`;
       }
       h += '</td>';
     }
@@ -1745,6 +1875,9 @@ function renderTimelineTable(entries) {
   wrap.querySelectorAll('.t-bar').forEach(el => {
     el.addEventListener('mouseenter', e => showTimelineTooltip(e, el));
     el.addEventListener('mouseleave', hideTimelineTooltip);
+    el.addEventListener('focus', e => showTimelineTooltip(e, el));
+    el.addEventListener('blur', hideTimelineTooltip);
+    el.addEventListener('click', e => showTimelineTooltip(e, el));
   });
 }
 
@@ -1757,7 +1890,8 @@ function showTimelineTooltip(e, el) {
   if (d.src) meta.push(`source: ${d.src}`);
   document.getElementById('t-tt-meta').textContent = meta.join(' · ');
   document.getElementById('t-tooltip').style.display = 'block';
-  positionTooltip(e);
+  const rect = el.getBoundingClientRect();
+  positionTooltip(typeof e.clientX === 'number' && e.clientX !== 0 ? e : { clientX: rect.left + rect.width / 2, clientY: rect.top });
 }
 
 function hideTimelineTooltip() {
@@ -1769,8 +1903,8 @@ function positionTooltip(e) {
   let x = e.clientX + 14, y = e.clientY - 12;
   if (x + 310 > window.innerWidth) x = e.clientX - 320;
   if (y + 100 > window.innerHeight) y = e.clientY - 110;
-  t.style.left = x + 'px';
-  t.style.top = y + 'px';
+  t.style.left = Math.max(8, Math.min(x, window.innerWidth - t.offsetWidth - 8)) + 'px';
+  t.style.top = Math.max(8, Math.min(y, window.innerHeight - t.offsetHeight - 8)) + 'px';
 }
 
 // ── Spending view ─────────────────────────────────────────────────────
@@ -1786,14 +1920,14 @@ function wireSpendingFilters() {
   });
   const searchInput = document.getElementById('s-search');
   const searchWrap = document.getElementById('s-search-wrap');
-  let searchTimer;
   searchInput.addEventListener('input', e => {
-    clearTimeout(searchTimer);
+    clearSearchTimer('spending');
     const v = e.target.value;
     if (v) searchWrap.classList.add('has-value'); else searchWrap.classList.remove('has-value');
-    searchTimer = setTimeout(() => { SPENDING_FILTERS.search = v.trim().toLowerCase(); SPENDING_PAGE = 1; applySpending(); }, 180);
+    SEARCH_TIMERS.spending = setTimeout(() => { SPENDING_FILTERS.search = v.trim().toLowerCase(); SPENDING_PAGE = 1; applySpending(); }, 180);
   });
   document.getElementById('s-btn-clear-search').addEventListener('click', () => {
+    clearSearchTimer('spending');
     searchInput.value = '';
     searchWrap.classList.remove('has-value');
     SPENDING_FILTERS.search = '';
@@ -1810,6 +1944,7 @@ function wireSpendingFilters() {
 }
 
 function syncSpendingControls() {
+  clearSearchTimer('spending');
   document.getElementById('s-year-min').value = SPENDING_FILTERS.yearMin;
   document.getElementById('s-year-max').value = SPENDING_FILTERS.yearMax;
   document.getElementById('s-revoked').value = SPENDING_FILTERS.revoked;
@@ -1820,6 +1955,7 @@ function syncSpendingControls() {
 
 function wireSpendingTable() {
   document.querySelectorAll('#s-records-table thead th').forEach(th => {
+    makeSortableHeader(th);
     th.addEventListener('click', () => {
       const key = th.dataset.ssort;
       if (SPENDING_SORT.key === key) SPENDING_SORT.dir = SPENDING_SORT.dir === 'asc' ? 'desc' : 'asc';
@@ -1830,7 +1966,10 @@ function wireSpendingTable() {
 }
 
 function applySpending() {
-  const q = SPENDING_FILTERS.search;
+  normalizeYearRange(SPENDING_FILTERS, SPENDING_DEFAULT);
+  document.getElementById('s-year-min').value = SPENDING_FILTERS.yearMin;
+  document.getElementById('s-year-max').value = SPENDING_FILTERS.yearMax;
+  const q = SPENDING_FILTERS.search.toLowerCase();
   FILTERED_ALLOTMENTS = ALL_ALLOTMENTS.filter(r =>
     r.year >= SPENDING_FILTERS.yearMin &&
     r.year <= SPENDING_FILTERS.yearMax &&
@@ -1850,8 +1989,10 @@ function applySpending() {
 }
 
 function renderSpendingKPIs() {
-  if (!document.querySelector('[data-skpi="total"]')) return;  // KPIs cut from index.html
   const totalAllot = FILTERED_ALLOTMENTS.reduce((s, r) => s + r.amount, 0);
+  document.getElementById('s-match-n').textContent = FILTERED_ALLOTMENTS.length.toLocaleString();
+  document.getElementById('s-match-sum').textContent = fmtUSD(totalAllot);
+  if (!document.querySelector('[data-skpi="total"]')) return;
   const revokedCount = FILTERED_ALLOTMENTS.filter(r => r.revoked).length;
   const revokeRate = FILTERED_ALLOTMENTS.length > 0 ? (revokedCount / FILTERED_ALLOTMENTS.length * 100) : 0;
 
@@ -1883,8 +2024,6 @@ function renderSpendingKPIs() {
   document.querySelector('[data-skpi="topyear"]').textContent = topYear;
   document.getElementById('skpi-topyear-sub').innerHTML = topYearCount > 0 ? `<strong>${topYearCount}</strong> allotments` : '—';
 
-  document.getElementById('s-match-n').textContent = FILTERED_ALLOTMENTS.length.toLocaleString();
-  document.getElementById('s-match-sum').textContent = fmtUSD(totalAllot);
 }
 
 function renderSpendingTimeline() {
@@ -1924,7 +2063,7 @@ function renderSpendingTimeline() {
     showlegend: true,
     legend: {
       orientation: 'h', x: 0, y: 1.12,
-      font: { color: COLORS.textMid, size: 10 },
+      font: { color: COLORS.textMid, size: 12 },
       bgcolor: 'rgba(0,0,0,0)',
     },
     xaxis: { ...PLOT_AXIS, dtick: 2, title: AXIS_TITLE('Fiscal year') },
@@ -1955,13 +2094,13 @@ function renderSpendingRevoked() {
     showlegend: true,
     legend: {
       orientation: 'v', x: 1.02, y: 0.5,
-      font: { color: COLORS.textMid, size: 10 },
+      font: { color: COLORS.textMid, size: 12 },
       bgcolor: 'rgba(0,0,0,0)',
       itemsizing: 'constant',
     },
     margin: { l: 8, r: 4, t: 8, b: 8 },
     annotations: [{
-      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:9px;letter-spacing:1.6px;">ALLOTTED</span>`,
+      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:12px;">Allotted</span>`,
       showarrow: false, font: { color: COLORS.text, family: PLOT_FONT.family },
       x: 0.5, y: 0.5,
     }],
@@ -1985,13 +2124,13 @@ function renderSpendingTop() {
     marker: { color: colors, line: { width: 0 } },
     text: values.map(v => fmtUSD(v)),
     textposition: 'outside',
-    textfont: { color: COLORS.textMid, size: 10, family: PLOT_FONT.family },
+    textfont: { color: COLORS.textMid, size: 12, family: PLOT_FONT.family },
     customdata: top.map(r => r.description),
     hovertemplate: '<b>%{customdata}</b><br>%{x:$,.0f}<extra></extra>',
   }], {
     ...PLOT_BASE_LAYOUT,
     xaxis: { ...PLOT_AXIS, tickformat: '$.2s', title: '' },
-    yaxis: { ...PLOT_AXIS, automargin: true, tickfont: { ...PLOT_AXIS.tickfont, size: 9 } },
+    yaxis: { ...PLOT_AXIS, automargin: true, tickfont: { ...PLOT_AXIS.tickfont, size: 12 } },
     margin: { l: 8, r: 56, t: 12, b: 36 },
   }, PLOT_CONFIG);
 }
@@ -2011,6 +2150,7 @@ function renderSpendingTable() {
 
   document.querySelectorAll('#s-records-table thead th').forEach(th => {
     th.classList.toggle('sorted', th.dataset.ssort === SPENDING_SORT.key);
+    th.setAttribute('aria-sort', th.dataset.ssort === SPENDING_SORT.key ? (SPENDING_SORT.dir === 'asc' ? 'ascending' : 'descending') : 'none');
     const ind = th.querySelector('.sort-ind');
     if (ind) ind.textContent = SPENDING_SORT.dir === 'asc' ? '▲' : '▼';
   });
@@ -2024,9 +2164,23 @@ function renderSpendingTable() {
     document.getElementById('s-records-empty').style.display = 'none';
     document.getElementById('s-records-table').style.display = '';
     tbody.innerHTML = slice.map(r => `
-      <tr title="${escapeHTML(r.description)}${r.notes ? ' | Notes: ' + escapeHTML(r.notes) : ''}">
+      <tr>
         <td class="col-year">${r.year}</td>
-        <td class="col-subject">${escapeHTML(r.description.length > 80 ? r.description.slice(0, 80) + '…' : r.description)}</td>
+        <td class="col-subject">
+          <details class="allotment-detail">
+            <summary>${escapeHTML(r.description.length > 80 ? r.description.slice(0, 80) + '…' : r.description)}</summary>
+            <div class="allotment-detail-body">
+              <p>${escapeHTML(r.description)}</p>
+              <dl>${[
+                ['Amount allotted', r.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 20 })],
+                ['Date allotted', r.dateAllotted],
+                ['Notes', r.notes],
+                ['Date revoked', r.dateRevoked],
+                ['Source page', r.page],
+              ].filter(([, value]) => value).map(([label, value]) => `<div><dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd></div>`).join('')}</dl>
+            </div>
+          </details>
+        </td>
         <td class="col-proposer">${fmtUSD(r.amount)}</td>
         <td class="col-cluster">${escapeHTML(r.dateAllotted)}</td>
         <td class="col-status">${r.revoked
@@ -2098,13 +2252,14 @@ function resizeSpendingCharts() {
 // ── Sidebar navigation ────────────────────────────────────────────────
 const VIEW_NAMES = ['proposals', 'budget', 'timeline', 'spending', 'money', 'technology'];
 const VIEW_PANELS = {
-  proposals:  ['proposals'],
-  budget:     ['budget'],
-  timeline:   ['timeline'],
-  spending:   ['spending'],
-  money:      ['master', 'yunha'],
+  proposals: ['proposals'],
+  budget: ['budget'],
+  timeline: ['timeline'],
+  spending: ['spending'],
+  money: ['master', 'yunha'],
   technology: ['paul', 'tanisha'],
 };
+const VIEW_ALIASES = { master: 'money', yunha: 'money', paul: 'technology', tanisha: 'technology' };
 
 function wireViewTabs() {
   document.querySelectorAll('.sb-link[data-view]').forEach(btn => {
@@ -2115,13 +2270,16 @@ function wireViewTabs() {
 let TIMELINE_RENDERED = false;
 
 function setView(name) {
+  name = VIEW_ALIASES[name] || name;
   if (!VIEW_NAMES.includes(name)) name = 'proposals';
   VIEW = name;
-  const visiblePanels = new Set(VIEW_PANELS[name] || [name]);
-  // All panel IDs across every view, flattened
-  const allPanels = new Set();
-  Object.values(VIEW_PANELS).forEach(arr => arr.forEach(p => allPanels.add(p)));
-  allPanels.forEach(panel => {
+  if (['money', 'technology'].includes(name)) {
+    const researchNav = document.querySelector('.research-nav');
+    if (researchNav) researchNav.open = true;
+  }
+  hideTimelineTooltip();
+  const visiblePanels = new Set(VIEW_PANELS[name]);
+  Object.values(VIEW_PANELS).flat().forEach(panel => {
     const el = document.getElementById(`view-${panel}`);
     if (el) el.hidden = !visiblePanels.has(panel);
   });
@@ -2154,8 +2312,6 @@ function setView(name) {
 // ── Boot ──────────────────────────────────────────────────────────────
 load().catch(e => {
   console.error(e);
-  document.querySelectorAll('.loading').forEach(el => {
-    el.textContent = 'LOAD FAILED — serve over HTTP, not file://';
-    el.style.color = COLORS.red;
-  });
+  const detail = e instanceof Error ? e.message : 'Check your connection and reload.';
+  showDataStatus(`Archive data could not be loaded. ${detail}`, true);
 });

@@ -4,6 +4,15 @@ from __future__ import annotations
 
 
 ACTION_STATUS_PATTERNS = {
+    "Rejected": [
+        r"\brejected\b",
+        r"\bdisapproved\b",
+        r"\bdeclined\b",
+        r"\bnot\s+(?:approved|adopted|accepted|authori[sz]ed|allotted|granted|ordered)\b",
+        r"\bnot\s+recom{1,2}ended\b",
+        r"\bdenied\b",
+        r"\bunfavo[u]?rable\b",
+    ],
     "Approved": [
         r"\bapproved\b",
         r"\badopted\b",
@@ -17,17 +26,6 @@ ACTION_STATUS_PATTERNS = {
         r"\brecommended for adoption\b",
         r"\bappropriation made\b",
     ],
-    "Rejected": [
-        r"\brejected\b",
-        r"\bdisapproved\b",
-        r"\bdeclined\b",
-        r"\bnot approved\b",
-        r"\bdenied\b",
-        r"\bno action\b",
-        r"\bnot adopted\b",
-        r"\bwithdrawn\b",
-        r"\bunfavorable\b",
-    ],
     "Investigating": [
         r"\bfiled\b",
         r"\baction deferred\b",
@@ -35,6 +33,9 @@ ACTION_STATUS_PATTERNS = {
         r"\breferred\b",
         r"\bfor report\b",
         r"\bunder consideration\b",
+        r"\bunder\s+(?:review|test|investigation)\b",
+        r"\bto be tested\b",
+        r"^(?:additional )?allotments?\.?$",
         r"\bpending\b",
         r"\bcontinued\b",
         r"\bpostponed\b",

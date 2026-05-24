@@ -223,18 +223,11 @@ def save_yunha_investment_trajectory(allotments: pd.DataFrame, out: Path) -> Non
     fig.write_html(out, include_plotlyjs="cdn", full_html=True)
 
 
-# ── 3. Approval ROI (bubble chart) ──────────────────────────────────────
+# ── 3. Proposal volume and approval labels ─────────────────────────────
 
 
 def save_yunha_approval_roi(proposals: pd.DataFrame, out: Path) -> None:
-    """Bubble chart: cluster volume × approval rate.
-
-    Each bubble is one technology cluster. X = number of proposals in that
-    cluster (volume of attention), Y = approval rate (% approved), bubble
-    size = number of approved proposals (absolute investment signal).
-    Reveals which clusters got many proposals but few greenlights, vs.
-    clusters that punched above their weight.
-    """
+    """Compare record counts with automated approval-label shares by cluster."""
     df = proposals[
         proposals["primary_cluster"].notna()
         & (proposals["primary_cluster"] != "Other/Unclassified")
@@ -270,32 +263,32 @@ def save_yunha_approval_roi(proposals: pd.DataFrame, out: Path) -> None:
             customdata=[[row["total"], row["approved"], row["approval_rate"]]],
             hovertemplate=(
                 f"<b>{cluster}</b><br>"
-                "Total proposals: %{customdata[0]}<br>"
-                "Approved: %{customdata[1]}<br>"
-                "Approval rate: %{customdata[2]:.1f}%<extra></extra>"
+                "Records: %{customdata[0]}<br>"
+                "Labeled Approved: %{customdata[1]}<br>"
+                "Share labeled Approved: %{customdata[2]:.1f}%<extra></extra>"
             ),
             showlegend=False,
         ))
 
     fig.add_hline(
         y=overall_rate, line_dash="dot", line_color=_TEXT_MID, line_width=1,
-        annotation_text=f"overall rate: {overall_rate:.1f}%",
+        annotation_text=f"overall labeled Approved: {overall_rate:.1f}%",
         annotation_position="bottom right",
         annotation_font=dict(family=_SERIF, size=10, color=_TEXT_MID),
     )
 
     layout = _layout(
-        "Cluster ROI · Volume vs. Approval Rate",
-        f"1897–1908 subjects considered · X = total proposals (volume), "
-        f"Y = approval rate (%), bubble size = # approved.",
+        "Proposal Volume and Recorded Approval Labels",
+        "Subjects considered · X = record count, Y = share labeled Approved, "
+        "bubble size = Approved count. Automated labels; not a financial return measure.",
         height=560,
     )
     layout["xaxis"] = dict(
-        title="Total proposals (volume of attention)",
+        title="Record count",
         gridcolor=_GRID, zerolinecolor=_GRID,
     )
     layout["yaxis"] = dict(
-        title="Approval rate (%)", ticksuffix="%",
+        title="Labeled Approved (%)", ticksuffix="%",
         gridcolor=_GRID, zerolinecolor=_GRID,
         range=[0, max(grp["approval_rate"].max() + 5, 25)],
     )

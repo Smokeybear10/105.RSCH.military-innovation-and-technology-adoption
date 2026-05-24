@@ -1,4 +1,4 @@
-"""Budget visualizations for BOF Military Budgets, 1865-1920."""
+"""Budget visualizations for BOF Military Budgets, 1866-1920."""
 
 from __future__ import annotations
 
@@ -42,11 +42,15 @@ def _rgba(hex_color: str, alpha: float) -> str:
     return f"rgba({r},{g},{b},{alpha})"
 
 
+_BUDGET_SOURCE_NOTE = (
+    "Source: public Army and Navy budget ledger, 1866–1920 &nbsp;·&nbsp; "
+    "Nominal and 2025-adjusted values from the source worksheet &nbsp;·&nbsp; "
+    "Army appropriations for 1879 are not recorded"
+)
+
+
 def _card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
-    footer_note = note or (
-        "Source: U.S. Congressional Appropriations Acts, 1865–1920 &nbsp;·&nbsp; "
-        "Inflation adjustment to 2025 dollars via CPI"
-    )
+    footer_note = note or _BUDGET_SOURCE_NOTE
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,60 +141,63 @@ def _card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
 
 # ── 1. Stacked area chart ─────────────────────────────────────────────────────
 
+def _budget_pivot(df: pd.DataFrame, value: str) -> pd.DataFrame:
+    pivot = df.groupby(["year", "branch"])[value].sum(min_count=1).unstack()
+    years = range(int(df["year"].min()), int(df["year"].max()) + 1)
+    return pivot.reindex(index=years, columns=["Navy", "Army"])
+
+
+def _complete_segments(pivot: pd.DataFrame) -> list[pd.DataFrame]:
+    complete = pivot.dropna(subset=["Navy", "Army"])
+    groups = complete.index.to_series().diff().ne(1).cumsum()
+    return [segment for _, segment in complete.groupby(groups)]
+
+
 def save_budget_area_chart(df: pd.DataFrame, output_html: Path) -> None:
-    """Stacked area: Army + Navy appropriations 1865–1920, nominal vs. adjusted toggle."""
+    """Stacked area: Army + Navy appropriations 1866–1920, nominal vs. adjusted toggle."""
     branches = ["Navy", "Army"]  # Navy on bottom, Army stacks on top
 
     traces_nominal:  list[go.Scatter] = []
     traces_adjusted: list[go.Scatter] = []
 
-    for branch in branches:
-        sub    = df[df["branch"] == branch].sort_values("year")
-        colors = _BRANCH_COLORS[branch]
+    for basis, value, traces, visible in [
+        ("nominal", "appropriation_usd", traces_nominal, True),
+        ("adjusted", "appropriation_2025_usd", traces_adjusted, False),
+    ]:
+        pivot = _budget_pivot(df, value)
+        for segment_number, segment in enumerate(_complete_segments(pivot)):
+            for branch in branches:
+                colors = _BRANCH_COLORS[branch]
+                traces.append(go.Scatter(
+                    x=segment.index, y=segment[branch], name=branch,
+                    legendgroup=branch, showlegend=segment_number == 0,
+                    stackgroup=f"{basis}-{segment_number}",
+                    fillcolor=colors["fill"],
+                    line=dict(color=colors["line"], width=2),
+                    hovertemplate=f"<b>{branch}</b><br>Year: %{{x}}<br>Appropriation: %{{customdata}}<extra></extra>",
+                    customdata=[_fmt_billions(v) for v in segment[branch]],
+                    visible=visible,
+                ))
+        incomplete = pivot[pivot.isna().any(axis=1)]
+        for branch in branches:
+            recorded = incomplete[branch].dropna()
+            if recorded.empty:
+                continue
+            traces.append(go.Scatter(
+                x=recorded.index, y=recorded, name=branch,
+                legendgroup=branch, showlegend=False, mode="markers",
+                marker=dict(color=_BRANCH_COLORS[branch]["line"], size=7),
+                hovertemplate=f"<b>{branch}</b><br>Year: %{{x}}<br>Recorded appropriation: %{{customdata}}<br>Combined total unavailable<extra></extra>",
+                customdata=[_fmt_billions(v) for v in recorded], visible=visible,
+            ))
 
-        traces_nominal.append(
-            go.Scatter(
-                x=sub["year"],
-                y=sub["appropriation_usd"],
-                name=branch,
-                stackgroup="nominal",
-                fillcolor=colors["fill"],
-                line=dict(color=colors["line"], width=2),
-                hovertemplate=(
-                    f"<b>{branch}</b><br>"
-                    "Year: %{x}<br>"
-                    "Appropriation: %{customdata}<extra></extra>"
-                ),
-                customdata=[_fmt_billions(v) for v in sub["appropriation_usd"]],
-                visible=True,
-            )
-        )
-        traces_adjusted.append(
-            go.Scatter(
-                x=sub["year"],
-                y=sub["appropriation_2025_usd"],
-                name=f"{branch} (2025 $)",
-                stackgroup="adjusted",
-                fillcolor=colors["fill"],
-                line=dict(color=colors["line"], width=2),
-                hovertemplate=(
-                    f"<b>{branch}</b><br>"
-                    "Year: %{x}<br>"
-                    "2025 Value: %{customdata}<extra></extra>"
-                ),
-                customdata=[_fmt_billions(v) for v in sub["appropriation_2025_usd"]],
-                visible=False,
-            )
-        )
-
-    n            = len(branches)
-    vis_nominal  = [True]  * n + [False] * n
-    vis_adjusted = [False] * n + [True]  * n
+    vis_nominal = [True] * len(traces_nominal) + [False] * len(traces_adjusted)
+    vis_adjusted = [False] * len(traces_nominal) + [True] * len(traces_adjusted)
 
     fig = go.Figure(data=traces_nominal + traces_adjusted)
 
     # Event annotation lines
-    ymax = df.groupby("year")["appropriation_usd"].sum().max()
+    ymax = _budget_pivot(df, "appropriation_usd").sum(axis=1, min_count=2).max()
     shapes, annotations = [], []
     for year, label in _EVENTS:
         shapes.append(dict(
@@ -266,12 +273,13 @@ def save_budget_area_chart(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="U.S. Military Appropriations, 1865–1920",
+        title="U.S. Military Appropriations, 1866–1920",
         subtitle=(
-            "Stacked area showing Army and Navy appropriations over 55 fiscal years. "
-            "Toggle between nominal and 2025 inflation-adjusted dollars. "
-            "Dotted lines mark the three major military inflection points of the era."
+            "Army and Navy appropriations in nominal or 2025-adjusted dollars. "
+            "The stacked area breaks where either branch is missing; isolated markers "
+            "retain the recorded branch without implying a complete total."
         ),
+        note=_BUDGET_SOURCE_NOTE,
     )
     output_html.write_text(html, encoding="utf-8")
 
@@ -351,16 +359,13 @@ def save_budget_treemap(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Military Budget by Decade, 1865–1920",
+        title="Military Budget by Decade, 1866–1920",
         subtitle=(
-            "Hierarchical breakdown of total 2025-adjusted appropriations by decade and branch. "
-            "Rectangle area is proportional to spending. Click a decade to drill down; "
+            "Recorded 2025-adjusted appropriations by decade and branch. "
+            "Rectangle area reflects recorded amounts; the 1870s Army subtotal is incomplete. Click a decade to drill down; "
             "use the breadcrumb bar to navigate back."
         ),
-        note=(
-            "Source: U.S. Congressional Appropriations Acts, 1865–1920 &nbsp;·&nbsp; "
-            "Values in 2025-adjusted dollars &nbsp;·&nbsp; Click to explore"
-        ),
+        note=_BUDGET_SOURCE_NOTE,
     )
     output_html.write_text(html, encoding="utf-8")
 
@@ -368,39 +373,21 @@ def save_budget_treemap(df: pd.DataFrame, output_html: Path) -> None:
 # ── 3. Army vs Navy share ─────────────────────────────────────────────────────
 
 def save_budget_share_chart(df: pd.DataFrame, output_html: Path) -> None:
-    """100% stacked area: Army vs Navy share of total military spending, 1865–1920."""
-    pivot = (
-        df.groupby(["year", "branch"])["appropriation_usd"]
-        .sum()
-        .unstack(fill_value=0)
-        .reset_index()
-    )
-    total = pivot["Army"] + pivot["Navy"]
-    pivot["army_pct"] = pivot["Army"] / total * 100
-    pivot["navy_pct"] = pivot["Navy"] / total * 100
-
+    """100% stacked area: Army vs Navy share of total military spending, 1866–1920."""
+    pivot = _budget_pivot(df, "appropriation_usd")
+    total = pivot.sum(axis=1, min_count=2).replace(0, float("nan"))
+    shares = pivot.div(total, axis=0) * 100
     fig = go.Figure()
-
-    for branch, col, color_key in [
-        ("Navy", "navy_pct", "Navy"),
-        ("Army", "army_pct", "Army"),
-    ]:
-        colors = _BRANCH_COLORS[color_key]
-        fig.add_trace(
-            go.Scatter(
-                x=pivot["year"],
-                y=pivot[col],
-                name=branch,
-                stackgroup="share",
-                fillcolor=colors["fill"],
-                line=dict(color=colors["line"], width=2),
-                hovertemplate=(
-                    f"<b>{branch}</b><br>"
-                    "Year: %{x}<br>"
-                    "Share: %{y:.1f}%<extra></extra>"
-                ),
-            )
-        )
+    for segment_number, segment in enumerate(_complete_segments(shares)):
+        for branch in ["Navy", "Army"]:
+            colors = _BRANCH_COLORS[branch]
+            fig.add_trace(go.Scatter(
+                x=segment.index, y=segment[branch], name=branch,
+                legendgroup=branch, showlegend=segment_number == 0,
+                stackgroup=f"share-{segment_number}",
+                fillcolor=colors["fill"], line=dict(color=colors["line"], width=2),
+                hovertemplate=f"<b>{branch}</b><br>Year: %{{x}}<br>Share: %{{y:.1f}}%<extra></extra>",
+            ))
 
     # Event lines + labels
     for year, label in _EVENTS:
@@ -464,11 +451,12 @@ def save_budget_share_chart(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Army vs. Navy Share of Military Budget, 1865–1920",
+        title="Army vs. Navy Share of Military Budget, 1866–1920",
         subtitle=(
-            "Proportional breakdown of total appropriations between the two branches each year. "
-            "The Army's dominance narrows after the Spanish-American War as naval expansion "
-            "accelerates, then surges again with WWI mobilization."
+            "Shares are shown only where both branches have recorded appropriations. "
+            "The gap at 1879 reflects a missing Army entry, not zero Army spending "
+            "or a 100% Navy share."
         ),
+        note=_BUDGET_SOURCE_NOTE,
     )
     output_html.write_text(html, encoding="utf-8")

@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fortify the Ordnance · 1897–1908</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<title>Fortify | Board of Ordnance &amp; Fortification archive</title>
+<meta name="description" content="Search historical proposals, appropriations, and technology reviews from the U.S. Board of Ordnance and Fortification.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=archive-4">
 <script>
   // Apply saved theme before first paint to avoid flash
   (function() {
@@ -23,6 +24,7 @@
 </script>
 </head>
 <body>
+<a class="skip-link" href="#archive-content">Skip to archive</a>
 
 <!-- Sidebar nav -->
 <aside class="sidebar">
@@ -34,84 +36,58 @@
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
     <div>
-      <div class="sb-name">FORTIFY THE ORDNANCE</div>
-      <div class="sb-sub">U.S. BOF · 1888–1920</div>
+      <div class="sb-name">Fortify</div>
+      <div class="sb-sub">Board of Ordnance<br>&amp; Fortification</div>
     </div>
   </div>
 
-  <div class="sb-stats">
-    <div class="sb-stat"><div class="sbs-n">1,691</div><div class="sbs-l">Proposals</div></div>
-    <div class="sb-stat"><div class="sbs-n">1,144</div><div class="sbs-l">Allotments</div></div>
-    <div class="sb-stat"><div class="sbs-n">202</div><div class="sbs-l">Technologies</div></div>
-    <div class="sb-stat"><div class="sbs-n">33</div><div class="sbs-l">Years</div></div>
-  </div>
 
   <nav class="sb-section" role="tablist" aria-label="Data view">
-    <div class="sb-section-label">Data views</div>
+    <div class="sb-section-label">Archive</div>
     <button class="sb-link active" data-view="proposals" role="tab" aria-selected="true">
-      <span class="sb-dot"></span>Proposals
+      Proposals
       <span class="sb-meta" id="vt-prop-count">—</span>
     </button>
     <button class="sb-link" data-view="budget" role="tab" aria-selected="false">
-      <span class="sb-dot"></span>Budget
+      Military budgets
       <span class="sb-meta" id="vt-budget-count">—</span>
     </button>
     <button class="sb-link" data-view="timeline" role="tab" aria-selected="false">
-      <span class="sb-dot"></span>Timeline
+      Technology timeline
       <span class="sb-meta" id="vt-timeline-count">—</span>
     </button>
     <button class="sb-link" data-view="spending" role="tab" aria-selected="false">
-      <span class="sb-dot"></span>Spending
+      Research allotments
       <span class="sb-meta" id="vt-spending-count">—</span>
     </button>
   </nav>
 
-  <nav class="sb-section" role="tablist" aria-label="Researcher work">
-    <div class="sb-section-label">Researcher work</div>
-    <button class="sb-link" data-view="money" role="tab" aria-selected="false">
-      <span class="sb-dot" style="background:#1D3461"></span>Money
-    </button>
-    <button class="sb-link" data-view="technology" role="tab" aria-selected="false">
-      <span class="sb-dot" style="background:#2D6A4F"></span>Technology
-    </button>
-  </nav>
+  <details class="research-nav">
+    <summary>Research collections</summary>
+    <nav class="sb-section" role="tablist" aria-label="Research collections">
+      <button class="sb-link" data-view="money" role="tab" aria-selected="false">Money</button>
+      <button class="sb-link" data-view="technology" role="tab" aria-selected="false">Technology</button>
+    </nav>
+  </details>
 
-  <div class="sb-section">
-    <div class="sb-section-label">Reading room</div>
-    <a class="sb-link" href="reading-room.html" target="_blank">
-      <span class="sb-dot"></span>Overview
-      <span class="sb-meta">↗</span>
-    </a>
-    <a class="sb-link" href="chiefs.html" target="_blank">
-      <span class="sb-dot"></span>Chiefs
-      <span class="sb-meta">↗</span>
-    </a>
-    <a class="sb-link" href="reports.html" target="_blank">
-      <span class="sb-dot"></span>Source Texts
-      <span class="sb-meta">↗</span>
-    </a>
-    <a class="sb-link" href="tech-master.html" target="_blank">
-      <span class="sb-dot"></span>Tech Roster
-      <span class="sb-meta">↗</span>
-    </a>
-    <a class="sb-link" href="tech-memos.html" target="_blank">
-      <span class="sb-dot"></span>Tech Memos
-      <span class="sb-meta">↗</span>
-    </a>
-  </div>
+  <details class="reading-room-nav">
+    <summary>Reading room</summary>
+    <nav class="sb-section" aria-label="Reading room">
+      <a class="sb-link" href="reading-room.html">Overview</a>
+      <a class="sb-link" href="chiefs.html">Chiefs</a>
+      <a class="sb-link" href="reports.html">Source texts</a>
+      <a class="sb-link" href="tech-master.html">Technology roster</a>
+      <a class="sb-link" href="tech-memos.html">Technology memos</a>
+    </nav>
+  </details>
 
-  <div class="sb-section">
-    <div class="sb-section-label">Project</div>
-    <a class="sb-link" href="about.html" target="_blank">
-      <span class="sb-dot"></span>About
-      <span class="sb-meta">↗</span>
-    </a>
-    <a class="sb-link" href="data-quality.html" target="_blank">
-      <span class="sb-dot"></span>Data Quality
-      <span class="sb-meta">↗</span>
-    </a>
-    <a class="sb-link" href="https://github.com/Smokeybear10/104-RSCH.BOFARCHIVES" target="_blank" rel="noopener">
-      <span class="sb-dot"></span>GitHub
+  <div class="sb-section reference-nav">
+    <div class="sb-section-label">Reference</div>
+    <a class="sb-link" href="explainer.html">Archive guide</a>
+    <a class="sb-link" href="about.html">About</a>
+    <a class="sb-link" href="data-quality.html">Data quality</a>
+    <a class="sb-link" href="https://github.com/Smokeybear10/104.RSCH.fortify" target="_blank" rel="noopener">
+      GitHub
       <span class="sb-meta">↗</span>
     </a>
   </div>
@@ -126,47 +102,44 @@
   <span id="rec-count" hidden>—</span>
 </aside>
 
-<div class="main-wrap">
+<div class="main-wrap" id="archive-content" tabindex="-1">
+<div id="data-status" role="status" aria-live="polite">Loading archive records…</div>
 
 <!-- ============ PROPOSALS VIEW ============ -->
 <div id="view-proposals">
 
 <div class="view-header">
-  <div class="vh-crumb"><b>Proposals</b></div>
-  <h1 class="vh-title">Submissions reviewed by the Board</h1>
-  <div class="vh-meta">
-    <span>1897 — 1908</span>
-    <span class="vhm-sep">·</span>
-    <span>1,691 records · subjects considered</span>
-    <span class="vhm-sep">·</span>
-    <span>Filter / drill / export</span>
-  </div>
+  <div class="vh-crumb">ARCHIVE / <b>PROPOSALS</b></div>
+  <h1 class="vh-title">Subjects considered</h1>
+  <div class="vh-meta" id="proposal-data-summary">Loading proposal records…</div>
+  <p class="view-note">Search the transcribed submissions and read the recorded action. Decision and proposer categories are automated; missing actions are left unclassified.</p>
 </div>
 
 <!-- Filter bar -->
 <div class="filters">
   <div class="filter-group">
-    <label>YEAR</label>
-    <input type="number" id="f-year-min" min="1897" max="1908" step="1" value="1897">
+    <label for="f-year-min">Year</label>
+    <input type="number" id="f-year-min" aria-label="From year" min="1897" max="1908" step="1" value="1897">
     <span class="dash">→</span>
-    <input type="number" id="f-year-max" min="1897" max="1908" step="1" value="1908">
+    <input type="number" id="f-year-max" aria-label="To year" min="1897" max="1908" step="1" value="1908">
   </div>
+  <label class="undated-filter"><input type="checkbox" id="f-include-undated" checked> Include undated records</label>
   <div class="filter-group">
-    <label>CLUSTER</label>
+    <label for="f-cluster">Technology</label>
     <select id="f-cluster"><option value="">All clusters</option></select>
   </div>
   <div class="filter-group">
-    <label>STATUS</label>
+    <label for="f-status">Decision category</label>
     <select id="f-status">
       <option value="">All statuses</option>
       <option value="Approved">Approved</option>
       <option value="Investigating">Investigating</option>
       <option value="Rejected">Rejected</option>
-      <option value="Other">Other</option>
+      <option value="Other">Other / unclassified</option>
     </select>
   </div>
   <div class="filter-group">
-    <label>PROPOSER</label>
+    <label for="f-proposer">Proposer</label>
     <select id="f-proposer">
       <option value="">All proposers</option>
       <option value="government">Government</option>
@@ -174,21 +147,18 @@
     </select>
   </div>
   <div class="filter-group search-wrap" id="search-wrap">
-    <input type="text" id="f-search" placeholder="search subject or proposer…" autocomplete="off">
+    <label class="search-label" for="f-search">Search proposals</label>
+    <input type="text" id="f-search" placeholder="Subject or proposer" autocomplete="off">
     <button class="clear-x" id="btn-clear-search" title="Clear search">×</button>
   </div>
-  <button class="clear" id="btn-clear">↻ RESET</button>
-  <span class="match-count">MATCHING <strong id="match-n">—</strong> RECORDS</span>
+  <button class="clear" id="btn-clear">Reset filters</button>
+  <span class="match-count">Matching <strong id="match-n">—</strong> records</span>
+  <button class="export" id="btn-export">Export CSV</button>
 </div>
 
 <!-- Active filter chips -->
 <div class="active-chips" id="active-chips"></div>
 
-<!-- Export -->
-<div class="presets">
-  <span class="preset-spacer"></span>
-  <button class="export" id="btn-export">↓ EXPORT CSV</button>
-</div>
 
 <!-- Chart grid -->
 <main>
@@ -196,16 +166,16 @@
   <div class="grid">
     <div class="panel col-8">
       <div class="panel-header">
-        <span class="panel-title">▣ Submissions Per Year</span>
-        <span class="panel-tag">live · filtered</span>
+        <span class="panel-title">Submissions by year</span><span class="chart-note">Dated records only</span>
+
       </div>
       <div class="panel-body"><div id="chart-timeline"></div></div>
     </div>
 
     <div class="panel col-4">
       <div class="panel-header">
-        <span class="panel-title">◉ Cluster Mix</span>
-        <span class="panel-tag">live</span>
+        <span class="panel-title">Technology categories</span>
+
       </div>
       <div class="panel-body"><div id="chart-cluster"></div></div>
     </div>
@@ -214,8 +184,8 @@
   <!-- Records table -->
   <div class="records">
     <div class="records-header">
-      <span class="records-title">▤ Filtered Records</span>
-      <span class="records-info">Showing <strong id="rec-range">—</strong> of <strong id="rec-total">—</strong> · Click any row for full detail</span>
+      <span class="records-title">Proposal records</span>
+      <span class="records-info">Showing <strong id="rec-range">—</strong> of <strong id="rec-total">—</strong> · Select a record to read its source</span>
     </div>
     <div id="records-body">
       <table class="records-table" id="records-table">
@@ -230,7 +200,7 @@
         </thead>
         <tbody id="records-tbody"></tbody>
       </table>
-      <div class="records-empty" id="records-empty" style="display:none;">⊘ NO MATCHING RECORDS — try adjusting filters</div>
+      <div class="records-empty" id="records-empty" style="display:none;">No proposals match these filters. Try a different search or reset the filters.</div>
     </div>
     <div class="pager" id="pager"></div>
   </div>
@@ -242,27 +212,22 @@
 <div id="view-budget" hidden>
 
 <div class="view-header">
-  <div class="vh-crumb"><b>Budget</b></div>
-  <h1 class="vh-title">U.S. military appropriations · Army + Navy</h1>
-  <div class="vh-meta">
-    <span>1865 — 1920</span>
-    <span class="vhm-sep">·</span>
-    <span>110 appropriations · 55 years</span>
-    <span class="vhm-sep">·</span>
-    <span>Nominal or 2025-adjusted</span>
-  </div>
+  <div class="vh-crumb">ARCHIVE / <b>BUDGET</b></div>
+  <h1 class="vh-title">Army and Navy appropriations</h1>
+  <div class="vh-meta" id="budget-data-summary">Loading budget records…</div>
+  <p class="view-note">2025-dollar values are supplied by the source worksheet; its adjustment method is not documented. Compare nominal values for the original recorded amounts.</p>
 </div>
 
 <!-- Budget filter bar -->
 <div class="filters">
   <div class="filter-group">
-    <label>YEAR</label>
-    <input type="number" id="b-year-min" min="1866" max="1920" step="1" value="1866">
+    <label for="b-year-min">Year</label>
+    <input type="number" id="b-year-min" aria-label="From year" min="1866" max="1920" step="1" value="1866">
     <span class="dash">→</span>
-    <input type="number" id="b-year-max" min="1866" max="1920" step="1" value="1920">
+    <input type="number" id="b-year-max" aria-label="To year" min="1866" max="1920" step="1" value="1920">
   </div>
   <div class="filter-group">
-    <label>BRANCH</label>
+    <label for="b-branch">Branch</label>
     <select id="b-branch">
       <option value="">All branches</option>
       <option value="Army">Army</option>
@@ -270,40 +235,36 @@
     </select>
   </div>
   <div class="filter-group">
-    <label>UNITS</label>
+    <label for="b-units">Units</label>
     <select id="b-units">
       <option value="2025">2025-adjusted</option>
       <option value="nominal">Nominal $</option>
     </select>
   </div>
-  <button class="clear" id="btn-clear-budget">↻ RESET</button>
-  <span class="match-count">SUM <strong id="b-match-sum">—</strong> · <strong id="b-match-n">—</strong> RECORDS</span>
+  <button class="clear" id="btn-clear-budget">Reset filters</button>
+  <span class="match-count">Total <strong id="b-match-sum">—</strong> · <strong id="b-match-n">—</strong> records</span>
+  <button class="export" id="btn-export-budget">Export CSV</button>
 </div>
 
 <!-- Budget active filter chips -->
 <div class="active-chips" id="budget-active-chips"></div>
 
-<!-- Budget export -->
-<div class="presets">
-  <span class="preset-spacer"></span>
-  <button class="export" id="btn-export-budget">↓ EXPORT CSV</button>
-</div>
 
 <!-- Budget chart grid -->
 <main>
   <div class="grid">
     <div class="panel col-8">
       <div class="panel-header">
-        <span class="panel-title">▣ Appropriations Over Time</span>
-        <span class="panel-tag">live · stacked</span>
+        <span class="panel-title">Annual appropriations</span>
+
       </div>
       <div class="panel-body"><div id="b-chart-timeline"></div></div>
     </div>
 
     <div class="panel col-4">
       <div class="panel-header">
-        <span class="panel-title">◉ Branch Mix</span>
-        <span class="panel-tag">live</span>
+        <span class="panel-title">Share by branch</span>
+
       </div>
       <div class="panel-body"><div id="b-chart-branch"></div></div>
     </div>
@@ -313,7 +274,7 @@
   <!-- Budget records table -->
   <div class="records">
     <div class="records-header">
-      <span class="records-title">▤ Filtered Appropriations</span>
+      <span class="records-title">Appropriation records</span>
       <span class="records-info">Showing <strong id="b-rec-range">—</strong> of <strong id="b-rec-total">—</strong> · sorted by year</span>
     </div>
     <div id="b-records-body">
@@ -329,7 +290,7 @@
         </thead>
         <tbody id="b-records-tbody"></tbody>
       </table>
-      <div class="records-empty" id="b-records-empty" style="display:none;">⊘ NO MATCHING APPROPRIATIONS — try adjusting filters</div>
+      <div class="records-empty" id="b-records-empty" style="display:none;">No appropriations match these filters. Reset the filters to see all entries.</div>
     </div>
     <div class="pager" id="b-pager"></div>
   </div>
@@ -341,8 +302,8 @@
 <div id="view-timeline" hidden>
 
 <div class="view-header">
-  <div class="vh-crumb"><b>Timeline</b></div>
-  <h1 class="vh-title">Technology review matrix</h1>
+  <div class="vh-crumb">ARCHIVE / <b>TIMELINE</b></div>
+  <h1 class="vh-title">Technology review timeline</h1>
   <div class="vh-meta">
     <span>1888 — 1916</span>
     <span class="vhm-sep">·</span>
@@ -350,12 +311,13 @@
     <span class="vhm-sep">·</span>
     <span>Curated by Paul B</span>
   </div>
+  <p class="view-note">Blank cells mean no entry in this dataset. Select a recorded period to read its action.</p>
 </div>
 
 <!-- Timeline filter bar -->
 <div class="filters">
   <div class="filter-group">
-    <label>CATEGORY</label>
+    <label for="t-category">Category</label>
     <select id="t-category">
       <option value="">All categories</option>
       <option value="rangefinding">Range finding &amp; fire control</option>
@@ -370,7 +332,7 @@
     </select>
   </div>
   <div class="filter-group">
-    <label>OUTCOME</label>
+    <label for="t-outcome">Has action</label>
     <select id="t-outcome">
       <option value="">All outcomes</option>
       <option value="a">Accepted / adopted</option>
@@ -380,7 +342,7 @@
     </select>
   </div>
   <div class="filter-group">
-    <label>SOURCE</label>
+    <label for="t-source">Source</label>
     <select id="t-source">
       <option value="">Both sources</option>
       <option value="subjects">Subjects considered only</option>
@@ -388,11 +350,12 @@
     </select>
   </div>
   <div class="filter-group search-wrap" id="t-search-wrap">
-    <input type="text" id="t-search" placeholder="search technologies…" autocomplete="off">
+    <label class="search-label" for="t-search">Search technologies</label>
+    <input type="text" id="t-search" placeholder="Technology name" autocomplete="off">
     <button class="clear-x" id="t-btn-clear-search" title="Clear search">×</button>
   </div>
-  <button class="clear" id="btn-clear-timeline">↻ RESET</button>
-  <span class="match-count">SHOWING <strong id="t-match-n">—</strong> TECHNOLOGIES</span>
+  <button class="clear" id="btn-clear-timeline">Reset filters</button>
+  <span class="match-count">Showing <strong id="t-match-n">—</strong> technologies</span>
 </div>
 
 <!-- Timeline legend + matrix -->
@@ -410,8 +373,8 @@
 
   <div class="records timeline-matrix">
     <div class="records-header">
-      <span class="records-title">▤ Technology Review Matrix</span>
-      <span class="records-info">Each colored bar = a review period · hover for action text · last cell wins for outcome classification</span>
+      <span class="records-title">Technology Review Matrix</span>
+      <span class="records-info">Cells show the last entry in each period. Filters match any recorded action.</span>
     </div>
     <div class="timeline-scroll" id="t-table-wrap"></div>
   </div>
@@ -426,27 +389,28 @@
 <div id="view-spending" hidden>
 
 <div class="view-header">
-  <div class="vh-crumb"><b>Spending</b></div>
-  <h1 class="vh-title">BOF appropriations &amp; line-item allotments</h1>
+  <div class="vh-crumb">ARCHIVE / <b>SPENDING</b></div>
+  <h1 class="vh-title">Board appropriations and allotments</h1>
   <div class="vh-meta">
     <span>1888 — 1920</span>
     <span class="vhm-sep">·</span>
-    <span>1,144 allotments + 33 annual appropriations</span>
+    <span>1,144 allotment entries · 33 annual appropriations</span>
     <span class="vhm-sep">·</span>
-    <span>Active vs revoked</span>
+    <span>Allotments: 1888–1918</span>
   </div>
+  <p class="view-note">Allotments are allocations, not verified expenditure. Revocations remain in the record and can be filtered separately. Year and allotment date are shown as transcribed and may differ; dates have not been reconciled against the original reports.</p>
 </div>
 
 <!-- Spending filter bar -->
 <div class="filters">
   <div class="filter-group">
-    <label>YEAR</label>
-    <input type="number" id="s-year-min" min="1888" max="1920" step="1" value="1888">
+    <label for="s-year-min">Year</label>
+    <input type="number" id="s-year-min" aria-label="From year" min="1888" max="1920" step="1" value="1888">
     <span class="dash">→</span>
-    <input type="number" id="s-year-max" min="1888" max="1920" step="1" value="1920">
+    <input type="number" id="s-year-max" aria-label="To year" min="1888" max="1920" step="1" value="1920">
   </div>
   <div class="filter-group">
-    <label>STATUS</label>
+    <label for="s-revoked">Status</label>
     <select id="s-revoked">
       <option value="">All allotments</option>
       <option value="active">Active only</option>
@@ -454,12 +418,13 @@
     </select>
   </div>
   <div class="filter-group search-wrap" id="s-search-wrap">
-    <input type="text" id="s-search" placeholder="search line items…" autocomplete="off">
+    <label class="search-label" for="s-search">Search allotments</label>
+    <input type="text" id="s-search" placeholder="Project or line item" autocomplete="off">
     <button class="clear-x" id="s-btn-clear-search" title="Clear search">×</button>
   </div>
-  <button class="clear" id="btn-clear-spending">↻ RESET</button>
-  <button class="export" id="btn-export-spending">↓ EXPORT CSV</button>
-  <span class="match-count">SHOWING <strong id="s-match-n">—</strong> · <strong id="s-match-sum">—</strong></span>
+  <button class="clear" id="btn-clear-spending">Reset filters</button>
+  <button class="export" id="btn-export-spending">Export CSV</button>
+  <span class="match-count">Showing <strong id="s-match-n">—</strong> · <strong id="s-match-sum">—</strong></span>
 </div>
 
 <!-- Spending chart grid -->
@@ -467,16 +432,16 @@
   <div class="grid">
     <div class="panel col-8">
       <div class="panel-header">
-        <span class="panel-title">▣ Annual Appropriations vs Allotments</span>
-        <span class="panel-tag">live · stacked</span>
+        <span class="panel-title">Annual appropriations and allotments</span>
+
       </div>
       <div class="panel-body"><div id="s-chart-timeline"></div></div>
     </div>
 
     <div class="panel col-4">
       <div class="panel-header">
-        <span class="panel-title">◉ Active vs Revoked</span>
-        <span class="panel-tag">live</span>
+        <span class="panel-title">Allotment status</span>
+
       </div>
       <div class="panel-body"><div id="s-chart-revoked"></div></div>
     </div>
@@ -486,8 +451,8 @@
   <!-- Spending records table -->
   <div class="records">
     <div class="records-header">
-      <span class="records-title">▤ Allotment Line Items</span>
-      <span class="records-info">Showing <strong id="s-rec-range">—</strong> of <strong id="s-rec-total">—</strong> · click any row for full detail</span>
+      <span class="records-title">Allotment records</span>
+      <span class="records-info">Showing <strong id="s-rec-range">—</strong> of <strong id="s-rec-total">—</strong> · Expand a project for its full entry</span>
     </div>
     <div id="s-records-body">
       <table class="records-table" id="s-records-table">
@@ -502,7 +467,7 @@
         </thead>
         <tbody id="s-records-tbody"></tbody>
       </table>
-      <div class="records-empty" id="s-records-empty" style="display:none;">⊘ NO MATCHING ALLOTMENTS</div>
+      <div class="records-empty" id="s-records-empty" style="display:none;">No allotments match these filters. Try a different search or reset the filters.</div>
     </div>
     <div class="pager" id="s-pager"></div>
   </div>
@@ -513,13 +478,13 @@
 <!-- ============ MASTER LEDGER VIEW (Thomas Ou) ============ -->
 <div id="view-master" hidden>
   <div class="view-header">
-    <div class="vh-crumb"><b>Master Ledger</b></div>
+    <div class="vh-crumb">RESEARCH / <b>MONEY</b></div>
     <h1 class="vh-title">Master Ledger</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#1D3461"></span>
       <span class="vhm-by">Thomas Ou</span>
       <span class="vhm-sep">·</span>
-      <span>1888 — 1919</span>
+      <span>1888 — 1918</span>
       <span class="vhm-sep">·</span>
       <span>1,144 allotments</span>
       <span class="vhm-sep">·</span>
@@ -529,123 +494,22 @@
 
   <div class="archive-grid">
     <a class="archive-card master-card" href="output/master_timeline.html" target="_blank" rel="noopener">
-      <div class="preview preview-timeline" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <!-- baseline -->
-          <line x1="14" y1="105" x2="186" y2="105" stroke="#D6CEBF" stroke-width="1"/>
-          <!-- stacked bars (active brass + revoked vermilion) -->
-          <g>
-            <rect x="20"  y="78" width="10" height="27" fill="#C9A24C"/>
-            <rect x="34"  y="68" width="10" height="37" fill="#C9A24C"/>
-            <rect x="48"  y="55" width="10" height="50" fill="#C9A24C"/>
-            <rect x="48"  y="48" width="10" height="7"  fill="#C5483D" opacity="0.85"/>
-            <rect x="62"  y="62" width="10" height="43" fill="#C9A24C"/>
-            <rect x="62"  y="58" width="10" height="4"  fill="#C5483D" opacity="0.85"/>
-            <rect x="76"  y="40" width="10" height="65" fill="#C9A24C"/>
-            <rect x="76"  y="32" width="10" height="8"  fill="#C5483D" opacity="0.85"/>
-            <rect x="90"  y="48" width="10" height="57" fill="#C9A24C"/>
-            <rect x="104" y="58" width="10" height="47" fill="#C9A24C"/>
-            <rect x="104" y="50" width="10" height="8"  fill="#C5483D" opacity="0.85"/>
-            <rect x="118" y="38" width="10" height="67" fill="#C9A24C"/>
-            <rect x="118" y="28" width="10" height="10" fill="#C5483D" opacity="0.85"/>
-            <rect x="132" y="48" width="10" height="57" fill="#C9A24C"/>
-            <rect x="146" y="60" width="10" height="45" fill="#C9A24C"/>
-            <rect x="160" y="52" width="10" height="53" fill="#C9A24C"/>
-            <rect x="174" y="42" width="10" height="63" fill="#C9A24C"/>
-          </g>
-          <!-- appropriation line on top -->
-          <polyline points="25,80 39,72 53,55 67,62 81,40 95,52 109,55 123,38 137,50 151,58 165,52 179,42"
-                    fill="none" stroke="#1A1A2E" stroke-width="1.6"/>
-          <!-- markers -->
-          <g fill="#1A1A2E">
-            <circle cx="25"  cy="80" r="2"/>
-            <circle cx="81"  cy="40" r="2"/>
-            <circle cx="123" cy="38" r="2"/>
-            <circle cx="179" cy="42" r="2"/>
-          </g>
-        </svg>
-      </div>
       <div class="meta">
-        <div class="tag">Master · 1888–1919</div>
-        <div class="ttl">Annual Appropriations vs Allotments</div>
+        <div class="tag">Allotments · 1888–1918</div>
+        <div class="ttl">Annual appropriations and allotments</div>
       </div>
     </a>
 
     <a class="archive-card master-card" href="output/master_pareto.html" target="_blank" rel="noopener">
-      <div class="preview preview-pareto" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <line x1="14" y1="105" x2="186" y2="105" stroke="#D6CEBF" stroke-width="1"/>
-          <!-- descending bars -->
-          <g fill="#C9A24C">
-            <rect x="18"  y="22"  width="11" height="83"/>
-            <rect x="32"  y="38"  width="11" height="67"/>
-            <rect x="46"  y="50"  width="11" height="55"/>
-            <rect x="60"  y="60"  width="11" height="45"/>
-            <rect x="74"  y="68"  width="11" height="37"/>
-            <rect x="88"  y="74"  width="11" height="31"/>
-            <rect x="102" y="80"  width="11" height="25"/>
-            <rect x="116" y="84"  width="11" height="21"/>
-            <rect x="130" y="88"  width="11" height="17"/>
-            <rect x="144" y="92"  width="11" height="13"/>
-            <rect x="158" y="95"  width="11" height="10"/>
-            <rect x="172" y="98"  width="11" height="7"/>
-          </g>
-          <!-- cumulative % line -->
-          <polyline points="23,82 38,65 52,50 66,40 80,33 94,27 108,23 122,20 136,18 150,16 164,15 178,14"
-                    fill="none" stroke="#1A1A2E" stroke-width="1.8"/>
-          <!-- 80% reference -->
-          <line x1="14" y1="29" x2="186" y2="29" stroke="#C5483D" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
-        </svg>
-      </div>
       <div class="meta">
         <div class="tag">Pareto · top projects</div>
-        <div class="ttl">Vital Few Allotments</div>
+        <div class="ttl">Largest allotments</div>
       </div>
     </a>
 
     <a class="archive-card master-card" href="output/historical_events_timeline.html" target="_blank" rel="noopener">
-      <div class="preview preview-events" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <line x1="14" y1="105" x2="186" y2="105" stroke="#D6CEBF" stroke-width="1"/>
-          <!-- legislation (navy) -->
-          <g fill="#1F3A5F">
-            <rect x="20"  y="92" width="8" height="13"/>
-            <rect x="34"  y="98" width="8" height="7"/>
-            <rect x="62"  y="96" width="8" height="9"/>
-            <rect x="118" y="94" width="8" height="11"/>
-          </g>
-          <!-- organizational (steel) -->
-          <g fill="#6B89A8">
-            <rect x="20"  y="86" width="8" height="6"/>
-            <rect x="48"  y="92" width="8" height="6"/>
-            <rect x="90"  y="92" width="8" height="6"/>
-          </g>
-          <!-- personnel (taupe — biggest category) -->
-          <g fill="#9F8B6B">
-            <rect x="20"  y="58" width="8" height="28"/>
-            <rect x="34"  y="62" width="8" height="36"/>
-            <rect x="48"  y="50" width="8" height="42"/>
-            <rect x="62"  y="48" width="8" height="48"/>
-            <rect x="76"  y="42" width="8" height="56"/>
-            <rect x="90"  y="38" width="8" height="54"/>
-            <rect x="104" y="32" width="8" height="62"/>
-            <rect x="118" y="26" width="8" height="68"/>
-            <rect x="132" y="34" width="8" height="64"/>
-            <rect x="146" y="44" width="8" height="58"/>
-            <rect x="160" y="52" width="8" height="50"/>
-            <rect x="174" y="60" width="8" height="44"/>
-          </g>
-          <!-- technology (brass — top stripe) -->
-          <g fill="#C9A24C">
-            <rect x="76"  y="35" width="8" height="7"/>
-            <rect x="104" y="24" width="8" height="8"/>
-            <rect x="118" y="18" width="8" height="8"/>
-            <rect x="132" y="26" width="8" height="8"/>
-          </g>
-        </svg>
-      </div>
       <div class="meta">
-        <div class="tag">Events · 1888–1930</div>
+        <div class="tag">Events · 1888–1920</div>
         <div class="ttl">BOF Historical Timeline</div>
       </div>
     </a>
@@ -656,7 +520,7 @@
 <!-- ============ FINANCIAL × TECHNOLOGY VIEW (Yunha) ============ -->
 <div id="view-yunha" hidden>
   <div class="view-header">
-    <div class="vh-crumb"><b>Financial × Tech</b></div>
+    <div class="vh-crumb">RESEARCH / <b>MONEY</b></div>
     <h1 class="vh-title">Financial × Technology</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#6B2D8B"></span>
@@ -664,45 +528,14 @@
       <span class="vhm-sep">·</span>
       <span>1888 — 1918</span>
       <span class="vhm-sep">·</span>
-      <span>3 cards</span>
+      <span>2 charts and source site</span>
       <span class="vhm-sep">·</span>
-      <span>Treemap · trajectory · canonical site</span>
+      <span>Treemap · trajectory · source site</span>
     </div>
   </div>
 
   <div class="archive-grid">
     <a class="archive-card master-card" href="output/yunha_dollars_by_cluster.html" target="_blank" rel="noopener">
-      <div class="preview" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <!-- treemap layout (8 cluster rectangles, sized roughly by spend) -->
-          <g>
-            <!-- biggest: artillery -->
-            <rect x="6"  y="6"  width="98" height="60" fill="#1D3461"/>
-            <text x="55" y="40" font-family="Georgia,serif" font-size="9" fill="white" text-anchor="middle">Artillery</text>
-            <!-- explosives -->
-            <rect x="106" y="6"  width="44" height="42" fill="#6B2D8B"/>
-            <text x="128" y="30" font-family="Georgia,serif" font-size="7" fill="white" text-anchor="middle">Explosives</text>
-            <!-- comms -->
-            <rect x="152" y="6"  width="42" height="42" fill="#1B4F72"/>
-            <text x="173" y="30" font-family="Georgia,serif" font-size="7" fill="white" text-anchor="middle">Comms</text>
-            <!-- small arms -->
-            <rect x="106" y="50" width="44" height="36" fill="#0A6E5D"/>
-            <text x="128" y="70" font-family="Georgia,serif" font-size="7" fill="white" text-anchor="middle">Small Arms</text>
-            <!-- armor -->
-            <rect x="152" y="50" width="42" height="36" fill="#7C4318"/>
-            <text x="173" y="70" font-family="Georgia,serif" font-size="7" fill="white" text-anchor="middle">Armor</text>
-            <!-- fortification -->
-            <rect x="6"  y="68" width="48" height="52" fill="#2D6A4F"/>
-            <text x="30" y="96" font-family="Georgia,serif" font-size="7" fill="white" text-anchor="middle">Fortification</text>
-            <!-- logistics -->
-            <rect x="56" y="68" width="48" height="52" fill="#5D4037"/>
-            <text x="80" y="96" font-family="Georgia,serif" font-size="7" fill="white" text-anchor="middle">Logistics</text>
-            <!-- other -->
-            <rect x="106" y="88" width="88" height="32" fill="#546E7A"/>
-            <text x="150" y="106" font-family="Georgia,serif" font-size="7" fill="white" text-anchor="middle">Other</text>
-          </g>
-        </svg>
-      </div>
       <div class="meta">
         <div class="tag">Treemap · Yunha</div>
         <div class="ttl">Dollars by Tech Cluster</div>
@@ -710,31 +543,6 @@
     </a>
 
     <a class="archive-card master-card" href="output/yunha_investment_trajectory.html" target="_blank" rel="noopener">
-      <div class="preview" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <line x1="14" y1="105" x2="186" y2="105" stroke="#D6CEBF" stroke-width="1"/>
-          <!-- 7 cluster lines, varying trajectories -->
-          <polyline points="20,80 35,72 50,55 65,82 80,40 95,52 110,55 125,38 140,50 155,58 170,52 185,42"
-                    fill="none" stroke="#1D3461" stroke-width="2"/>
-          <polyline points="20,90 35,86 50,76 65,88 80,70 95,80 110,82 125,72 140,78 155,84 170,80 185,76"
-                    fill="none" stroke="#6B2D8B" stroke-width="1.5" opacity="0.85"/>
-          <polyline points="20,95 35,92 50,86 65,93 80,80 95,86 110,88 125,82 140,86 155,90 170,86 185,84"
-                    fill="none" stroke="#0A6E5D" stroke-width="1.5" opacity="0.85"/>
-          <polyline points="20,98 35,96 50,92 65,97 80,88 95,92 110,94 125,90 140,93 155,96 170,93 185,90"
-                    fill="none" stroke="#7C4318" stroke-width="1.3" opacity="0.7"/>
-          <polyline points="20,100 35,99 50,96 65,99 80,93 95,96 110,97 125,94 140,96 155,98 170,96 185,94"
-                    fill="none" stroke="#1B4F72" stroke-width="1.2" opacity="0.65"/>
-          <!-- markers on top line -->
-          <g fill="#1D3461">
-            <circle cx="20"  cy="80" r="2"/>
-            <circle cx="80"  cy="40" r="2"/>
-            <circle cx="125" cy="38" r="2"/>
-            <circle cx="185" cy="42" r="2"/>
-          </g>
-          <!-- WWI dotted vertical -->
-          <line x1="155" y1="14" x2="155" y2="108" stroke="#55556A" stroke-width="0.6" stroke-dasharray="2,2" opacity="0.5"/>
-        </svg>
-      </div>
       <div class="meta">
         <div class="tag">Trajectory · Yunha</div>
         <div class="ttl">Year-by-Year Investment</div>
@@ -742,18 +550,8 @@
     </a>
 
     <a class="archive-card master-card" href="https://paull0318.github.io/BOF-Visuals-20260511/" target="_blank" rel="noopener">
-      <div class="preview" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(100 62)" text-anchor="middle">
-            <text x="0" y="-14" font-family="Georgia,serif" font-size="11" fill="#8a7f63">canonical source</text>
-            <text x="0" y="6" font-family="Georgia,serif" font-weight="700" font-size="20" fill="#3d3525">BOF-Visuals</text>
-            <text x="0" y="22" font-family="Georgia,serif" font-size="11" fill="#8a7f63">paull0318.github.io</text>
-            <text x="0" y="40" font-family="Georgia,serif" font-size="9" fill="#6B2D8B">↗ external · updated 2026-05-11</text>
-          </g>
-        </svg>
-      </div>
       <div class="meta">
-        <div class="tag">External · Yunha</div>
+        <div class="tag">External research</div>
         <div class="ttl">Source site (BOF-Visuals · 2026-05-11)</div>
       </div>
     </a>
@@ -764,7 +562,7 @@
 <!-- ============ TECHNOLOGY REVIEW LOG VIEW (Paul B) ============ -->
 <div id="view-paul" hidden>
   <div class="view-header">
-    <div class="vh-crumb"><b>Technology Review Log</b></div>
+    <div class="vh-crumb">RESEARCH / <b>TECHNOLOGY</b></div>
     <h1 class="vh-title">Technology Review Log</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#2D6A4F"></span>
@@ -772,68 +570,12 @@
       <span class="vhm-sep">·</span>
       <span>1897 — 1908</span>
       <span class="vhm-sep">·</span>
-      <span>202 technologies</span>
-      <span class="vhm-sep">·</span>
-      <span>9 categories × 9 review periods</span>
+      <span>Original nine-period research chart</span>
     </div>
   </div>
 
   <div class="archive-grid">
-    <a class="archive-card master-card" href="output/technology_review_timeline.html" target="_blank" rel="noopener" style="grid-column: span 2;">
-      <div class="preview" aria-hidden="true" style="background:#f8f7f4;">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <!-- mini matrix: ~10 rows × 9 cols of colored bars -->
-          <g>
-            <!-- col headers (subtle) -->
-            <line x1="14" y1="14" x2="186" y2="14" stroke="#d3d1c7" stroke-width="0.5"/>
-            <!-- row labels (subtle gray sticks on left) -->
-            <g fill="#eae8e1">
-              <rect x="6" y="20" width="32" height="2"/>
-              <rect x="6" y="30" width="36" height="2"/>
-              <rect x="6" y="40" width="30" height="2"/>
-              <rect x="6" y="50" width="38" height="2"/>
-              <rect x="6" y="60" width="34" height="2"/>
-              <rect x="6" y="70" width="32" height="2"/>
-              <rect x="6" y="80" width="36" height="2"/>
-              <rect x="6" y="90" width="30" height="2"/>
-              <rect x="6" y="100" width="34" height="2"/>
-              <rect x="6" y="110" width="28" height="2"/>
-            </g>
-            <!-- bars (4 outcome colors, semi-random pattern) -->
-            <g>
-              <!-- accepted (green) -->
-              <rect x="56" y="18"  width="14" height="6" fill="#1D9E75"/>
-              <rect x="74" y="48"  width="14" height="6" fill="#1D9E75"/>
-              <rect x="92" y="68"  width="14" height="6" fill="#1D9E75"/>
-              <rect x="146" y="78" width="14" height="6" fill="#1D9E75"/>
-              <rect x="164" y="38" width="14" height="6" fill="#1D9E75"/>
-              <!-- rejected (red) -->
-              <rect x="56" y="38"  width="14" height="6" fill="#E24B4A"/>
-              <rect x="74" y="98"  width="14" height="6" fill="#E24B4A"/>
-              <rect x="110" y="28" width="14" height="6" fill="#E24B4A"/>
-              <rect x="128" y="58" width="14" height="6" fill="#E24B4A"/>
-              <rect x="146" y="108" width="14" height="6" fill="#E24B4A"/>
-              <!-- under test (orange) -->
-              <rect x="56" y="58"  width="14" height="6" fill="#EF9F27"/>
-              <rect x="56" y="78"  width="14" height="6" fill="#EF9F27"/>
-              <rect x="74" y="28"  width="14" height="6" fill="#EF9F27"/>
-              <rect x="92" y="48"  width="14" height="6" fill="#EF9F27"/>
-              <rect x="92" y="88"  width="14" height="6" fill="#EF9F27"/>
-              <rect x="110" y="48" width="14" height="6" fill="#EF9F27"/>
-              <rect x="128" y="38" width="14" height="6" fill="#EF9F27"/>
-              <rect x="146" y="18" width="14" height="6" fill="#EF9F27"/>
-              <rect x="164" y="98" width="14" height="6" fill="#EF9F27"/>
-              <!-- referred (gray) -->
-              <rect x="56" y="98"  width="14" height="6" fill="#888780"/>
-              <rect x="74" y="78"  width="14" height="6" fill="#888780"/>
-              <rect x="92" y="108" width="14" height="6" fill="#888780"/>
-              <rect x="110" y="78" width="14" height="6" fill="#888780"/>
-              <rect x="128" y="98" width="14" height="6" fill="#888780"/>
-              <rect x="164" y="68" width="14" height="6" fill="#888780"/>
-            </g>
-          </g>
-        </svg>
-      </div>
+    <a class="archive-card master-card" href="output/technology_review_timeline.html" target="_blank" rel="noopener">
       <div class="meta">
         <div class="tag">Interactive matrix · Paul B</div>
         <div class="ttl">All technologies × 9 review periods (1897–1908)</div>
@@ -847,7 +589,7 @@
 <!-- ============ TYPE PREVALENCE VIEW (Tanisha) ============ -->
 <div id="view-tanisha" hidden>
   <div class="view-header">
-    <div class="vh-crumb"><b>Type Prevalence</b></div>
+    <div class="vh-crumb">RESEARCH / <b>TECHNOLOGY</b></div>
     <h1 class="vh-title">Type Prevalence</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#7C4318"></span>
@@ -863,56 +605,6 @@
 
   <div class="archive-grid">
     <a class="archive-card master-card" href="output/tanisha_stacked_bars.html" target="_blank" rel="noopener">
-      <div class="preview" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <line x1="14" y1="105" x2="186" y2="105" stroke="#D6CEBF" stroke-width="1"/>
-          <!-- 9 stacked bars in Tanisha's palette -->
-          <g>
-            <!-- 1897-98 (tallest) -->
-            <rect x="22"  y="20" width="14" height="22" fill="#D85A30"/>
-            <rect x="22"  y="42" width="14" height="14" fill="#1D9E75"/>
-            <rect x="22"  y="56" width="14" height="10" fill="#888780"/>
-            <rect x="22"  y="66" width="14" height="9"  fill="#5F5E5A"/>
-            <rect x="22"  y="75" width="14" height="6"  fill="#378ADD"/>
-            <rect x="22"  y="81" width="14" height="24" fill="#534AB7"/>
-            <!-- 1898-99 -->
-            <rect x="40"  y="38" width="14" height="13" fill="#378ADD"/>
-            <rect x="40"  y="51" width="14" height="11" fill="#1D9E75"/>
-            <rect x="40"  y="62" width="14" height="8"  fill="#D85A30"/>
-            <rect x="40"  y="70" width="14" height="35" fill="#5F5E5A"/>
-            <!-- 1900-01 -->
-            <rect x="58"  y="56" width="14" height="11" fill="#1D9E75"/>
-            <rect x="58"  y="67" width="14" height="9"  fill="#D85A30"/>
-            <rect x="58"  y="76" width="14" height="29" fill="#5F5E5A"/>
-            <!-- 1901-02 -->
-            <rect x="76"  y="38" width="14" height="14" fill="#1D9E75"/>
-            <rect x="76"  y="52" width="14" height="9"  fill="#D85A30"/>
-            <rect x="76"  y="61" width="14" height="44" fill="#5F5E5A"/>
-            <!-- 1903-04 -->
-            <rect x="94"  y="38" width="14" height="14" fill="#1D9E75"/>
-            <rect x="94"  y="52" width="14" height="6"  fill="#D85A30"/>
-            <rect x="94"  y="58" width="14" height="6"  fill="#378ADD"/>
-            <rect x="94"  y="64" width="14" height="41" fill="#5F5E5A"/>
-            <!-- 1904-05 -->
-            <rect x="112" y="50" width="14" height="13" fill="#1D9E75"/>
-            <rect x="112" y="63" width="14" height="6"  fill="#D85A30"/>
-            <rect x="112" y="69" width="14" height="36" fill="#5F5E5A"/>
-            <!-- 1905-06 -->
-            <rect x="130" y="56" width="14" height="11" fill="#1D9E75"/>
-            <rect x="130" y="67" width="14" height="7"  fill="#D85A30"/>
-            <rect x="130" y="74" width="14" height="31" fill="#5F5E5A"/>
-            <!-- 1906-07 -->
-            <rect x="148" y="50" width="14" height="11" fill="#1D9E75"/>
-            <rect x="148" y="61" width="14" height="8"  fill="#D85A30"/>
-            <rect x="148" y="69" width="14" height="9"  fill="#185FA5"/>
-            <rect x="148" y="78" width="14" height="27" fill="#5F5E5A"/>
-            <!-- 1907-08 -->
-            <rect x="166" y="60" width="14" height="9"  fill="#1D9E75"/>
-            <rect x="166" y="69" width="14" height="8"  fill="#D85A30"/>
-            <rect x="166" y="77" width="14" height="28" fill="#5F5E5A"/>
-          </g>
-        </svg>
-      </div>
       <div class="meta">
         <div class="tag">Stacked · Tanisha</div>
         <div class="ttl">Type Prevalence by Period</div>
@@ -920,43 +612,6 @@
     </a>
 
     <a class="archive-card master-card" href="output/tanisha_heatmap.html" target="_blank" rel="noopener">
-      <div class="preview" aria-hidden="true">
-        <svg viewBox="0 0 200 125" xmlns="http://www.w3.org/2000/svg">
-          <!-- 13 rows × 9 cols heatmap, color-graded -->
-          <g>
-            <!-- row 1: Projectiles & Ammunition (with the big 130 cell) -->
-            <rect x="22"  y="14" width="16" height="7" fill="#042C53"/>
-            <rect x="40"  y="14" width="16" height="7" fill="#85B7EB"/>
-            <rect x="58"  y="14" width="16" height="7" fill="#85B7EB"/>
-            <rect x="76"  y="14" width="16" height="7" fill="#85B7EB"/>
-            <rect x="94"  y="14" width="16" height="7" fill="#85B7EB"/>
-            <rect x="112" y="14" width="16" height="7" fill="#B5D4F4"/>
-            <rect x="130" y="14" width="16" height="7" fill="#85B7EB"/>
-            <rect x="148" y="14" width="16" height="7" fill="#85B7EB"/>
-            <rect x="166" y="14" width="16" height="7" fill="#85B7EB"/>
-            <!-- row 2: Artillery & Guns -->
-            <rect x="22"  y="22" width="16" height="7" fill="#185FA5"/>
-            <rect x="40"  y="22" width="16" height="7" fill="#378ADD"/>
-            <rect x="58"  y="22" width="16" height="7" fill="#378ADD"/>
-            <rect x="76"  y="22" width="16" height="7" fill="#185FA5"/>
-            <rect x="94"  y="22" width="16" height="7" fill="#185FA5"/>
-            <rect x="112" y="22" width="16" height="7" fill="#378ADD"/>
-            <rect x="130" y="22" width="16" height="7" fill="#378ADD"/>
-            <rect x="148" y="22" width="16" height="7" fill="#378ADD"/>
-            <rect x="166" y="22" width="16" height="7" fill="#378ADD"/>
-            <!-- row 3-13: lighter cells -->
-            <rect x="22"  y="30" width="16" height="7" fill="#378ADD"/><rect x="40"  y="30" width="16" height="7" fill="#85B7EB"/><rect x="58"  y="30" width="16" height="7" fill="#B5D4F4"/><rect x="76"  y="30" width="16" height="7" fill="#185FA5"/><rect x="94"  y="30" width="16" height="7" fill="#378ADD"/><rect x="112" y="30" width="16" height="7" fill="#85B7EB"/><rect x="130" y="30" width="16" height="7" fill="#85B7EB"/><rect x="148" y="30" width="16" height="7" fill="#85B7EB"/><rect x="166" y="30" width="16" height="7" fill="#85B7EB"/>
-            <rect x="22"  y="38" width="16" height="7" fill="#378ADD"/><rect x="40"  y="38" width="16" height="7" fill="#E6F1FB"/><rect x="58"  y="38" width="16" height="7" fill="#E6F1FB"/><rect x="76"  y="38" width="16" height="7" fill="#E6F1FB"/><rect x="94"  y="38" width="16" height="7" fill="#B5D4F4"/><rect x="112" y="38" width="16" height="7" fill="#B5D4F4"/><rect x="130" y="38" width="16" height="7" fill="#E6F1FB"/><rect x="148" y="38" width="16" height="7" fill="#E6F1FB"/><rect x="166" y="38" width="16" height="7" fill="#E6F1FB"/>
-            <rect x="22"  y="46" width="16" height="7" fill="#378ADD"/><rect x="40"  y="46" width="16" height="7" fill="#185FA5"/><rect x="58"  y="46" width="16" height="7" fill="#E6F1FB"/><rect x="76"  y="46" width="16" height="7" fill="#E6F1FB"/><rect x="94"  y="46" width="16" height="7" fill="#B5D4F4"/><rect x="112" y="46" width="16" height="7" fill="#E6F1FB"/><rect x="130" y="46" width="16" height="7" fill="#E6F1FB"/><rect x="148" y="46" width="16" height="7" fill="#E6F1FB"/><rect x="166" y="46" width="16" height="7" fill="#B5D4F4"/>
-            <rect x="22"  y="54" width="16" height="7" fill="#B5D4F4"/><rect x="40"  y="54" width="16" height="7" fill="#E6F1FB"/><rect x="58"  y="54" width="16" height="7" fill="#E6F1FB"/><rect x="76"  y="54" width="16" height="7" fill="#E6F1FB"/><rect x="94"  y="54" width="16" height="7" fill="#B5D4F4"/><rect x="112" y="54" width="16" height="7" fill="#B5D4F4"/><rect x="130" y="54" width="16" height="7" fill="#E6F1FB"/><rect x="148" y="54" width="16" height="7" fill="#B5D4F4"/><rect x="166" y="54" width="16" height="7" fill="#E6F1FB"/>
-            <rect x="22"  y="62" width="16" height="7" fill="#85B7EB"/><rect x="40"  y="62" width="16" height="7" fill="#85B7EB"/><rect x="58"  y="62" width="16" height="7" fill="#85B7EB"/><rect x="76"  y="62" width="16" height="7" fill="#85B7EB"/><rect x="94"  y="62" width="16" height="7" fill="#85B7EB"/><rect x="112" y="62" width="16" height="7" fill="#85B7EB"/><rect x="130" y="62" width="16" height="7" fill="#85B7EB"/><rect x="148" y="62" width="16" height="7" fill="#85B7EB"/><rect x="166" y="62" width="16" height="7" fill="#85B7EB"/>
-            <rect x="22"  y="70" width="16" height="7" fill="#E6F1FB"/><rect x="40"  y="70" width="16" height="7" fill="#E6F1FB"/><rect x="58"  y="70" width="16" height="7" fill="#E6F1FB"/><rect x="76"  y="70" width="16" height="7" fill="#85B7EB"/><rect x="94"  y="70" width="16" height="7" fill="#B5D4F4"/><rect x="112" y="70" width="16" height="7" fill="#E6F1FB"/><rect x="130" y="70" width="16" height="7" fill="#B5D4F4"/><rect x="148" y="70" width="16" height="7" fill="#E6F1FB"/><rect x="166" y="70" width="16" height="7" fill="#E6F1FB"/>
-            <rect x="22"  y="78" width="16" height="7" fill="#E6F1FB"/><rect x="40"  y="78" width="16" height="7" fill="#E6F1FB"/><rect x="58"  y="78" width="16" height="7" fill="#E6F1FB"/><rect x="76"  y="78" width="16" height="7" fill="#E6F1FB"/><rect x="94"  y="78" width="16" height="7" fill="#B5D4F4"/><rect x="112" y="78" width="16" height="7" fill="#E6F1FB"/><rect x="130" y="78" width="16" height="7" fill="#E6F1FB"/><rect x="148" y="78" width="16" height="7" fill="#378ADD"/><rect x="166" y="78" width="16" height="7" fill="#B5D4F4"/>
-            <rect x="22"  y="86" width="16" height="7" fill="#E6F1FB"/><rect x="40"  y="86" width="16" height="7" fill="#E6F1FB"/><rect x="58"  y="86" width="16" height="7" fill="#B5D4F4"/><rect x="76"  y="86" width="16" height="7" fill="#B5D4F4"/><rect x="94"  y="86" width="16" height="7" fill="#B5D4F4"/><rect x="112" y="86" width="16" height="7" fill="#B5D4F4"/><rect x="130" y="86" width="16" height="7" fill="#E6F1FB"/><rect x="148" y="86" width="16" height="7" fill="#E6F1FB"/><rect x="166" y="86" width="16" height="7" fill="#E6F1FB"/>
-            <rect x="22"  y="94" width="16" height="7" fill="#E6F1FB"/><rect x="40"  y="94" width="16" height="7" fill="#E6F1FB"/><rect x="58"  y="94" width="16" height="7" fill="#E6F1FB"/><rect x="76"  y="94" width="16" height="7" fill="#E6F1FB"/><rect x="94"  y="94" width="16" height="7" fill="#E6F1FB"/><rect x="112" y="94" width="16" height="7" fill="#E6F1FB"/><rect x="130" y="94" width="16" height="7" fill="#E6F1FB"/><rect x="148" y="94" width="16" height="7" fill="#E6F1FB"/><rect x="166" y="94" width="16" height="7" fill="#E6F1FB"/>
-          </g>
-        </svg>
-      </div>
       <div class="meta">
         <div class="tag">Heatmap · Tanisha</div>
         <div class="ttl">Prevalence Heatmap</div>
@@ -972,7 +627,7 @@
 
 <!-- Detail modal -->
 <div class="modal-backdrop" id="modal-backdrop">
-  <div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-subject">
     <div class="modal-head">
       <div>
         <div class="meta-row">
@@ -982,15 +637,15 @@
         </div>
         <h2 id="m-subject">—</h2>
       </div>
-      <button class="modal-close" id="modal-close" title="Close (esc)">×</button>
+      <button class="modal-close" id="modal-close" title="Close (esc)" aria-label="Close record">×</button>
     </div>
     <div class="modal-body">
       <div class="modal-section" id="m-action-section">
-        <h3>Board Action</h3>
+        <h3>Recorded action</h3>
         <p id="m-action">—</p>
       </div>
       <div class="modal-section" id="m-reasoning-section">
-        <h3>Recommendation Reasoning</h3>
+        <h3>Recorded reasoning</h3>
         <p id="m-reasoning">—</p>
       </div>
       <div class="modal-section">
@@ -1000,7 +655,7 @@
       <div class="modal-section">
         <h3>Source</h3>
         <div class="meta-pair"><span>Annual Report</span><span id="m-report">—</span></div>
-        <div class="meta-pair"><span>Original Status</span><span id="m-status-raw">—</span></div>
+        <div class="meta-pair"><span>Automated category</span><span id="m-status-raw">—</span></div>
       </div>
     </div>
   </div>
@@ -1012,6 +667,6 @@
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="timeline-data.js"></script>
-<script src="app.js"></script>
+<script src="app.js?v=archive-4"></script>
 </body>
 </html>

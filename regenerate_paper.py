@@ -78,6 +78,7 @@ P_STATUS = {
     "Approved":      P_GREEN,
     "Rejected":      P_RED,
     "Investigating": P_AMBER,
+    "Other":         P_TEXT_SOFT,
 }
 
 P_PROPOSER = {
@@ -95,7 +96,7 @@ P_BRANCH = {
 def _paper_card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
     footer_note = note or (
         "Source: BOF Annual Reports, 1897–1908 &nbsp;·&nbsp; "
-        "n&nbsp;=&nbsp;1,901 proposals across 9 reporting years"
+        "Automated labels from transcribed actions; missing or unmatched actions are Other"
     )
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -293,10 +294,9 @@ def save_decision_per_cluster(df: pd.DataFrame, out_path: Path) -> None:
     )
 
     plot_div = fig.to_html(include_plotlyjs="cdn", full_html=False, config={"displayModeBar": False})
-    title = "Decision Distribution by Technology Cluster"
-    subtitle = ("Stacked share of board decisions within each cluster. The Board overwhelmingly "
-                "deferred proposals into <em>Investigating</em>; outright approvals concentrate in "
-                "Artillery, Explosives, and the residual <em>Other</em> bucket.")
+    title = "Action Labels by Technology Cluster"
+    subtitle = ("Share of records in each automated action category. Missing or unmatched "
+                "actions remain Other. The labels do not establish a final historical outcome.")
     out_path.write_text(_paper_card_html(plot_div, title, subtitle))
     try:
         fig.write_image(str(out_path.with_suffix(".png")), width=1200, height=560, scale=2)

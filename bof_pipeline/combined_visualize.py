@@ -250,6 +250,11 @@ def save_investment_by_technology(
             "The dotted area shows total military budget (2025-adjusted) for context — "
             "revealing whether increased funding correlated with more innovation proposals."
         ),
+        note=(
+            "Source: public proposal records and Army/Navy budget ledger &nbsp;·&nbsp; "
+            "Chart period: 1897–1908 &nbsp;·&nbsp; "
+            "Undated proposals are omitted; proposal counts are not expenditures"
+        ),
     )
     output_html.write_text(html, encoding="utf-8")
 
@@ -375,8 +380,9 @@ def save_technology_timeline(
         title="Technology Development Timeline, 1897–1908",
         subtitle=(
             "Each row is a technology cluster. Bubble size reflects the number of proposals "
-            "submitted that year; shaded bars show the active period. Hover for approval rates. "
-            "Tracks which technologies peaked, emerged, or faded across the BOF era."
+            "dated to that year; shaded bars join the first and last recorded years. "
+            "Hover for automated approval labels. Undated records are omitted; "
+            "gaps do not establish that a technology was inactive."
         ),
     )
     output_html.write_text(html, encoding="utf-8")

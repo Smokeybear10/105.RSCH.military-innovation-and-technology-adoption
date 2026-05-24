@@ -22,6 +22,7 @@ _STATUS_COLORS = {
     "Approved":      "#1B5E20",   # deep forest green
     "Rejected":      "#7F1D1D",   # deep crimson
     "Investigating": "#92400E",   # amber-brown
+    "Other":         "#607D8B",
 }
 
 _CLUSTER_PALETTE = {
@@ -53,7 +54,7 @@ def _card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
     """Wrap a Plotly div in a professional styled HTML document."""
     footer_note = note or (
         "Source: BOF Annual Reports, 1897–1908 &nbsp;·&nbsp; "
-        "n&nbsp;=&nbsp;1,901 proposals across 9 reporting years"
+        "Automated labels from transcribed actions; missing or unmatched actions are Other"
     )
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -215,11 +216,10 @@ def save_status_cluster_sankey(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Proposal Flow: Technology Cluster to Board Decision",
+        title="Proposal Categories and Action Labels",
         subtitle=(
-            "Each stream traces the volume of proposals from a technology domain to its final "
-            "board disposition. Stream width is proportional to proposal count. "
-            "Node labels show total proposals in each category."
+            "Labels are inferred from recorded action text. Missing or unmatched actions "
+            "are included as Other. Stream width shows the number of records."
         ),
     )
     output_html.write_text(html, encoding="utf-8")
@@ -273,7 +273,7 @@ def save_proposer_success_by_year(df: pd.DataFrame, output_html: Path) -> None:
                 hovertemplate=(
                     f"<b>{proposer}</b><br>"
                     "Year: %{x}<br>"
-                    "Approval rate: %{y:.1f}%<br>"
+                    "Share labeled Approved: %{y:.1f}%<br>"
                     "<extra></extra>"
                 ),
             ),
@@ -309,7 +309,7 @@ def save_proposer_success_by_year(df: pd.DataFrame, output_html: Path) -> None:
             x=1901,
             y=float(prv_1901["rate_pct"].iloc[0]) + 1.8,
             text=(
-                f"<b>1901 peak</b><br>"
+                f"<b>1901 records</b><br>"
                 f"Private: {float(prv_1901['rate_pct'].iloc[0]):.1f}%<br>"
                 f"Gov't: {float(gov_1901['rate_pct'].iloc[0]) if not gov_1901.empty else 'n/a'}%"
             ),
@@ -353,7 +353,7 @@ def save_proposer_success_by_year(df: pd.DataFrame, output_html: Path) -> None:
         tickfont=dict(size=11),
     )
     fig.update_yaxes(
-        title_text="Approval Rate (%)", title_font=dict(size=11),
+        title_text="Labeled Approved (%)", title_font=dict(size=11),
         gridcolor=_GRID, linecolor=_GRID,
         ticksuffix="%", tickfont=dict(size=11),
         row=1, col=1,
@@ -369,11 +369,11 @@ def save_proposer_success_by_year(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Government vs. Private Proposal Success, 1897–1907",
+        title="Recorded Approval Labels by Proposer Group",
         subtitle=(
-            "Top panel: percentage of proposals approved each year, by proposer type. "
-            "Bottom panel: total submission volume. "
-            "Years 1899, 1902, and 1905 have no data — line breaks indicate genuine gaps."
+            "Top: records labeled Approved as a share of all records in each group. "
+            "Bottom: record counts. Proposer groups and action labels are automated. "
+            "Undated entries are omitted; missing actions are not evidence of rejection."
         ),
     )
     output_html.write_text(html, encoding="utf-8")
@@ -489,7 +489,7 @@ def save_ratio_dashboard_1901(df: pd.DataFrame, output_html: Path) -> None:
         plot_bgcolor=_PLOT_BG,
         barmode="overlay",
         xaxis=dict(
-            title="Approval Rate (%)",
+            title="Labeled Approved (%)",
             title_font=dict(size=11, family=_SANS),
             range=[0, x_ceiling],
             gridcolor=_GRID,
@@ -516,11 +516,11 @@ def save_ratio_dashboard_1901(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="1901: Approval Rate by Technology Cluster",
+        title="1901: Recorded Approval Labels by Technology Cluster",
         subtitle=(
-            f"Of {total_1901:,} proposals submitted in fiscal year 1901, "
-            f"{total_appr} were approved ({overall_rate:.1f}% overall). "
-            "Bar length shows approval rate; shaded backdrop reflects each cluster's share of total submissions."
+            f"Of {total_1901:,} records dated 1901, {total_appr} are labeled Approved "
+            f"from their action text ({overall_rate:.1f}%). These are automated labels, "
+            "not a verified adoption rate. Shading shows relative record count."
         ),
         note=(
             "Source: BOF Annual Report 1901–1902 &nbsp;·&nbsp; "
