@@ -1,275 +1,193 @@
-"""Data validation pass for the Board of Ordnance and Fortification study.
+"""Check the public archive snapshot without private sources or dependencies.
 
-Run from repo root: `python validate_data.py`
+Run from any directory: python3 /path/to/repository/validate_data.py
+These checks establish file consistency, not transcription accuracy.
 """
 from __future__ import annotations
 
+import csv
+import json
+import math
 import re
-import sys
+from collections.abc import Callable
 from pathlib import Path
-import pandas as pd
 
-ROOT = Path(__file__).parent
-OUTPUT = ROOT / "output"
-DATA = ROOT / "Data"
-
-PASS, WARN, FAIL = [], [], []
-
-def ok(msg):    PASS.append(msg);    print(f"  [OK]   {msg}")
-def warn(msg):  WARN.append(msg);    print(f"  [WARN] {msg}")
-def fail(msg):  FAIL.append(msg);    print(f"  [FAIL] {msg}")
-def section(t): print(f"\n=== {t} ===")
+ROOT = Path(__file__).resolve().parent
 
 
-# ============================================================
-# 1. Subjects Considered per-year structured CSVs
-# ============================================================
-section("Subjects Considered per-year CSVs")
-
-per_year_files = sorted(OUTPUT.glob("Copy of Subjects Considered *_structured.csv"))
-year_re = re.compile(r"(\d{4})-(\d{4})")
-expected_cols_min = {"BOF Annual Report #", "Subject", "Proposed By", "Action",
-                     "status", "primary_cluster", "proposer_type", "year",
-                     "is_approved", "is_rejected", "is_investigating"}
-
-year_counts = {}
-for f in per_year_files:
-    df = pd.read_csv(f)
-    m = year_re.search(f.name)
-    if not m:
-        warn(f"{f.name}: cannot parse year range from filename")
-        continue
-    start_y = int(m.group(1))
-    missing = expected_cols_min - set(df.columns)
-    if missing:
-        fail(f"{f.name}: missing columns {missing}")
-        continue
-
-    # All rows must have the matching year
-    yrs = df["year"].dropna().unique()
-    if not set(yrs).issubset({start_y}):
-        fail(f"{f.name}: year column has {sorted(yrs)} but filename says {start_y}")
-    else:
-        ok(f"{f.name}: {len(df)} rows, year={start_y}")
-    year_counts[start_y] = len(df)
-
-    # Mutually-exclusive booleans (Unknown rows have all four is_* flags = 0
-    # in the old schema; the new pipeline adds is_unknown).
-    bool_cols = [c for c in ("is_approved", "is_rejected", "is_investigating", "is_unknown") if c in df.columns]
-    bool_sum = df[bool_cols].sum(axis=1)
-    bad = (bool_sum != 1).sum()
-    if bad:
-        fail(f"{f.name}: {bad} rows have sum({bool_cols}) != 1")
-
-    # status matches the booleans
-    inferred = pd.Series(index=df.index, dtype=object)
-    inferred[df["is_approved"] == 1] = "Approved"
-    inferred[df["is_rejected"] == 1] = "Rejected"
-    inferred[df["is_investigating"] == 1] = "Investigating"
-    if "is_unknown" in df.columns:
-        inferred[df["is_unknown"] == 1] = "Unknown"
-    mismatch = (inferred != df["status"]).sum()
-    if mismatch:
-        fail(f"{f.name}: {mismatch} rows where status disagrees with is_* flags")
-
-    # proposer_type sanity
-    bad_types = set(df["proposer_type"].dropna().unique()) - {"Government", "Private", "Unknown"}
-    if bad_types:
-        warn(f"{f.name}: unexpected proposer_type values {bad_types}")
-
-    # Years must be 1897-1907 in this corpus
-    yr_series = df["year"].dropna()
-    if not yr_series.between(1897, 1907).all():
-        fail(f"{f.name}: year values outside 1897-1907")
-    null_yrs = df["year"].isna().sum()
-    if null_yrs:
-        warn(f"{f.name}: {null_yrs} rows with null year")
-
-    # No empty Subject
-    if df["Subject"].isna().any() or (df["Subject"].astype(str).str.strip() == "").any():
-        warn(f"{f.name}: {(df['Subject'].isna() | (df['Subject'].astype(str).str.strip()=='' )).sum()} rows have empty Subject")
-
-# Master file aggregation check
-master = pd.read_csv(OUTPUT / "all_structured_records.csv")
-ok(f"all_structured_records.csv: {len(master)} rows total")
-
-# Reconciliation: master row count should be near the sum of per-year files
-per_year_sum = sum(year_counts.values())
-ok(f"sum of per-year row counts (excluding 1902-only file): {per_year_sum}")
-if abs(len(master) - per_year_sum) > 1:
-    warn(f"master ({len(master)}) and per-year sum ({per_year_sum}) differ by {len(master) - per_year_sum} — check for duplicate-year files")
-
-# Detect duplicate 1901-1902 files (cleaned up — should be exactly one)
-candidates = sorted(OUTPUT.glob("Copy of Subjects Considered 1901-1902*_structured.csv"))
-candidates = [c for c in candidates if c.suffix == ".csv"]
-if len(candidates) > 1:
-    fail(f"Multiple 1901-1902 structured CSVs: {[c.name for c in candidates]}")
-elif len(candidates) == 1:
-    ok(f"Single canonical 1901-1902 file: {candidates[0].name}")
+def number(value: str) -> float | None:
+    try:
+        result = float(value)
+    except ValueError:
+        return None
+    return result if math.isfinite(result) else None
 
 
-# ============================================================
-# 2. Master allotments + appropriations ledgers
-# ============================================================
-section("Master allotments & appropriations ledgers")
-
-ml = pd.read_csv(OUTPUT / "master_allotments_1888_1919.csv")
-ma = pd.read_csv(OUTPUT / "master_appropriations_1888_1919.csv")
-print(f"  allotments columns: {list(ml.columns)}")
-print(f"  appropriations columns: {list(ma.columns)}")
-ok(f"master_allotments_1888_1919.csv: {len(ml)} rows")
-ok(f"master_appropriations_1888_1919.csv: {len(ma)} rows")
-
-# year ranges — appropriations extends to 1920 (final $0 stub recording Treasury return)
-if "year" in ml.columns:
-    ml_yr = ml["year"].dropna()
-    if not ml_yr.between(1888, 1920).all():
-        fail(f"allotments: year values outside 1888-1920: min={ml_yr.min()}, max={ml_yr.max()}")
-    else:
-        ok(f"allotments year range: {int(ml_yr.min())}-{int(ml_yr.max())}")
-
-if "year" in ma.columns:
-    ma_yr = ma["year"].dropna()
-    if not ma_yr.between(1888, 1920).all():
-        fail(f"appropriations: year values outside 1888-1920: min={ma_yr.min()}, max={ma_yr.max()}")
-    else:
-        ok(f"appropriations year range: {int(ma_yr.min())}-{int(ma_yr.max())}")
-
-# Check appropriations are non-negative
-for col in ma.columns:
-    if col == "year": continue
-    if pd.api.types.is_numeric_dtype(ma[col]):
-        neg = (ma[col].fillna(0) < 0).sum()
-        if neg: warn(f"appropriations: {neg} negative values in '{col}'")
-
-# Compare total allotments per year vs appropriation per year (where comparable)
-if "amount" in ml.columns and "year" in ml.columns:
-    by_yr = ml.groupby("year")["amount"].sum()
-    print(f"  total allotments (sum): ${by_yr.sum():,.0f}")
-elif {"Amount", "year"}.issubset(ml.columns):
-    by_yr = ml.groupby("year")["Amount"].sum()
-    print(f"  total allotments (sum): ${by_yr.sum():,.0f}")
-
-# bof_allotments.csv / bof_appropriations.csv
-bof_al = pd.read_csv(OUTPUT / "bof_allotments.csv")
-bof_ap = pd.read_csv(OUTPUT / "bof_appropriations.csv")
-ok(f"bof_allotments.csv: {len(bof_al)} rows")
-ok(f"bof_appropriations.csv: {len(bof_ap)} rows")
-print(f"  bof_allotments columns: {list(bof_al.columns)[:10]}")
-print(f"  bof_appropriations columns: {list(bof_ap.columns)[:10]}")
+def read_csv(path: Path, required: set[str]) -> list[dict[str, str]]:
+    with path.open(encoding="utf-8-sig", newline="") as source:
+        reader = csv.DictReader(source, strict=True)
+        fields = reader.fieldnames or []
+        missing = required - set(fields)
+        if missing:
+            raise ValueError(f"missing columns: {', '.join(sorted(missing))}")
+        if len(fields) != len(set(fields)):
+            raise ValueError("duplicate column names")
+        rows = list(reader)
+    if any(None in row or None in row.values() for row in rows):
+        raise ValueError("a row has a different number of fields than the header")
+    return rows
 
 
-# ============================================================
-# 3. Historical events timeline
-# ============================================================
-section("Historical events timeline")
-
-he = pd.read_csv(OUTPUT / "historical_events_1888_1930.csv")
-ok(f"historical_events_1888_1930.csv: {len(he)} rows")
-print(f"  columns: {list(he.columns)}")
-
-# Each event should have a year inside 1888-1930
-if "year" in he.columns:
-    he_yr = pd.to_numeric(he["year"], errors="coerce").dropna()
-    if not he_yr.between(1888, 1930).all():
-        out = he_yr[~he_yr.between(1888, 1930)]
-        fail(f"historical events: {len(out)} years outside 1888-1930: {sorted(out.unique())[:10]}")
-    else:
-        ok(f"historical events year range: {int(he_yr.min())}-{int(he_yr.max())}")
-    nulls = he["year"].isna().sum()
-    if nulls: warn(f"historical events: {nulls} rows have null year")
+def read_timeline(path: Path, variable: str) -> list[object]:
+    text = path.read_text(encoding="utf-8")
+    match = re.search(rf"window\.{variable}\s*=\s*", text)
+    if not match:
+        raise ValueError(f"missing {variable} assignment")
+    value, _ = json.JSONDecoder().raw_decode(text[match.end():])
+    if not isinstance(value, list):
+        raise ValueError(f"{variable} must be an array")
+    return value
 
 
-# ============================================================
-# 4. Team derived datasets
-# ============================================================
-section("Team-derived datasets")
+def main(root: Path = ROOT) -> int:
+    failures = []
+    checks = 0
 
-t1 = pd.read_csv(OUTPUT / "tanisha_technology_prevalence.csv")
-ok(f"tanisha_technology_prevalence.csv: {len(t1)} rows, cols={list(t1.columns)}")
-t2 = pd.read_csv(OUTPUT / "approval_ratio_by_cluster_1901.csv")
-ok(f"approval_ratio_by_cluster_1901.csv: {len(t2)} rows, cols={list(t2.columns)}")
-t3 = pd.read_csv(OUTPUT / "proposer_success_rate_by_year.csv")
-ok(f"proposer_success_rate_by_year.csv: {len(t3)} rows, cols={list(t3.columns)}")
-t4 = pd.read_csv(OUTPUT / "budget_master_ledger.csv")
-ok(f"budget_master_ledger.csv: {len(t4)} rows, cols={list(t4.columns)}")
+    def check(condition: bool, message: str) -> None:
+        nonlocal checks
+        checks += 1
+        if not condition:
+            failures.append(message)
+            print(f"[FAIL] {message}")
 
-# Ratios must be in [0,1]
-for name, df in [("approval_ratio_by_cluster_1901", t2), ("proposer_success_rate_by_year", t3)]:
-    ratio_cols = [c for c in df.columns if "ratio" in c.lower() or "rate" in c.lower() or "success" in c.lower()]
-    for c in ratio_cols:
-        if pd.api.types.is_numeric_dtype(df[c]):
-            bad = ((df[c] < 0) | (df[c] > 1)).sum()
-            if bad: fail(f"{name}: {bad} '{c}' values outside [0,1]")
-            else: ok(f"{name}: '{c}' all in [0,1]")
+    def check_rows(
+        rows: list[dict[str, str]], label: str, predicate: Callable[[dict[str, str]], bool]
+    ) -> None:
+        bad = [i + 2 for i, row in enumerate(rows) if not predicate(row)]
+        detail = f"; CSV lines {', '.join(map(str, bad[:8]))}" if bad else ""
+        check(not bad, f"{label}{detail}")
+
+    datasets = {
+        "all_structured_records.csv": (1691, {
+            "Subject", "Proposed By", "Action", "year", "source_file", "status",
+            "is_approved", "is_rejected", "is_investigating",
+        }),
+        "budget_master_ledger.csv": (109, {
+            "branch", "year", "appropriation_usd", "appropriation_2025_usd",
+        }),
+        "bof_appropriations.csv": (33, {"Year", "Amount_Numeric"}),
+        "bof_allotments.csv": (1144, {
+            "Year", "Project/Line Item Description", "Allotted_Numeric",
+            "Date Allotted", "Revoked Allotment?",
+        }),
+    }
+    tables = {}
+    for filename, (expected_count, required) in datasets.items():
+        try:
+            rows = read_csv(root / "output" / filename, required)
+        except (OSError, UnicodeError, csv.Error, ValueError) as error:
+            check(False, f"{filename}: {error}")
+            continue
+        tables[filename] = rows
+        check(len(rows) == expected_count,
+              f"{filename}: expected {expected_count:,} rows, found {len(rows):,}")
+        print(f"[READ] {filename}: {len(rows):,} rows")
+
+    proposals = tables.get("all_structured_records.csv")
+    if proposals is not None:
+        flags = {
+            "Approved": ("1", "0", "0"), "Rejected": ("0", "1", "0"),
+            "Investigating": ("0", "0", "1"), "Other": ("0", "0", "0"),
+        }
+        check_rows(proposals, "proposal status and flags disagree", lambda row:
+                   flags.get(row["status"]) == tuple(row[col] for col in
+                   ("is_approved", "is_rejected", "is_investigating")))
+        check_rows(proposals, "invalid proposal year", lambda row:
+                   not row["year"] or row["year"] in {str(y) for y in range(1897, 1908)})
+        check_rows(proposals, "proposal is missing its source file", lambda row:
+                   bool(row["source_file"].strip()))
+        missing_years = sum(not row["year"] for row in proposals)
+        check(missing_years == 133, f"expected 133 undated proposals, found {missing_years}")
+        for column in ("Subject", "Proposed By", "Action"):
+            missing = sum(not row[column].strip() for row in proposals)
+            print(f"[NOTE] proposals: {missing:,} missing {column} values")
+        print(f"[NOTE] proposals: {missing_years:,} missing years; none inferred")
+
+    budget = tables.get("budget_master_ledger.csv")
+    if budget is not None:
+        actual = [(row["branch"], row["year"]) for row in budget]
+        expected = {(branch, str(year)) for branch in ("Army", "Navy")
+                    for year in range(1866, 1921)} - {("Army", "1879")}
+        check(set(actual) == expected, "budget branch/year coverage differs from the published snapshot")
+        check(len(actual) == len(set(actual)), "duplicate budget branch/year entries")
+        for column in ("appropriation_usd", "appropriation_2025_usd"):
+            check_rows(budget, f"budget: invalid {column}", lambda row, key=column:
+                       (amount := number(row[key])) is not None and amount >= 0)
+        print("[NOTE] Army 1879 is missing; adjusted values use the source worksheet's 2025 dollars")
+
+    appropriations = tables.get("bof_appropriations.csv")
+    if appropriations is not None:
+        years = [row["Year"] for row in appropriations]
+        check(set(years) == {str(y) for y in range(1888, 1921)},
+              "Board appropriation coverage must be 1888–1920")
+        check(len(years) == len(set(years)), "duplicate Board appropriation years")
+        check_rows(appropriations, "invalid Board appropriation amount", lambda row:
+                   (amount := number(row["Amount_Numeric"])) is not None and amount >= 0)
+
+    allotments = tables.get("bof_allotments.csv")
+    if allotments is not None:
+        check_rows(allotments, "invalid allotment year", lambda row:
+                   row["Year"] in {str(y) for y in range(1888, 1919)})
+        check_rows(allotments, "invalid allotment amount", lambda row:
+                   not row["Allotted_Numeric"] or
+                   ((amount := number(row["Allotted_Numeric"])) is not None and amount >= 0))
+        check_rows(allotments, "invalid revocation label", lambda row:
+                   row["Revoked Allotment?"] in {"Yes", "No"})
+        for column in ("Allotted_Numeric", "Date Allotted"):
+            missing = sum(not row[column].strip() for row in allotments)
+            print(f"[NOTE] allotments: {missing:,} missing {column} values; none filled")
+
+    try:
+        periods = read_timeline(root / "timeline-data.js", "TIMELINE_PERIODS")
+        groups = read_timeline(root / "timeline-data.js", "TIMELINE_GROUPS")
+        valid_periods = all(isinstance(period, str) and period.strip() for period in periods)
+        check(valid_periods, "timeline periods must be nonempty strings")
+        check(len(periods) == 28, f"expected 28 timeline periods, found {len(periods)}")
+        if valid_periods:
+            check(len(set(periods)) == len(periods), "duplicate timeline periods")
+        check(len(groups) == 202, f"expected 202 timeline technologies, found {len(groups)}")
+        names = []
+        entries = 0
+        for index, group in enumerate(groups, start=1):
+            label = f"timeline group {index}"
+            valid = (isinstance(group, dict) and isinstance(group.get("name"), str)
+                     and bool(group["name"].strip()) and isinstance(group.get("cat"), str)
+                     and bool(group["cat"].strip()) and isinstance(group.get("periods"), dict)
+                     and bool(group["periods"]))
+            check(valid, f"{label}: expected a name, category, and period records")
+            if not valid:
+                continue
+            names.append(group["name"])
+            for period, records in group["periods"].items():
+                check(period in periods, f"{label}: unknown period {period}")
+                check(isinstance(records, list) and bool(records), f"{label}: missing action records")
+                if not isinstance(records, list):
+                    continue
+                for record in records:
+                    entries += 1
+                    check(isinstance(record, dict) and isinstance(record.get("action"), str)
+                          and bool(record["action"].strip())
+                          and record.get("source") in ("subjects", "financial"),
+                          f"{label}: action must name its subjects or financial source")
+        check(len(names) == len(set(names)), "duplicate timeline technology names")
+        print(f"[READ] timeline: {len(groups)} technologies, {len(periods)} periods, {entries} actions")
+    except (OSError, UnicodeError, ValueError) as error:
+        check(False, f"timeline-data.js: {error}")
+
+    print(f"\n{checks - len(failures)} checks passed; {len(failures)} failed.")
+    print("Scope: public files only. Original-source transcription and historical outcomes are not verified.")
+    return 1 if failures else 0
 
 
-# ============================================================
-# 5. Cross-check README claims
-# ============================================================
-section("Cross-check README headline numbers")
-
-claims = {"proposals": 1691, "allotments": 1144, "technologies": 202, "years": 33}
-
-actual_proposals = len(master)
-if actual_proposals == claims["proposals"]:
-    ok(f"README claims 1,691 proposals → master CSV: {actual_proposals}")
-else:
-    fail(f"README claims 1,691 proposals → master CSV: {actual_proposals}")
-
-# Distinct technologies / subjects
-distinct_subjects = master["Subject"].astype(str).str.strip().str.lower().nunique()
-print(f"  distinct unique subject strings in master: {distinct_subjects}")
-
-# Years
-year_min = int(master["year"].min())
-year_max = int(master["year"].max())
-print(f"  master year range: {year_min}-{year_max} (proposals span; budget data covers 1888-1920)")
-
-# Allotment count claim
-if {"year"}.issubset(ml.columns):
-    if len(ml) == claims["allotments"]:
-        ok(f"README claims 1,144 allotments → master_allotments: {len(ml)}")
-    else:
-        fail(f"README claims 1,144 allotments → master_allotments: {len(ml)}")
-
-# Year range of full project (allotments → 1920)
-if "year" in ml.columns:
-    all_year_min = int(ml["year"].min())
-    all_year_max = int(ml["year"].max())
-    print(f"  master_allotments year range: {all_year_min}-{all_year_max}")
-
-
-# ============================================================
-# 6. Spot-check timeline-data.js front-end source
-# ============================================================
-section("timeline-data.js")
-
-tdj = (ROOT / "timeline-data.js").read_text()
-# Count technologies (top-level entries)
-techs = re.findall(r'"technology"\s*:\s*"([^"]+)"', tdj)
-periods = re.findall(r'"period"\s*:\s*"([^"]+)"', tdj)
-print(f"  technology entries in timeline-data.js: {len(techs)}")
-print(f"  period entries in timeline-data.js:     {len(periods)}")
-if techs:
-    distinct_techs = len(set(techs))
-    print(f"  distinct technologies: {distinct_techs}")
-if periods:
-    distinct_periods = sorted(set(periods))
-    print(f"  distinct periods: {distinct_periods}")
-
-
-# ============================================================
-# Summary
-# ============================================================
-section("SUMMARY")
-print(f"  PASS: {len(PASS)}")
-print(f"  WARN: {len(WARN)}")
-print(f"  FAIL: {len(FAIL)}")
-if WARN:
-    print("\nWarnings:")
-    for w in WARN: print(f"  - {w}")
-if FAIL:
-    print("\nFailures:")
-    for f_ in FAIL: print(f"  - {f_}")
-sys.exit(1 if FAIL else 0)
+if __name__ == "__main__":
+    raise SystemExit(main())
