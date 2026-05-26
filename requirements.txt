@@ -3,3 +3,5 @@ plotly
 kaleido
 networkx
 openpyxl
+python-docx
+pypdf

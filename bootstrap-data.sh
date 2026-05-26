@@ -68,6 +68,5 @@ ls "$SYMLINK/Appropriations/Completed Spreadsheets/" >/dev/null 2>&1 \
   || { echo "  ✗ Appropriations folder missing" >&2; exit 1; }
 
 echo ""
-echo "Done. Data is ready. Run the pipelines next:"
-echo "  python run_bof_analysis.py  &&  python run_budget_analysis.py"
-echo "  python run_combined_analysis.py  &&  python run_master_ledger.py"
+echo "Data is ready. The README lists the reproduction commands."
+echo '  python run_bof_analysis.py --input-dir "Data/Subjects Considered Data Visualization Assignment" --output-dir work/proposals'

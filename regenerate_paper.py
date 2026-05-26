@@ -2,9 +2,9 @@
 
 Monkey-patches the bof_pipeline visualize modules to swap parchment palette
 for the Paper theme (Stripe-style: white panels, indigo accent, Inter sans).
-Writes new HTML wrappers to prototypes/dashboard/charts/.
+Writes HTML wrappers and PNG exports to charts/.
 
-Usage:  .venv/bin/python prototypes/dashboard/regenerate_paper.py
+Usage: python regenerate_paper.py
 """
 
 from __future__ import annotations
