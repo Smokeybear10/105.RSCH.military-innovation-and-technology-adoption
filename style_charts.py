@@ -5,7 +5,7 @@ no padding. This script post-processes those files so each chart page:
   - centers in viewport (flex layout)
   - uses the project's paper-background palette
   - adds breathing-room padding
-  - sets the page <title> to the chart filename for nicer tab labels
+  - includes the project name in the page <title>
 
 Idempotent — running twice does the same thing as running once.
 Run: `python style_charts.py`  (after any chart regen).
@@ -13,9 +13,11 @@ Run: `python style_charts.py`  (after any chart regen).
 from __future__ import annotations
 
 import re
+from html import escape
 from pathlib import Path
 
 OUTPUT = Path(__file__).parent / "output"
+PROJECT_TITLE = "Military Innovation and Technology Adoption"
 
 CHART_CSS = """
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +41,8 @@ CHART_CSS = """
 
   /* ── Header strip ─────────────────────────────────────────────────── */
   .bof-bar {
+    flex-wrap: wrap;
+    gap: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -68,12 +72,11 @@ CHART_CSS = """
   }
   .bof-bar .bof-brand:hover svg { transform: rotate(45deg); }
   .bof-bar .bof-brand strong {
+    line-height: 1.5;
     color: #1A1A2E;
     font-weight: 700;
     letter-spacing: 1.4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
   }
   .bof-bar a.bof-back {
     color: #55556A;
@@ -240,14 +243,14 @@ CHART_CSS = """
 # Header strip that gets injected at the start of <body>
 CHART_HEADER = """
 <div class="bof-bar">
-  <a class="bof-brand" href="/" title="Back to dashboard">
+  <a class="bof-brand" href="../" title="Back to dashboard">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
-    <strong>FORTIFY THE ORDNANCE</strong>
+    <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <a class="bof-back" href="/" aria-label="Back to dashboard">←<span class="bof-back-text">&nbsp;back to dashboard</span></a>
+  <a class="bof-back" href="../" aria-label="Back to dashboard">←<span class="bof-back-text">&nbsp;back to dashboard</span></a>
 </div>
 <div class="bof-chart-wrap">
 """
@@ -267,6 +270,19 @@ def patch_one(path: Path) -> bool:
     iterations on the wrapper actually take effect.
     """
     html = path.read_text(encoding="utf-8")
+
+    head = re.search(r"<head[^>]*>(.*?)</head>", html, re.DOTALL)
+    if not head:
+        return False
+    title = re.search(r"<title>(.*?)</title>", head.group(1), re.DOTALL)
+    if title:
+        chart_title = re.sub("Fortify the Ordnance", PROJECT_TITLE, title.group(1), flags=re.IGNORECASE)
+        if PROJECT_TITLE not in chart_title:
+            chart_title = f"{chart_title} · {PROJECT_TITLE}"
+        html = html.replace(title.group(0), f"<title>{chart_title}</title>", 1)
+    else:
+        chart_title = escape(path.stem.replace("_", " ").title())
+        html = html.replace("</head>", f"<title>{chart_title} · {PROJECT_TITLE}</title>\n</head>", 1)
 
     # If already patched, strip the old block first so we can re-apply fresh.
     if SENTINEL_OPEN in html:

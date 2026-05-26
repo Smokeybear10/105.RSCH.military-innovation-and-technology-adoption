@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Type Prevalence by Period · Fortify the Ordnance</title>
+<title>Type Prevalence by Period · Military Innovation and Technology Adoption</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +22,8 @@
     flex-direction: column;
   }
   .bof-bar {
+    flex-wrap: wrap;
+    gap: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,16 +37,19 @@
     flex-shrink: 0;
   }
   .bof-bar .bof-brand {
+    min-width: 0;
     display: flex; align-items: center; gap: 10px;
     color: inherit; text-decoration: none;
   }
   .bof-bar .bof-brand svg {
+    flex-shrink: 0;
     width: 18px; height: 18px;
     color: #C9A24C;
     transition: transform .5s cubic-bezier(.2,.8,.2,1);
   }
   .bof-bar .bof-brand:hover svg { transform: rotate(45deg); }
   .bof-bar .bof-brand strong {
+    line-height: 1.5;
     color: #1A1A2E; font-weight: 700; letter-spacing: 1.4px;
   }
   .bof-bar a.bof-back {
@@ -234,14 +239,14 @@
 </head>
 <body>
 <div class="bof-bar">
-  <a class="bof-brand" href="/" title="Back to dashboard">
+  <a class="bof-brand" href="../" title="Back to dashboard">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
-    <strong>FORTIFY THE ORDNANCE</strong>
+    <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <a class="bof-back" href="/">← back to dashboard</a>
+  <a class="bof-back" href="../">← back to dashboard</a>
 </div>
 <div class="chart-frame">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
