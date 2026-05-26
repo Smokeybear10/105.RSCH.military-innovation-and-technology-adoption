@@ -246,27 +246,27 @@ _PAGE = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Technology Memos · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root {{
-    --bg: #F6F6F7;
+    --bg: #F6F7F5;
     --panel: #FFFFFF;
-    --panel-2: #FAFAFB;
-    --border: #E1E3E6;
-    --text: #1A1F36;
-    --text-mid: #5A6075;
-    --text-soft: #8C92A4;
-    --brass: #C9A24C;
-    --accent: #635BFF;
+    --panel-2: #F8F9F7;
+    --border: #D7DDDC;
+    --text: #263239;
+    --text-mid: #5D6A70;
+    --text-soft: #657177;
+    --brass: #294C5B;
+    --accent: #294C5B;
   }}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   html, body {{
     background: var(--bg);
     color: var(--text);
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'Public Sans', -apple-system, sans-serif;
     font-size: 15.5px;
     line-height: 1.65;
   }}
@@ -280,18 +280,18 @@ _PAGE = """<!DOCTYPE html>
     padding: 12px 28px;
     background: var(--panel);
     border-bottom: 1px solid var(--border);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 1.2px; color: var(--text-mid);
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; letter-spacing: 0; color: var(--text-mid);
   }}
   .tb-l {{ min-width: 0; display: flex; align-items: center; gap: 10px; color: inherit; cursor: pointer; }}
   .tb-l svg {{
     flex-shrink: 0;
     width: 18px; height: 18px; color: var(--brass);
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+    transition: none;
   }}
-  .tb-l:hover svg {{ transform: rotate(45deg); }}
-  .tb-l strong {{ line-height: 1.5; color: var(--text); letter-spacing: 1.4px; }}
-  .tb-r a {{ color: var(--text-mid); letter-spacing: 1.2px; }}
+  .tb-l:hover svg {{ transform: none; }}
+  .tb-l strong {{ line-height: 1.5; color: var(--text); letter-spacing: 0; }}
+  .tb-r a {{ color: var(--text-mid); letter-spacing: 0; }}
   .tb-r a:hover {{ color: var(--brass); text-decoration: none; }}
 
   .wrap {{
@@ -300,15 +300,15 @@ _PAGE = """<!DOCTYPE html>
     padding: 56px 48px 80px;
   }}
   .eyebrow {{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px; font-weight: 700; letter-spacing: 2.4px;
-    text-transform: uppercase; color: var(--brass);
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 0;
+    text-transform: none; color: var(--brass);
     margin-bottom: 18px; display: flex; align-items: center; gap: 14px;
   }}
   .eyebrow::before {{ content: ""; width: 32px; height: 1px; background: var(--brass); }}
   h1 {{
     font-family: 'Source Serif 4', Georgia, serif;
-    font-weight: 700; font-size: 52px; letter-spacing: -1.4px;
+    font-weight: 600; font-size: 48px; letter-spacing: -1.4px;
     line-height: 1.04; margin-bottom: 18px; max-width: 1040px;
   }}
   h1 em {{ font-style: italic; color: var(--brass); font-weight: 400; }}
@@ -322,28 +322,28 @@ _PAGE = """<!DOCTYPE html>
   }}
   .stat {{
     background: var(--panel); border: 1px solid var(--border);
-    border-radius: 6px; padding: 14px 18px; min-width: 120px;
+    border-radius: 3px; padding: 14px 18px; min-width: 120px;
   }}
   .stat .n {{
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 22px; font-weight: 700; letter-spacing: -0.3px;
   }}
   .stat .l {{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5px; letter-spacing: 1.4px;
-    text-transform: uppercase; color: var(--text-soft);
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; letter-spacing: 0;
+    text-transform: none; color: var(--text-soft);
     margin-top: 5px; font-weight: 600;
   }}
 
   .grid {{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
     gap: 16px;
   }}
   .memo {{
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 3px;
     padding: 22px 24px;
     display: flex; flex-direction: column; gap: 8px;
     transition: border-color .15s, box-shadow .15s;
@@ -358,9 +358,9 @@ _PAGE = """<!DOCTYPE html>
     font-size: 19px; font-weight: 700; line-height: 1.25;
   }}
   .memo .meta {{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px; letter-spacing: 0.8px;
-    text-transform: uppercase; color: var(--text-soft);
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; letter-spacing: 0;
+    text-transform: none; color: var(--text-soft);
     display: flex; gap: 12px; flex-wrap: wrap;
   }}
   .memo .meta b {{ color: var(--text-mid); font-weight: 700; }}
@@ -381,9 +381,9 @@ _PAGE = """<!DOCTYPE html>
   .memo .facts span b {{ color: var(--text); font-weight: 600; }}
   .memo .read-more {{
     margin-top: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--brass); font-weight: 700;
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; letter-spacing: 0;
+    text-transform: none; color: var(--brass); font-weight: 700;
   }}
 
   /* Detail modal — opens on card click, shows the full memo body */
@@ -399,7 +399,7 @@ _PAGE = """<!DOCTYPE html>
   .modal-bg.open {{ display: flex; }}
   .modal {{
     background: var(--panel);
-    border-radius: 10px;
+    border-radius: 3px;
     max-width: 920px; width: 100%;
     padding: 36px 44px 44px;
     box-shadow: 0 16px 60px rgba(0, 0, 0, 0.22);
@@ -409,8 +409,8 @@ _PAGE = """<!DOCTYPE html>
   .modal-close {{
     position: absolute; top: 14px; right: 16px;
     background: transparent; border: 0; cursor: pointer;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 1px;
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; letter-spacing: 0;
     color: var(--text-mid); padding: 6px 10px;
     border-radius: 4px;
   }}
@@ -421,9 +421,9 @@ _PAGE = """<!DOCTYPE html>
     line-height: 1.1; margin-bottom: 6px;
   }}
   .modal .modal-meta {{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10.5px; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--text-soft);
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; letter-spacing: 0;
+    text-transform: none; color: var(--text-soft);
     margin-bottom: 24px;
     padding-bottom: 18px;
     border-bottom: 1px solid var(--border);
@@ -443,15 +443,15 @@ _PAGE = """<!DOCTYPE html>
   .modal-source {{
     margin-top: 26px; padding-top: 18px;
     border-top: 1px solid var(--border);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: var(--text-soft); letter-spacing: 0.6px;
+    font-family: 'Public Sans', -apple-system, sans-serif;
+    font-size: 12px; color: var(--text-soft); letter-spacing: 0;
   }}
 
   footer {{
     margin-top: 64px; padding-top: 22px;
     border-top: 1px solid var(--border);
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    color: var(--text-soft); letter-spacing: 1px;
+    font-family: 'Public Sans', -apple-system, sans-serif; font-size: 12px;
+    color: var(--text-soft); letter-spacing: 0;
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   }}
   footer a {{ color: var(--text-mid); }}
@@ -461,26 +461,68 @@ _PAGE = """<!DOCTYPE html>
     h1 {{ font-size: 36px; letter-spacing: -1px; }}
     .grid {{ grid-template-columns: 1fr; }}
   }}
+
+  :focus-visible {{ outline: 2px solid var(--accent); outline-offset: 3px; }}
+  .topbar {{ padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }}
+  .tb-l {{ max-width: 680px; align-items: flex-start; }}
+  .tb-l svg {{ margin-top: 5px; transition: none; }}
+  .tb-l:hover svg {{ transform: none; }}
+  .tb-l strong {{ font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }}
+  .tb-r {{ display: flex; flex-wrap: wrap; gap: 8px 24px; }}
+  .tb-r a {{ display: inline-block; padding: 8px 0; }}
+  .wrap {{ min-width: 0; }}
+  .page-head {{ gap: 20px; }}
+  .page-head .sub {{ margin-bottom: 8px; font-weight: 400; }}
+  .page-head h1 {{ font-size: 36px; font-weight: 600; line-height: 1.2; }}
+  .head-right {{ line-height: 1.7; overflow-wrap: anywhere; }}
+  .filters {{ padding: 16px; gap: 12px; align-items: flex-end; }}
+  .filter-field {{ display: grid; gap: 6px; min-width: 140px; }}
+  .filter-field select {{ width: 100%; }}
+  .filters select, .filters input[type=text] {{ height: 42px; min-height: 42px; font-size: 14px; }}
+  .filters .clear {{ min-height: 42px; font-size: 14px; padding: 8px 12px; }}
+  .inv thead th {{ font-size: 12px; font-weight: 500; }}
+  .inv td {{ font-size: 14px; line-height: 1.6; }}
+  .chip {{ font-weight: 500; }}
+  .eyebrow::before {{ display: none; }}
+  .rr-card:hover, .reading-card:hover, .memo:hover {{ box-shadow: none; background: var(--panel-2); }}
+  .modal-close {{ min-height: 44px; min-width: 44px; font-size: 14px; }}
+  footer, .pg-foot {{ font-size: 13px; line-height: 1.6; }}
+  @media (max-width: 720px) {{
+    .topbar {{ padding: 18px 20px; }}
+    .tb-l strong {{ font-size: 21px; }}
+    .wrap {{ padding: 28px 20px 56px; }}
+    .page-head h1 {{ font-size: 30px; }}
+    .filters {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }}
+    .filter-field {{ min-width: 0; }}
+    .filters .clear {{ justify-self: start; }}
+    .result-count {{ margin-left: 0; justify-self: end; align-self: center; }}
+    .filters select, .filters input[type=text] {{ max-width: 100%; min-width: 0; font-size: 16px; flex: 1 1 160px; }}
+    .filters input[type=text] {{ width: 100%; grid-column: 1 / -1; }}
+    .inv {{ display: block; overflow-x: auto; max-width: 100%; }}
+    .modal-bg {{ padding: 16px 12px; }}
+    .modal {{ padding: 60px 22px 28px; }}
+    .modal h2 {{ font-size: 26px; }}
+    footer {{ padding: 22px 20px; margin-top: 48px; }}
+  }}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <a class="tb-l" href="./" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to archive">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
     <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <div class="tb-r"><a href="./">← back to dashboard</a></div>
+  <div class="tb-r"><a href="./">Back to archive</a></div>
 </div>
 <div class="wrap">
   <div class="eyebrow">Technology memos</div>
-  <h1>The case files <em>behind</em> the technologies</h1>
+  <h1>Technology research memos</h1>
   <p class="lede">
-    Detailed write-ups of the BOF-reviewed technologies — one memo per device, produced
-    by RAs from the original Board reports and contemporary sources. Each card is the
-    executive summary plus first / last BOF mention.
+    Research notes on individual technologies, with summaries and recorded dates
+    where available. Open a memo to read the available text and source details.
   </p>
   <div class="stats">
     <div class="stat"><div class="n">{n_memos}</div><div class="l">Memos</div></div>
@@ -498,8 +540,8 @@ _PAGE = """<!DOCTYPE html>
   </div>
 </div>
 <footer>
-  <span>Built from Data/Technologies/Technology Memos/ · re-parse with <code>python build_tech_memos.py</code></span>
-  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">github ↗</a>
+  <span>Source: technology research memos. Source filenames are shown within available memos.</span>
+  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">GitHub</a>
 </footer>
 <script>
   const memos = {memos_json};

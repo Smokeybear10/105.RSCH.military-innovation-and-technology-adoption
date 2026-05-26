@@ -4,25 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
-    --sans: 'Inter', -apple-system, system-ui, sans-serif;
+    --mono: 'Public Sans', -apple-system, sans-serif;
+    --sans: 'Public Sans', -apple-system, system-ui, sans-serif;
     --serif: 'Source Serif 4', Georgia, serif;
-    --bg: #F6F6F7;
+    --bg: #F6F7F5;
     --panel: #FFFFFF;
-    --panel-2: #FAFAFB;
-    --border: #E1E3E6;
-    --border-2: #C7CAD0;
-    --text: #1A1F36;
-    --text-mid: #5A6075;
-    --text-soft: #8C92A4;
-    --accent: #635BFF;
-    --brass: #C9A24C;
+    --panel-2: #F8F9F7;
+    --border: #D7DDDC;
+    --border-2: #B7C2C3;
+    --text: #263239;
+    --text-mid: #5D6A70;
+    --text-soft: #657177;
+    --accent: #294C5B;
+    --brass: #294C5B;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,8 +50,8 @@
     background: var(--panel);
     border-bottom: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 1.2px;
+    font-size: 12px;
+    letter-spacing: 0;
     color: var(--text-mid);
   }
   .tb-l {
@@ -67,9 +67,9 @@
     height: 18px;
     flex-shrink: 0;
     color: var(--brass);
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+    transition: none;
   }
-  .tb-l:hover svg { transform: rotate(45deg); }
+  .tb-l:hover svg { transform: none; }
   .tb-l strong {
     color: var(--text);
     font-weight: 700;
@@ -77,7 +77,7 @@
     transition: color .15s;
   }
   .tb-l:hover strong { color: var(--brass); }
-  .tb-r a { color: var(--text-mid); border-bottom: 0; letter-spacing: 1.2px; }
+  .tb-r a { color: var(--text-mid); border-bottom: 0; letter-spacing: 0; }
   .tb-r a:hover { color: var(--brass); border-bottom: 0; }
 
   /* Main reading column */
@@ -92,10 +92,10 @@
   /* Title block */
   .eyebrow {
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 2.4px;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--brass);
     margin-bottom: 18px;
     display: flex;
@@ -110,7 +110,7 @@
   }
   .title {
     font-family: var(--serif);
-    font-size: 60px;
+    font-size: 48px;
     font-weight: 700;
     letter-spacing: -1.8px;
     line-height: 1.02;
@@ -148,7 +148,7 @@
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
     overflow: hidden;
     margin: 28px 0;
   }
@@ -164,9 +164,9 @@
   }
   .scope-l {
     font-family: var(--mono);
-    font-size: 9.5px;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--text-soft);
     margin-top: 8px;
     font-weight: 600;
@@ -190,7 +190,7 @@
     padding: 18px 20px;
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
   }
   .person .avatar {
     width: 44px;
@@ -203,7 +203,7 @@
     font-family: var(--mono);
     font-size: 12.5px;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
   }
   .person .who {
     font-family: var(--serif);
@@ -214,9 +214,9 @@
   }
   .person .role {
     font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--text-soft);
     font-weight: 600;
     margin-bottom: 10px;
@@ -242,11 +242,11 @@
   }
   .sources-label {
     font-family: var(--mono);
-    font-size: 9.5px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1.6px;
+    letter-spacing: 0;
     color: var(--brass);
-    text-transform: uppercase;
+    text-transform: none;
     margin-bottom: 8px;
     display: block;
   }
@@ -259,9 +259,9 @@
     padding-top: 22px;
     border-top: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-soft);
-    letter-spacing: 1px;
+    letter-spacing: 0;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -280,19 +280,57 @@
     .lede { font-size: 17px; }
     .scope { grid-template-columns: repeat(2, 1fr); }
   }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .topbar { padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }
+  .tb-l { max-width: 680px; align-items: flex-start; }
+  .tb-l svg { margin-top: 5px; transition: none; }
+  .tb-l:hover svg { transform: none; }
+  .tb-l strong { font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }
+  .tb-r { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .tb-r a { display: inline-block; padding: 8px 0; }
+  .wrap { min-width: 0; }
+  .page-head { gap: 20px; }
+  .page-head .sub { margin-bottom: 8px; font-weight: 400; }
+  .page-head h1 { font-size: 36px; font-weight: 600; line-height: 1.2; }
+  .head-right { line-height: 1.7; overflow-wrap: anywhere; }
+  .filters { padding: 16px; gap: 12px; }
+  .filters select, .filters input[type=text] { height: 42px; min-height: 42px; font-size: 14px; }
+  .filters .clear { min-height: 42px; font-size: 14px; padding: 8px 12px; }
+  .inv thead th { font-size: 12px; font-weight: 500; }
+  .inv td { font-size: 14px; line-height: 1.6; }
+  .chip { font-weight: 500; }
+  .eyebrow::before { display: none; }
+  .rr-card:hover, .reading-card:hover, .memo:hover { box-shadow: none; background: var(--panel-2); }
+  .modal-close { min-height: 44px; min-width: 44px; font-size: 14px; }
+  footer, .pg-foot { font-size: 13px; line-height: 1.6; }
+  @media (max-width: 720px) {
+    .topbar { padding: 18px 20px; }
+    .tb-l strong { font-size: 21px; }
+    .wrap { padding: 28px 20px 56px; }
+    .page-head h1 { font-size: 30px; }
+    .filters { gap: 10px; }
+    .filters select, .filters input[type=text] { max-width: 100%; min-width: 0; font-size: 16px; flex: 1 1 160px; }
+    .filters input[type=text] { flex-basis: 100%; }
+    .inv { display: block; overflow-x: auto; max-width: 100%; }
+    .modal-bg { padding: 16px 12px; }
+    .modal { padding: 60px 22px 28px; }
+    .modal h2 { font-size: 26px; }
+    footer { padding: 22px 20px; margin-top: 48px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <a class="tb-l" href="./" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to archive">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
     <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <div class="tb-r"><a href="./">← back to dashboard</a></div>
+  <div class="tb-r"><a href="./">Back to archive</a></div>
 </div>
 
 <div class="wrap">
@@ -306,69 +344,50 @@
   </p>
 
   <section>
-    <h2>What this is</h2>
+    <h2>Current study</h2>
     <p>
-      Between 1888 and 1920, a small federal committee called the Board of Ordnance
-      &amp; Fortification decided which new weapons technologies the U.S. Army
-      should fund, test, and adopt. Inventors, both private citizens and government
-      engineers, submitted ideas. The Board reviewed them, awarded grants, ran tests,
-      and either greenlit the design for service or filed it away.
+      The Board of Ordnance and Fortification archive collects selected proposal
+      transcriptions, appropriations, research allotments, and technology reviews.
+      It provides a record of proposals submitted to the Board and the actions
+      recorded in its reports.
     </p>
     <p>
-      For thirty-two years the Board sat at the center of American military
-      innovation, vetting everything from disappearing gun carriages and dirigible
-      torpedoes to the Wright brothers' aerodrome and the Luger automatic pistol.
-      Then in 1920 it was quietly dissolved, and the records went into archive boxes.
-    </p>
-    <p>
-      The dashboard makes selected transcriptions searchable and connects proposals
-      with recorded decisions, appropriations, and technology reviews. Coverage differs
-      by dataset; the <a href="explainer.html">archive guide</a> lists the sources and limits.
+      The dashboard makes these records searchable by subject, proposer, period,
+      and category. The <a href="explainer.html">archive guide</a> documents coverage,
+      sources, and the differences between the datasets.
     </p>
 
     <div class="scope">
       <div class="scope-cell"><div class="scope-n">1,691</div><div class="scope-l">Proposals</div></div>
       <div class="scope-cell"><div class="scope-n">1,144</div><div class="scope-l">Allotments</div></div>
       <div class="scope-cell"><div class="scope-n">202</div><div class="scope-l">Technologies</div></div>
-      <div class="scope-cell"><div class="scope-n">33</div><div class="scope-l">Years</div></div>
+      <div class="scope-cell"><div class="scope-n">33</div><div class="scope-l">Annual appropriations</div></div>
     </div>
   </section>
 
   <section>
-    <h2>Why it matters</h2>
+    <h2>Research questions</h2>
     <p>
-      The BOF's three decades cover one of the most violent technological transitions
-      in military history. The Army that opened the Board's docket in 1888 was still
-      fighting with black-powder rifles and horse-drawn artillery. The Army that closed
-      it in 1920 had survived a war fought with machine guns, dreadnoughts, poison gas,
-      submarines, and aircraft.
-    </p>
-    <p>
-      The Board sat squarely on that fault line. Reading its records is reading
-      bureaucracy figuring out, in real time, what it didn't yet know how to think
-      about. A 1898 entry says "Not recommended" on a proposal for armored cars.
-      A 1907 entry says "Allotment" on the Wright brothers' airplane. The pattern of
-      yeses and nos is the actual texture of how a state decides what to bet on.
+      Which proposals received support? How were allocations distributed across
+      technologies? How did the recorded actions change across reporting periods?
+      The public records support descriptive comparisons within the collection.
+      They do not establish why a proposal succeeded, how representative the
+      collection is, or whether funding led to adoption.
     </p>
   </section>
 
   <section>
-    <h2>What we built</h2>
+    <h2>Using the archive</h2>
     <p>
-      The dashboard has eight sections. Four are interactive data views, pulled from
-      the original Board reports and structured into filterable, searchable tables and
-      charts. Four are researcher analyses, each one a different angle on the same
-      archive.
+      The main views cover proposals, Army and Navy appropriations, technology
+      reviews, and Board appropriations and allotments. Search a record to read the
+      transcribed action, compare periods, or export matching rows.
     </p>
     <p>
-      The four data views cover the proposals submitted to the Board, the broader
-      U.S. military budget those proposals lived inside of, a hand-classified review
-      timeline of recorded technology reviews, and the BOF's own spending
-      down to individual line items.
-    </p>
-    <p>
-      The four researcher analyses sit alongside as separate sections. Each researcher
-      pulled a different thread from the source material.
+      Research collections include funding summaries, technology prevalence charts,
+      and a historical events timeline. The reading room contains report excerpts,
+      biographical timelines, technology records, and research memos. These materials
+      have different source sets and should be read with their coverage notes.
     </p>
   </section>
 
@@ -381,12 +400,10 @@
         <div class="avatar" style="background:#1D3461">TO</div>
         <div>
           <div class="who">Thomas Ou</div>
-          <div class="role">Pipeline · Dashboard · Master Ledger</div>
+          <div class="role">Data pipeline and archive</div>
           <p class="blurb">
-            Built the data pipeline, the dashboard, and the visual identity. Produced
-            the master 1888–1919 ledger reconciling every Congressional appropriation
-            to every line-item allotment, plus the historical events timeline that
-            grounds the rest of the work.
+            Built the data pipeline and dashboard, assembled the master ledger,
+            and produced the historical events timeline.
           </p>
         </div>
       </div>
@@ -395,14 +412,11 @@
         <div class="avatar" style="background:#6B2D8B">Y</div>
         <div>
           <div class="who">Yunha</div>
-          <div class="role">Financial × Technology Investment</div>
+          <div class="role">Funding and technology</div>
           <p class="blurb">
-            Mapped every research dollar to the project's cluster taxonomy and produced
-            two views of how money chased technology: a treemap of total spend per
-            cluster and an annual investment trajectory through the Spanish-American War
-            and WWI. Also maintains the canonical visual site at
-            <a href="https://paull0318.github.io/BOF-Visuals-20260511/" target="_blank" rel="noopener">paull0318.github.io/BOF-Visuals-20260511</a>,
-            which extends coverage back to 1888.
+            Analyzed allotments by technology, annual funding patterns, and proposal
+            comparisons. Related charts are available on the
+            <a href="https://paull0318.github.io/BOF-Visuals-20260511/" target="_blank" rel="noopener">source research site</a>.
           </p>
         </div>
       </div>
@@ -411,12 +425,11 @@
         <div class="avatar" style="background:#2D6A4F">PB</div>
         <div>
           <div class="who">Paul B</div>
-          <div class="role">Technology Review Log</div>
+          <div class="role">Technology review records</div>
           <p class="blurb">
-            Hand-classified every technology the Board reviewed across 28 reporting
-            periods into nine fine-grained categories. The resulting matrix is the
-            canonical reference for what the BOF actually weighed in on, when, and
-            with what verdict.
+            Curated and classified the technology review records. The dashboard
+            groups 202 technologies across 28 reporting periods, with recorded
+            actions available for individual entries.
           </p>
         </div>
       </div>
@@ -425,13 +438,11 @@
         <div class="avatar" style="background:#7C4318">T</div>
         <div>
           <div class="who">Tanisha</div>
-          <div class="role">Type Prevalence Analysis</div>
+          <div class="role">Technology prevalence</div>
           <p class="blurb">
-            Grouped the proposals into thirteen technology types and tracked how the
-            mix shifted across the BOF's reporting periods. Stacked bars, a heatmap,
-            and a category ranking surface which areas dominated the docket year over
-            year. Originally written in R and ggplot2, ported to interactive Plotly
-            for the dashboard.
+            Grouped proposal counts into thirteen technology types and compared
+            their prevalence across reporting periods. The dashboard charts retain
+            the data from the <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption/blob/main/team/tanisha/technology_prevalence.R">original R analysis</a>.
           </p>
         </div>
       </div>
@@ -442,35 +453,35 @@
   <section>
     <h2>The data</h2>
     <p>
-      Everything on the dashboard comes from primary sources: the Board's annual
-      reports to Congress, fiscal year appropriations acts, and the original
-      "subjects considered" tables. The records were transcribed into spreadsheets,
-      then cleaned, normalized, and structured into the CSV files that power the live
-      views.
+      The public exports contain transcribed records and derived fields. Source
+      references, report periods, page numbers, or legislation links are retained
+      where available. The <a href="explainer.html#sources">archive guide</a> links
+      directly to the data used by the main views.
     </p>
     <p>
-      The classification system, what counts as Artillery vs Small Arms, what's a
-      government inventor vs a private one, what the Board's actual decision was in
-      ambiguous cases, is documented in the project's classifier and applied
-      consistently across every record.
+      Proposal decisions, technology clusters, and proposer types are grouped by
+      keyword rules. These categories are aids to navigation, not independent
+      historical findings. Read the transcribed action before interpreting a label;
+      approval can refer to funding or authorization rather than adoption.
     </p>
 
     <div class="sources">
-      <span class="sources-label">Sources</span>
+      <span class="sources-label">Sources and limits</span>
       <p>
-        Raw research files (Excel spreadsheets, scanned PDFs of original reports) live
-        in a private companion repository. Only cleaned, derived data ships with the
-        public dashboard.
+        Raw workbooks and scans are held in a private companion repository. The
+        public exports support inspection of the derived records, but access to the
+        originals is needed to verify transcription and reproduce all processing.
       </p>
       <p>
-        Yunha's canonical visual site at
-        <a href="https://paull0318.github.io/BOF-Visuals-20260511/" target="_blank" rel="noopener">paull0318.github.io/BOF-Visuals-20260511</a>
-        extends coverage back to 1888 and is the authoritative external reference.
+        Allotments record allocations, not confirmed expenditure. Dates are shown
+        as transcribed and may disagree. The source worksheet supplies the budget
+        values in 2025 dollars; its adjustment method is not documented here.
       </p>
       <p>
-        Every number on the dashboard was audited against its source CSV. Known gaps,
-        transcription quirks, and the residual data limitations are documented on the
-        <a href="data-quality.html">data quality page</a>.
+        The collection is incomplete and does not establish the Board's overall
+        approval rate or the effectiveness of its spending. The
+        <a href="data-quality.html">data quality inventory</a> records earlier review
+        notes and known issues; it is not a certification of the underlying sources.
       </p>
     </div>
   </section>
@@ -479,7 +490,7 @@
 
 <footer>
   <span>Built by Thomas Ou with Yunha, Paul B, and Tanisha</span>
-  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">github ↗</a>
+  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">GitHub</a>
 </footer>
 
 </body>
