@@ -21,14 +21,14 @@ ROOT = Path(__file__).parent
 DATA = ROOT / "Data"
 
 # ── Brand tokens (mirror the rest of the dashboard) ─────────────────────────
-PAPER       = "#F6F6F7"
+PAPER       = "#F6F7F5"
 PAPER_SOFT  = "#FFFFFF"
-BORDER      = "#E1E3E6"
-TEXT        = "#1A1F36"
-TEXT_MID    = "#5A6075"
-TEXT_SOFT   = "#8C92A4"
-BRASS       = "#C9A24C"
-ACCENT      = "#635BFF"
+BORDER      = "#D7DDDC"
+TEXT        = "#263239"
+TEXT_MID    = "#5D6A70"
+TEXT_SOFT   = "#657177"
+BRASS       = "#294C5B"
+ACCENT      = "#294C5B"
 
 
 # ── Page shell ──────────────────────────────────────────────────────────────
@@ -39,24 +39,24 @@ _SHELL = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title} · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root {{
-    --bg: #F6F6F7;
+    --bg: #F6F7F5;
     --panel: #FFFFFF;
-    --panel-2: #FAFAFB;
-    --border: #E1E3E6;
-    --text: #1A1F36;
-    --text-mid: #5A6075;
-    --text-soft: #8C92A4;
-    --brass: #C9A24C;
-    --accent: #635BFF;
+    --panel-2: #F8F9F7;
+    --border: #D7DDDC;
+    --text: #263239;
+    --text-mid: #5D6A70;
+    --text-soft: #657177;
+    --brass: #294C5B;
+    --accent: #294C5B;
     --serif: 'Source Serif 4', Georgia, serif;
-    --sans: 'Inter', -apple-system, sans-serif;
-    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Public Sans', -apple-system, sans-serif;
+    --mono: 'Public Sans', -apple-system, sans-serif;
   }}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   html, body {{
@@ -78,7 +78,7 @@ _SHELL = """<!DOCTYPE html>
     background: var(--panel);
     border-bottom: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px; letter-spacing: 1.2px; color: var(--text-mid);
+    font-size: 12px; letter-spacing: 0; color: var(--text-mid);
   }}
   .tb-l {{
     min-width: 0;
@@ -88,11 +88,11 @@ _SHELL = """<!DOCTYPE html>
   .tb-l svg {{
     flex-shrink: 0;
     width: 18px; height: 18px; color: var(--brass);
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+    transition: none;
   }}
-  .tb-l:hover svg {{ transform: rotate(45deg); }}
-  .tb-l strong {{ line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 1.4px; }}
-  .tb-r a {{ color: var(--text-mid); letter-spacing: 1.2px; }}
+  .tb-l:hover svg {{ transform: none; }}
+  .tb-l strong {{ line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 0; }}
+  .tb-r a {{ color: var(--text-mid); letter-spacing: 0; }}
   .tb-r a:hover {{ color: var(--brass); text-decoration: none; }}
 
   .wrap {{
@@ -102,8 +102,8 @@ _SHELL = """<!DOCTYPE html>
   }}
   .eyebrow {{
     font-family: var(--mono);
-    font-size: 10.5px; font-weight: 700; letter-spacing: 2.4px;
-    text-transform: uppercase; color: var(--brass);
+    font-size: 12px; font-weight: 700; letter-spacing: 0;
+    text-transform: none; color: var(--brass);
     margin-bottom: 18px; display: flex; align-items: center; gap: 14px;
   }}
   .eyebrow::before {{
@@ -111,7 +111,7 @@ _SHELL = """<!DOCTYPE html>
   }}
   h1.page-title {{
     font-family: var(--serif);
-    font-weight: 700; font-size: 56px; letter-spacing: -1.6px;
+    font-weight: 700; font-size: 48px; letter-spacing: -1.6px;
     line-height: 1.04; margin-bottom: 18px; max-width: 1100px;
   }}
   h1.page-title em {{ font-style: italic; color: var(--brass); font-weight: 400; }}
@@ -123,8 +123,8 @@ _SHELL = """<!DOCTYPE html>
   footer {{
     margin-top: 88px; padding-top: 22px;
     border-top: 1px solid var(--border);
-    font-family: var(--mono); font-size: 11px;
-    color: var(--text-soft); letter-spacing: 1px;
+    font-family: var(--mono); font-size: 12px;
+    color: var(--text-soft); letter-spacing: 0;
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   }}
   footer a {{ color: var(--text-mid); }}
@@ -136,25 +136,68 @@ _SHELL = """<!DOCTYPE html>
   }}
 
   {extra_css}
+
+  :focus-visible {{ outline: 2px solid var(--accent); outline-offset: 3px; }}
+  .topbar {{ padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }}
+  .tb-l {{ max-width: 680px; align-items: flex-start; }}
+  .tb-l svg {{ margin-top: 5px; transition: none; }}
+  .tb-l:hover svg {{ transform: none; }}
+  .tb-l strong {{ font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }}
+  .tb-r {{ display: flex; flex-wrap: wrap; gap: 8px 24px; }}
+  .tb-r a {{ display: inline-block; padding: 8px 0; }}
+  .wrap {{ min-width: 0; }}
+  .page-head {{ gap: 20px; }}
+  .page-head .sub {{ margin-bottom: 8px; font-weight: 400; }}
+  .page-head h1 {{ font-size: 36px; font-weight: 600; line-height: 1.2; }}
+  .head-right {{ line-height: 1.7; overflow-wrap: anywhere; }}
+  .filters {{ padding: 16px; gap: 12px; align-items: flex-end; }}
+  .filter-field {{ display: grid; gap: 6px; min-width: 140px; }}
+  .filter-field select {{ width: 100%; }}
+  .filters select, .filters input[type=text] {{ height: 42px; min-height: 42px; font-size: 14px; }}
+  .filters .clear {{ min-height: 42px; font-size: 14px; padding: 8px 12px; }}
+  .inv thead th {{ font-size: 12px; font-weight: 500; }}
+  .inv td {{ font-size: 14px; line-height: 1.6; }}
+  .chip {{ font-weight: 500; }}
+  .eyebrow::before {{ display: none; }}
+  .rr-card:hover, .reading-card:hover, .memo:hover {{ box-shadow: none; background: var(--panel-2); }}
+  .modal-close {{ min-height: 44px; min-width: 44px; font-size: 14px; }}
+  footer, .pg-foot {{ font-size: 13px; line-height: 1.6; }}
+  @media (max-width: 720px) {{
+    .topbar {{ padding: 18px 20px; }}
+    .tb-l strong {{ font-size: 21px; }}
+    .wrap {{ padding: 28px 20px 56px; }}
+    .page-head h1 {{ font-size: 30px; }}
+    .filters {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }}
+    .filter-field {{ min-width: 0; }}
+    .filters .clear {{ justify-self: start; }}
+    .result-count {{ margin-left: 0; justify-self: end; align-self: center; }}
+    .filters select, .filters input[type=text] {{ max-width: 100%; min-width: 0; font-size: 16px; flex: 1 1 160px; }}
+    .filters input[type=text] {{ width: 100%; grid-column: 1 / -1; }}
+    .inv {{ display: block; overflow-x: auto; max-width: 100%; }}
+    .modal-bg {{ padding: 16px 12px; }}
+    .modal {{ padding: 60px 22px 28px; }}
+    .modal h2 {{ font-size: 26px; }}
+    footer {{ padding: 22px 20px; margin-top: 48px; }}
+  }}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <a class="tb-l" href="./" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to archive">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
     <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <div class="tb-r"><a href="./">← back to dashboard</a></div>
+  <div class="tb-r"><a href="./">Back to archive</a></div>
 </div>
 <div class="wrap">
 {body}
 </div>
 <footer>
   <span>{footer_left}</span>
-  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">github ↗</a>
+  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">GitHub</a>
 </footer>
 </body>
 </html>"""
@@ -397,13 +440,12 @@ def build_chiefs() -> None:
     le_years = [e["year"] for e in le_events]
 
     body = f'''
-  <div class="eyebrow">Chiefs of Ordnance</div>
-  <h1 class="page-title">The two men who <em>ran</em> the Board</h1>
+  <div class="eyebrow">Biographical records</div>
+  <h1 class="page-title">Crozier and Lewis</h1>
   <p class="lede">
-    Brig. Gen. William Crozier sat as Chief of Ordnance for 17 years (1901–1918), spanning the
-    Spanish-American War, the run-up to WWI, and the U.S. mobilization itself.
-    Colonel Isaac Newton Lewis was the Board's recorder and the inventor whose work crystallized
-    coast-artillery fire control. Their careers, reconstructed from RA timelines.
+    Selected dated entries from biographical research notes on William Crozier
+    and Isaac Newton Lewis. Entries retain the extracted wording; source citations
+    and research headings may also appear.
   </p>
 
   <div class="chief-tabs" role="tablist">
@@ -423,7 +465,7 @@ def build_chiefs() -> None:
            through both presidencies of Theodore Roosevelt and William Howard Taft, and led ordnance
            procurement during America's WWI mobilization.</p>
         <div class="stats">
-          <div class="stat"><div class="n">{len(cr_events)}</div><div class="l">Career events</div></div>
+          <div class="stat"><div class="n">{len(cr_events)}</div><div class="l">Dated records</div></div>
           <div class="stat"><div class="n">{min(cr_years) if cr_years else '—'}–{max(cr_years) if cr_years else '—'}</div><div class="l">Span</div></div>
         </div>
       </div>
@@ -444,7 +486,7 @@ def build_chiefs() -> None:
            control. Later inventor of the Lewis automatic machine gun, which he eventually licensed
            abroad after the Board declined to adopt it.</p>
         <div class="stats">
-          <div class="stat"><div class="n">{len(le_events)}</div><div class="l">Career events</div></div>
+          <div class="stat"><div class="n">{len(le_events)}</div><div class="l">Dated records</div></div>
           <div class="stat"><div class="n">{min(le_years) if le_years else '—'}–{max(le_years) if le_years else '—'}</div><div class="l">Span</div></div>
         </div>
       </div>
@@ -466,8 +508,8 @@ def build_chiefs() -> None:
 </script>
 """
 
-    page = render("Chiefs of Ordnance", body + js, _CHIEFS_CSS,
-                  f"Parsed from Data/Crozier and Lewis/ · {len(cr_events)} Crozier events · {len(le_events)} Lewis events")
+    page = render("Crozier and Lewis", body + js, _CHIEFS_CSS,
+                  f"Biographical research notes · {len(cr_events)} Crozier records · {len(le_events)} Lewis records")
     (ROOT / "chiefs.html").write_text(page, encoding="utf-8")
     print(f"  ✓ chiefs.html ({len(cr_events)} Crozier + {len(le_events)} Lewis events)")
 
@@ -662,11 +704,11 @@ def build_reports() -> None:
 
     body = f'''
   <div class="eyebrow">Source texts · Annual Reports</div>
-  <h1 class="page-title">The Board <em>in</em> its own words</h1>
+  <h1 class="page-title">Annual-report notes and excerpts</h1>
   <p class="lede">
-    Direct excerpts from the BOF Annual Reports — the prose the Board itself wrote about
-    submarine mines, range finders, smokeless powders, telegraphic communications, and every
-    other subject it deliberated on. Click a report on the left to read.
+    Selected summaries and excerpts from the BOF non-gun research notes.
+    Coverage is limited to the reports and topics shown here. Select a report
+    to read the passages and recorded page citations.
   </p>
   <div class="ar-grid">
     {nav}
@@ -689,7 +731,7 @@ def build_reports() -> None:
 
     n_topics = sum(len([t for t in r["topics"] if t["body"]]) for r in reports)
     page = render("BOF Source Texts", body + js, _REPORTS_CSS,
-                  f"Parsed from Data/Misc/BOF Non-Gun Assignment_complete.docx · {len(reports)} reports · {n_topics} topics")
+                  f"BOF non-gun research notes · {len(reports)} report sections · {n_topics} topics")
     (ROOT / "reports.html").write_text(page, encoding="utf-8")
     print(f"  ✓ reports.html ({len(reports)} reports, {n_topics} topics)")
 
@@ -813,12 +855,11 @@ def build_tech_master() -> None:
 
     body = f'''
   <div class="eyebrow">Technology mapping</div>
-  <h1 class="page-title">The full <em>roster</em></h1>
+  <h1 class="page-title">Technology roster</h1>
   <p class="lede">
-    The complete list of technologies the BOF reviewed, mapped to the annual report period
-    in which each was discussed. Pulled from the canonical assignment doc — broader than the
-    subjects-considered XLSXs (which only cover 1897–1908) because it extends back through
-    every BOF annual report from 1888.
+    Entries from the annual-report technology mapping, grouped by reporting period.
+    A technology may appear in more than one period; the entry count is not a count
+    of distinct inventions. Coverage differs from the proposal export.
   </p>
   <p style="font-family: var(--mono); font-size: 11.5px; color: var(--text-soft); letter-spacing: 0.4px;">
     <strong style="color: var(--text-mid);">{len(periods)} report periods</strong>
@@ -828,7 +869,7 @@ def build_tech_master() -> None:
   <div class="tech-grid">{cards}</div>
 '''
     page = render("Technology Mapping", body, _TECH_CSS,
-                  f"Parsed from Data/Technologies/Technology Mapping (BOF Annual Reports).docx · {total_techs} entries")
+                  f"Source: Technology Mapping (BOF Annual Reports) · {total_techs} entries")
     (ROOT / "tech-master.html").write_text(page, encoding="utf-8")
     print(f"  ✓ tech-master.html ({len(periods)} periods, {total_techs} entries)")
 
@@ -837,48 +878,63 @@ def build_tech_master() -> None:
 
 _READING_CSS = """
   .reading-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
-    gap: 18px;
-    margin-top: 36px;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
   }
   .reading-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 28px 30px;
+    display: grid;
+    grid-template-columns: minmax(220px, .95fr) minmax(0, 1.5fr) 220px;
+    grid-template-areas: "tag scope count" "title scope count";
+    align-items: center;
+    gap: 4px 32px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
     text-decoration: none;
     color: inherit;
-    transition: border-color .15s, box-shadow .15s, transform .12s;
-    display: block;
+    transition: background-color .15s;
   }
   .reading-card:hover {
-    border-color: var(--brass);
-    box-shadow: 0 6px 20px rgba(60, 40, 10, .10);
-    transform: translateY(-2px);
+    background: var(--panel-2);
     text-decoration: none;
   }
   .reading-card .tag {
-    font-family: var(--mono);
-    font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px;
-    text-transform: uppercase; color: var(--brass);
-    margin-bottom: 12px;
+    grid-area: tag;
+    align-self: end;
+    font-size: 12px;
+    color: var(--text-mid);
   }
   .reading-card h2 {
+    grid-area: title;
+    align-self: start;
     font-family: var(--serif);
-    font-size: 26px; font-weight: 700; letter-spacing: -0.5px;
-    line-height: 1.15; margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -.3px;
+    line-height: 1.25;
+    margin: 0;
   }
   .reading-card p {
+    grid-area: scope;
     color: var(--text-mid);
-    font-size: 14.5px; line-height: 1.55;
-    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0;
   }
   .reading-card .meta {
-    font-family: var(--mono);
-    font-size: 10.5px; letter-spacing: 0.8px;
-    color: var(--text-soft); font-weight: 600;
-    text-transform: uppercase;
+    grid-area: count;
+    text-align: right;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-mid);
+  }
+  @media (max-width: 900px) {
+    .reading-card {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "tag" "title" "scope" "count";
+      gap: 8px;
+      padding: 22px 0;
+    }
+    .reading-card .meta { text-align: left; margin-top: 4px; }
   }
 """
 
@@ -886,52 +942,50 @@ _READING_CSS = """
 def build_reading_room() -> None:
     body = '''
   <div class="eyebrow">Reading room</div>
-  <h1 class="page-title">The <em>longer</em> records</h1>
+  <h1 class="page-title">Research records</h1>
   <p class="lede">
-    The dashboard summarizes numbers; the reading room is where the actual prose lives.
-    Biographies, source texts, technology rosters, RA memos — everything parsed from the
-    original Word / PDF files in the research drive.
+    Selected report excerpts, biographical timelines, technology records, and research
+    notes. These collections use different source documents and reporting periods.
   </p>
   <div class="reading-grid">
 
     <a class="reading-card" href="./chiefs.html">
       <div class="tag">People</div>
-      <h2>Chiefs of Ordnance</h2>
-      <p>Annotated career timelines for Brig. Gen. William Crozier and Col. Isaac N. Lewis — the
-         two figures who shaped the Board for two decades. Side-by-side tabs, year-anchored events.</p>
+      <h2>Crozier and Lewis</h2>
+      <p>Biographical research records for William Crozier and Isaac N. Lewis, organized by person and year.</p>
       <div class="meta">Crozier and Lewis docs · biographical</div>
     </a>
 
     <a class="reading-card" href="./reports.html">
-      <div class="tag">Primary source</div>
-      <h2>BOF Source Texts</h2>
-      <p>Direct excerpts from each Annual Report — submarine mines, fire-control systems, smokeless
-         powders, fuses, telegraphic communication. The Board's prose at the moment of each decision.</p>
-      <div class="meta">Non-Gun Assignment doc · 8 annual reports</div>
+      <div class="tag">Report notes</div>
+      <h2>Report notes and excerpts</h2>
+      <p>Research summaries and report excerpts grouped by topic, including submarine mines,
+         fire control, powders, fuses, and communications.</p>
+      <div class="meta">BOF non-gun research notes · selected annual reports</div>
     </a>
 
     <a class="reading-card" href="./tech-master.html">
       <div class="tag">Reference</div>
       <h2>Technology Mapping</h2>
-      <p>Master roster of every technology mapped to its BOF Annual Report period. Broader
-         than the proposals corpus — extends back to 1888 instead of starting at 1897.</p>
-      <div class="meta">Technology Mapping doc · canonical roster</div>
+      <p>Technology entries grouped by the annual-report periods recorded in the source roster.
+         Its coverage extends further back than the proposal export.</p>
+      <div class="meta">Technology Mapping document · source roster</div>
     </a>
 
     <a class="reading-card" href="./tech-memos.html">
-      <div class="tag">RA write-ups</div>
+      <div class="tag">Research notes</div>
       <h2>Technology Memos</h2>
-      <p>Detailed RA write-ups on specific technologies — Howell torpedoes, Luger pistol,
-         Lewis range finder, Brown segmental gun, anti-submarine net. Each card opens a full memo.</p>
-      <div class="meta">Technology Memos folder · 6 filled, more in progress</div>
+      <p>Research memos and unfilled templates, organized by technology. Open a record
+         to read the available notes and chronology.</p>
+      <div class="meta">Technology Memos folder · completed notes and templates</div>
     </a>
 
     <a class="reading-card" href="./data-quality.html">
-      <div class="tag">Honest accounting</div>
+      <div class="tag">Source review</div>
       <h2>Data Quality</h2>
-      <p>Every gap and quirk in the underlying data, listed with file paths. What's missing,
-         what's transcription noise, and what was already fixed.</p>
-      <div class="meta">Audited 2026-05-12</div>
+      <p>Earlier review notes on missing fields, source gaps, and coverage limits.
+         Includes clarifications for the current public exports.</p>
+      <div class="meta">Original review notes: May 12, 2026</div>
     </a>
 
     <a class="reading-card" href="./about.html">
