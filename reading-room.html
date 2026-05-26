@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reading Room · Fortify the Ordnance</title>
+<title>Reading Room · Military Innovation and Technology Adoption</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +38,8 @@
 
   /* Topbar */
   .topbar {
+    flex-wrap: wrap;
+    gap: 10px 24px;
     display: flex; align-items: center; justify-content: space-between;
     padding: 12px 28px;
     background: var(--panel);
@@ -46,15 +48,17 @@
     font-size: 11px; letter-spacing: 1.2px; color: var(--text-mid);
   }
   .tb-l {
+    min-width: 0;
     display: flex; align-items: center; gap: 10px;
     color: inherit; text-decoration: none;
   }
   .tb-l svg {
+    flex-shrink: 0;
     width: 18px; height: 18px; color: var(--brass);
     transition: transform .5s cubic-bezier(.2,.8,.2,1);
   }
   .tb-l:hover svg { transform: rotate(45deg); }
-  .tb-l strong { color: var(--text); font-weight: 700; letter-spacing: 1.4px; }
+  .tb-l strong { line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 1.4px; }
   .tb-r { display: flex; gap: 18px; }
   .tb-r a { color: var(--text-mid); text-decoration: none; letter-spacing: 1.2px; }
   .tb-r a:hover { color: var(--brass); }
@@ -301,7 +305,7 @@
   
   .rr-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
     gap: 12px;
   }
   .rr-card {
@@ -344,16 +348,16 @@
 </head>
 <body>
 <div class="topbar">
-  <a class="tb-l" href="/" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to dashboard">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
-    <strong>FORTIFY THE ORDNANCE</strong>
+    <strong>Military Innovation and Technology Adoption</strong>
   </a>
   <div class="tb-r">
-    <a href="/reading-room.html">reading room</a>
-    <a href="/">← dashboard</a>
+    <a href="./reading-room.html">reading room</a>
+    <a href="./">← dashboard</a>
   </div>
 </div>
 <div class="wrap">
@@ -369,37 +373,37 @@
     </div>
   </div>
   <div class="rr-grid">
-    <a class="rr-card" href="/chiefs.html">
+    <a class="rr-card" href="./chiefs.html">
   <div class="rr-tag">People</div>
   <div class="rr-title">Chiefs of Ordnance</div>
   <div class="rr-blurb">Career timelines for Crozier and Lewis, filterable by chief / decade / keyword.</div>
   <div class="rr-stat">189 events →</div>
 </a>
-<a class="rr-card" href="/reports.html">
+<a class="rr-card" href="./reports.html">
   <div class="rr-tag">Primary source</div>
   <div class="rr-title">Board excerpts</div>
   <div class="rr-blurb">The BOF&#x27;s own prose, by topic, with page citations. Click a row to read the full passage.</div>
   <div class="rr-stat">18 topics · 8 ARs →</div>
 </a>
-<a class="rr-card" href="/tech-master.html">
+<a class="rr-card" href="./tech-master.html">
   <div class="rr-tag">Reference</div>
   <div class="rr-title">Technology roster</div>
   <div class="rr-blurb">Every technology the Board ever logged, mapped to its annual-report period.</div>
   <div class="rr-stat">1,297 entries · 30 periods →</div>
 </a>
-<a class="rr-card" href="/tech-memos.html">
+<a class="rr-card" href="./tech-memos.html">
   <div class="rr-tag">RA write-ups</div>
   <div class="rr-title">Technology memos</div>
   <div class="rr-blurb">Per-technology research memos with executive summaries and detailed timelines.</div>
   <div class="rr-stat">6 filled · 10 templates →</div>
 </a>
-<a class="rr-card" href="/data-quality.html">
+<a class="rr-card" href="./data-quality.html">
   <div class="rr-tag">Project</div>
   <div class="rr-title">Data quality inventory</div>
   <div class="rr-blurb">Every gap, transcription artifact, and review item in the dataset. Filterable.</div>
   <div class="rr-stat">28 items tracked →</div>
 </a>
-<a class="rr-card" href="/about.html">
+<a class="rr-card" href="./about.html">
   <div class="rr-tag">Project</div>
   <div class="rr-title">About</div>
   <div class="rr-blurb">What the Board was, who built the dashboard, and where the source material came from.</div>

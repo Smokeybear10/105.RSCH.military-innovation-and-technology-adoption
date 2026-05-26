@@ -38,7 +38,7 @@ _SHELL = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} · Fortify the Ordnance</title>
+<title>{title} · Military Innovation and Technology Adoption</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +71,8 @@ _SHELL = """<!DOCTYPE html>
   a:hover {{ text-decoration: underline; }}
 
   .topbar {{
+    flex-wrap: wrap;
+    gap: 10px 24px;
     display: flex; align-items: center; justify-content: space-between;
     padding: 12px 28px;
     background: var(--panel);
@@ -79,15 +81,17 @@ _SHELL = """<!DOCTYPE html>
     font-size: 11px; letter-spacing: 1.2px; color: var(--text-mid);
   }}
   .tb-l {{
+    min-width: 0;
     display: flex; align-items: center; gap: 10px;
     color: inherit; text-decoration: none; cursor: pointer;
   }}
   .tb-l svg {{
+    flex-shrink: 0;
     width: 18px; height: 18px; color: var(--brass);
     transition: transform .5s cubic-bezier(.2,.8,.2,1);
   }}
   .tb-l:hover svg {{ transform: rotate(45deg); }}
-  .tb-l strong {{ color: var(--text); font-weight: 700; letter-spacing: 1.4px; }}
+  .tb-l strong {{ line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 1.4px; }}
   .tb-r a {{ color: var(--text-mid); letter-spacing: 1.2px; }}
   .tb-r a:hover {{ color: var(--brass); text-decoration: none; }}
 
@@ -136,21 +140,21 @@ _SHELL = """<!DOCTYPE html>
 </head>
 <body>
 <div class="topbar">
-  <a class="tb-l" href="/" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to dashboard">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
-    <strong>FORTIFY THE ORDNANCE</strong>
+    <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <div class="tb-r"><a href="/">← back to dashboard</a></div>
+  <div class="tb-r"><a href="./">← back to dashboard</a></div>
 </div>
 <div class="wrap">
 {body}
 </div>
 <footer>
   <span>{footer_left}</span>
-  <a href="https://github.com/Smokeybear10/104-RSCH.BOFARCHIVES" target="_blank" rel="noopener">github ↗</a>
+  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">github ↗</a>
 </footer>
 </body>
 </html>"""
@@ -834,7 +838,7 @@ def build_tech_master() -> None:
 _READING_CSS = """
   .reading-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
     gap: 18px;
     margin-top: 36px;
   }
@@ -890,7 +894,7 @@ def build_reading_room() -> None:
   </p>
   <div class="reading-grid">
 
-    <a class="reading-card" href="/chiefs.html">
+    <a class="reading-card" href="./chiefs.html">
       <div class="tag">People</div>
       <h2>Chiefs of Ordnance</h2>
       <p>Annotated career timelines for Brig. Gen. William Crozier and Col. Isaac N. Lewis — the
@@ -898,7 +902,7 @@ def build_reading_room() -> None:
       <div class="meta">Crozier and Lewis docs · biographical</div>
     </a>
 
-    <a class="reading-card" href="/reports.html">
+    <a class="reading-card" href="./reports.html">
       <div class="tag">Primary source</div>
       <h2>BOF Source Texts</h2>
       <p>Direct excerpts from each Annual Report — submarine mines, fire-control systems, smokeless
@@ -906,7 +910,7 @@ def build_reading_room() -> None:
       <div class="meta">Non-Gun Assignment doc · 8 annual reports</div>
     </a>
 
-    <a class="reading-card" href="/tech-master.html">
+    <a class="reading-card" href="./tech-master.html">
       <div class="tag">Reference</div>
       <h2>Technology Mapping</h2>
       <p>Master roster of every technology mapped to its BOF Annual Report period. Broader
@@ -914,7 +918,7 @@ def build_reading_room() -> None:
       <div class="meta">Technology Mapping doc · canonical roster</div>
     </a>
 
-    <a class="reading-card" href="/tech-memos.html">
+    <a class="reading-card" href="./tech-memos.html">
       <div class="tag">RA write-ups</div>
       <h2>Technology Memos</h2>
       <p>Detailed RA write-ups on specific technologies — Howell torpedoes, Luger pistol,
@@ -922,7 +926,7 @@ def build_reading_room() -> None:
       <div class="meta">Technology Memos folder · 6 filled, more in progress</div>
     </a>
 
-    <a class="reading-card" href="/data-quality.html">
+    <a class="reading-card" href="./data-quality.html">
       <div class="tag">Honest accounting</div>
       <h2>Data Quality</h2>
       <p>Every gap and quirk in the underlying data, listed with file paths. What's missing,
@@ -930,7 +934,7 @@ def build_reading_room() -> None:
       <div class="meta">Audited 2026-05-12</div>
     </a>
 
-    <a class="reading-card" href="/about.html">
+    <a class="reading-card" href="./about.html">
       <div class="tag">Project</div>
       <h2>About</h2>
       <p>What the Board of Ordnance & Fortification was, who built this dashboard, and where

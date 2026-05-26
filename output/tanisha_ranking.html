@@ -1,5 +1,6 @@
 <html>
-<head><meta charset="utf-8" />
+<head><title>Technology Category Ranking by Total Subjects · Military Innovation and Technology Adoption</title>
+<meta charset="utf-8" />
 <style id="bof-chart-frame">
   html, body {
     margin: 0;
@@ -184,6 +185,8 @@
 
   /* ── Header strip ─────────────────────────────────────────────────── */
   .bof-bar {
+    flex-wrap: wrap;
+    gap: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -213,12 +216,11 @@
   }
   .bof-bar .bof-brand:hover svg { transform: rotate(45deg); }
   .bof-bar .bof-brand strong {
+    line-height: 1.5;
     color: #1A1A2E;
     font-weight: 700;
     letter-spacing: 1.4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
   }
   .bof-bar a.bof-back {
     color: #55556A;
@@ -383,14 +385,14 @@
 </head>
 <body>
 <div class="bof-bar">
-  <a class="bof-brand" href="/" title="Back to dashboard">
+  <a class="bof-brand" href="../" title="Back to dashboard">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
-    <strong>FORTIFY THE ORDNANCE</strong>
+    <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <a class="bof-back" href="/" aria-label="Back to dashboard">←<span class="bof-back-text">&nbsp;back to dashboard</span></a>
+  <a class="bof-back" href="../" aria-label="Back to dashboard">←<span class="bof-back-text">&nbsp;back to dashboard</span></a>
 </div>
 <div class="bof-chart-wrap">
 
