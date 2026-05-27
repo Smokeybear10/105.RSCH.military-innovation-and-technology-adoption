@@ -1,0 +1,2071 @@
+{
+  "review_date": "2026-11-06",
+  "publication_prepared_on": "2026-11-07",
+  "reviewer": "Thomas Ou",
+  "scope": "Public-source evidence review of 13 existing country-system records; original coding was produced collaboratively.",
+  "status": "All 64 review proposals remained unapplied as of 6 November 2026; publishing this archive does not change shared research data.",
+  "counts": {
+    "country_system_reviews": 13,
+    "proposals": 64,
+    "public_source_entries": 76,
+    "original_source_entries": 77,
+    "private_instruction_source_omitted": 1
+  },
+  "limits": [
+    "Manufacturer specifications are attributed claims, not independent performance tests.",
+    "A source checked only through indexed text is labeled in its location field.",
+    "Unknown means not established by the sources reviewed, not proven absence.",
+    "Original shared-workbook contents, collaborator entries and private document identifiers are omitted.",
+    "The 7 November consolidation corrects one exact-date overstatement: Lithuania’s first shipment had arrived by its 7 October announcement; exact arrival day was not established."
+  ],
+  "reviews": [
+    {
+      "id": "R01",
+      "country": "Azerbaijan",
+      "system": "SkyStriker",
+      "finding": "SkyStriker citations are mixed with Orbiter sources. The $105,000 estimate is traceable, but AI/ML is not established.",
+      "evidence_note": "Azerbaijan had SkyStriker by January 2019; September exercise reporting described Army service. These observations do not establish exact first delivery or operational acceptance. The 2023 USD 105,000 price is a generic published estimate, not Azerbaijan’s paid price. The reported 100 km is not explicitly total flight distance. Elbit’s endurance depends on payload. Commercial aviation activity through Universal Avionics is documented, but shared civilian technology is unresolved. Tracking and autonomous navigation alone do not establish AI/ML. Annual production capacity is unknown.",
+      "proposal_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04"
+      ],
+      "source_ids": [
+        "S05",
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S06"
+      ]
+    },
+    {
+      "id": "R02",
+      "country": "Azerbaijan",
+      "system": "Orbiter 1K",
+      "finding": "The 2020 receipt year conflicts with official evidence of possession in 2018. The product URL now redirects to a different model.",
+      "evidence_note": "An official June 2018 parade account names Orbiter 1K, establishing possession before 2020. First receipt and first operational fielding remain unknown; a parade or an inventory estimate does not date either event. FlightGlobal reported licensed Azad Systems production in 2017. The historical 1K brochure is the appropriate specification source; the former product link now redirects to Orbiter 2 LM. Its 50 km is mission range, not explicitly total flight distance. Published price estimates are generic. Zarba-related names need configuration matching; do not merge them automatically. AI use, commercial products and annual production capacity remain unverified.",
+      "proposal_ids": [
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "source_ids": [
+        "S11",
+        "S12",
+        "S07",
+        "S09",
+        "S10",
+        "S13",
+        "S14"
+      ]
+    },
+    {
+      "id": "R03",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "finding": "Reported Pakistani use in 2025 is supported. The local joint-production arrangement does not settle import status. Later Sivrisinek AI claims do not establish the 2025 configuration.",
+      "evidence_note": "Reuters reported Pakistani use in May 2025 and local assembly through Baykar and NASTP. The checked sources do not establish a foreign purchase, licence or first import date. Reported range and payload figures are attributed to an Indian Army display of a recovered unit, not independent manufacturer confirmation. Current Sivrisinek AI claims cannot be assumed for Pakistan’s 2025 configuration. Baykar’s completed Piaggio acquisition supports commercial aircraft activity, but related civilian technology remains unresolved. Price, endurance and annual capacity were not established. An unknown price leaves price-based inclusion unresolved.",
+      "proposal_ids": [
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14",
+        "P15",
+        "P16",
+        "P17"
+      ],
+      "source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21"
+      ]
+    },
+    {
+      "id": "R04",
+      "country": "Saudi Arabia",
+      "system": "Jaser",
+      "finding": "Service by 2026 is reported from Serb at the exhibition. A formal introduction date is not established. Computer-assisted tracking does not prove AI.",
+      "evidence_note": "Exhibition reporting attributes service by 2026 to Serb; the actual introduction date could be earlier. Janes reported production in 2024 but did not date Jaser deliveries. Its separate Samil discussion must not supply Jaser’s datalink or delivery claims. Computer-assisted tracking does not establish AI/ML. Reported effective range is not explicitly flight distance. Exports, commercial products, annual capacity and unit price remain unverified. Small size does not establish a price threshold.",
+      "proposal_ids": [
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22",
+        "P23"
+      ],
+      "source_ids": [
+        "S23",
+        "S22",
+        "S24"
+      ]
+    },
+    {
+      "id": "R05",
+      "country": "United Arab Emirates",
+      "system": "Hunter 2-S",
+      "finding": "The UAE order is confirmed. Operational fielding and unit price remain unverified. Exact-model manufacturer material supports AI. The 50 km figure is communication range.",
+      "evidence_note": "EDGE announced a UAE order covering Hunter 2-S, Hunter 5 and Hunter 10 on 21 February 2023. It does not establish completed delivery or operational acceptance. The AED 1.1 billion package lacks model quantities, so it cannot establish a unit price. The Hunter 2-S datasheet labels 50 km as communication range. It explicitly describes AI-assisted coordination, while the current page describes operator target designation and engagement authorization. These are manufacturer claims, not independent testing. Confirmed exports and commercial-product scope at the HALCON producer level remain unresolved.",
+      "proposal_ids": [
+        "P24",
+        "P25",
+        "P26",
+        "P27"
+      ],
+      "source_ids": [
+        "S25",
+        "S26",
+        "S27"
+      ]
+    },
+    {
+      "id": "R06",
+      "country": "France",
+      "system": "MX-10 Damocles",
+      "finding": "The first delivery was 2 December 2025; 22 January 2026 was the announcement date. Official material describes operational use by 2026 without dating its start.",
+      "evidence_note": "The DGA announcement dated 22 January 2026 reports delivery on 2 December 2025. Ministry material documents operational use by 2026 without establishing the first operational date. Recommend keeping receipt separate from fielding. Manufacturer specifications do not establish the configuration of a particular delivered batch. Delair also makes civil drones. No completed export, affirmative AI function or unit price was verified. Missing AI evidence is not evidence of exclusively traditional guidance. A daily production claim cannot establish measured annual output.",
+      "proposal_ids": [
+        "P28",
+        "P29",
+        "P30",
+        "P31"
+      ],
+      "source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ]
+    },
+    {
+      "id": "R07",
+      "country": "Germany",
+      "system": "HX-2",
+      "finding": "German orders and trials are confirmed; operational fielding is not. The 5,400/year figure is an annualized July 2025 rate. The price is from a reported contract draft.",
+      "evidence_note": "German orders and tests are documented; first operational fielding was not verified. The July 2025 report of 450 per month annualizes to 5,400 per year, but it is not measured annual production or verified 2026 capacity. Helsing separately advertises over 1,000 per month. A EUR 44,000 net draft-contract price converts to about USD 51,929 using 1.1802 USD/EUR on 26 February 2026; this is a reported estimate, not a confirmed paid price. Model-level AI and payload statements are manufacturer claims. The German delivery configuration was not verified. Commercial-product classification depends on whether and how subsidiary Grob is included.",
+      "proposal_ids": [
+        "P32",
+        "P33",
+        "P34",
+        "P35"
+      ],
+      "source_ids": [
+        "S32",
+        "S33",
+        "S39",
+        "S40",
+        "S34",
+        "S41",
+        "S35",
+        "S36",
+        "S37",
+        "S38"
+      ]
+    },
+    {
+      "id": "R08",
+      "country": "Germany",
+      "system": "Virtus",
+      "finding": "The current manufacturer page and September German-order interview give 75 minutes. An earlier announcement gave 90. Operational fielding remains unverified.",
+      "evidence_note": "The German contract was announced on 26 February 2026; operational fielding was not verified. The manufacturer page checked in November and a September interview about the German order give 75 minutes, or 1.25 hours; the February release gave 90 minutes. The checked sources do not explain the difference as a version change. STARK explicitly describes onboard AI. A reported EUR 80,000 net estimate converts to USD 94,840 at 1.1855 USD/EUR on 16 February 2026; the contract draft price was redacted. Payload descriptions are advertised or tested options, not proof of the accepted German configuration.",
+      "proposal_ids": [
+        "P36",
+        "P37",
+        "P38",
+        "P39"
+      ],
+      "source_ids": [
+        "S32",
+        "S44",
+        "S43",
+        "S42",
+        "S37",
+        "S45",
+        "S46",
+        "S47"
+      ]
+    },
+    {
+      "id": "R09",
+      "country": "Latvia",
+      "system": "BLAZE",
+      "finding": "Latvian receipt is supported, but later warhead-integration reporting leaves operational fielding uncertain. AI is supported. “Beyond 10 km” is an engagement lower bound.",
+      "evidence_note": "Latvian receipt was reported by February 2026. Later reporting about further warhead integration leaves the first operational date unresolved despite earlier delivery and deployment language. Origin explicitly describes AI computer vision. Engagement beyond 10 km is a lower bound, not an exact maximum flight distance. Earlier and later published warhead options do not identify Latvia’s delivered configuration. Unit price, annual capacity and a current commercial product line remain unverified. The founders’ previous Airdog business does not establish current Origin commercial production.",
+      "proposal_ids": [
+        "P40",
+        "P41",
+        "P42",
+        "P43",
+        "P44"
+      ],
+      "source_ids": [
+        "S49",
+        "S51",
+        "S52",
+        "S48",
+        "S53",
+        "S50",
+        "S54"
+      ]
+    },
+    {
+      "id": "R10",
+      "country": "Estonia",
+      "system": "BLAZE",
+      "finding": "Estonian receipt in January 2026 is supported. The sources describe evaluation and later testing, not completed operational fielding. Exact-model AI is supported.",
+      "evidence_note": "Manufacturer-attributed reporting places first Estonian batches in January 2026. It describes evaluation and integration, and the Estonian Defence Forces reports March exercise testing. These establish receipt and testing, not first operational acceptance. Origin explicitly describes model-level AI-assisted recognition. Published range is an engagement lower bound. The fitted warhead, endurance and unit price of the delivered configuration remain unverified; small airframe mass does not establish price eligibility.",
+      "proposal_ids": [
+        "P45",
+        "P46",
+        "P47",
+        "P48",
+        "P49"
+      ],
+      "source_ids": [
+        "S55",
+        "S56",
+        "S52",
+        "S48",
+        "S57"
+      ]
+    },
+    {
+      "id": "R11",
+      "country": "Sweden",
+      "system": "Raptor 2",
+      "finding": "FMV planned Raptor 2 delivery and handover for Q2 2027. The 45 km figure is a radio link. Generic RAPTOR AI and endurance claims do not settle the Swedish configuration.",
+      "evidence_note": "FMV’s August 2026 announcement identifies Raptor 2 and plans delivery and military handover for Q2 2027. It does not establish Swedish receipt or fielding by the review date. The generic product page’s 45 km is radio-link range. Its three-hour endurance differs from a co-founder interview describing up to four hours for Raptor 2. Generic or developmental ML statements do not establish Sweden’s configuration. A mixed-system package cannot provide a unit cost without quantities and allocation. Historical mapping products do not settle current commercial-product classification.",
+      "proposal_ids": [
+        "P50",
+        "P51",
+        "P52",
+        "P53"
+      ],
+      "source_ids": [
+        "S59",
+        "S60",
+        "S58",
+        "S61",
+        "S62"
+      ]
+    },
+    {
+      "id": "R12",
+      "country": "Australia",
+      "system": "Switchblade 300 Block 20",
+      "finding": "The 2024 order and July 2025 service-introduction statement are supported. First receipt and operational acceptance remain unresolved. The 2025 AI update is not linked to Australia’s order.",
+      "evidence_note": "Australia announced a Switchblade 300 order in July 2024; contemporaneous reporting identifies Block 20. In July 2025 the government said service introduction was underway, without dating first receipt or completed operational acceptance. The current 30 km specification depends on an extended-range antenna. The later AI/EFP update is not established for the earlier Australian order. Quantix was discontinued, but current general commercial activity is documented. Related commercial UAS classification needs an explicit reference year. No supported unit price was found.",
+      "proposal_ids": [
+        "P54",
+        "P55",
+        "P56",
+        "P57"
+      ],
+      "source_ids": [
+        "S73",
+        "S74",
+        "S75",
+        "S76",
+        "S63",
+        "S67",
+        "S68",
+        "S64",
+        "S65",
+        "S66"
+      ]
+    },
+    {
+      "id": "R13",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "finding": "The first shipment reached military warehouses in October 2026. That supports receipt, not an operational start date. The delivered block is unstated.",
+      "evidence_note": "By the ministry’s 7 October 2026 announcement, the first Switchblade 600 shipment had reached Lithuanian military warehouses. The announcement does not establish the exact arrival day or operational start date. The delivered block is unstated, so newer Block 2 AI claims cannot be assumed. Procurement material’s target distance is not explicitly total flight range. The package includes equipment and support without a usable unit count. Current general commercial activity is documented; related commercial UAS classification needs a reference year. A producer statement of 240 systems per month in October 2025 annualizes to 2,880 per year, a historical rate rather than measured annual output or verified current capacity.",
+      "proposal_ids": [
+        "P58",
+        "P59",
+        "P60",
+        "P61",
+        "P62",
+        "P63",
+        "P64"
+      ],
+      "source_ids": [
+        "S69",
+        "S68",
+        "S73",
+        "S74",
+        "S75",
+        "S76",
+        "S70",
+        "S71",
+        "S72"
+      ]
+    }
+  ],
+  "proposals": [
+    {
+      "id": "P01",
+      "country": "Azerbaijan",
+      "system": "SkyStriker",
+      "field": "Range",
+      "category": "Decision",
+      "recommendation": "Retain provisionally; clarify the metric.",
+      "reason": "The source does not clearly distinguish total flight distance from mission/effective range. Do not substitute an invented figure.",
+      "source_ids": [
+        "S05"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P02",
+      "country": "Azerbaijan",
+      "system": "SkyStriker",
+      "field": "AI capability",
+      "category": "Evidence gap",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "AI/ML was not established for the country and configuration. Recommend unknown rather than an unsupported Yes or a factual No.",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P03",
+      "country": "Azerbaijan",
+      "system": "SkyStriker",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Use the listed checked sources and add access date 6 November 2026. Full titles and URLs are on Sources.",
+      "reason": "Give this row its own checked sources, including primary originals and corrected canonical URLs.",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P04",
+      "country": "Azerbaijan",
+      "system": "SkyStriker",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "Azerbaijan had SkyStriker by January 2019; September exercise reporting described Army service. These observations do not establish exact first delivery or operational acceptance. The 2023 USD 105,000 price is a generic published estimate, not Azerbaijan’s paid price. The reported 100 km is not explicitly total flight distance. Elbit’s endurance depends on payload. Commercial aviation activity through Universal Avionics is documented, but shared civilian technology is unresolved. Tracking and autonomous navigation alone do not establish AI/ML. Annual production capacity is unknown.",
+      "reason": "Replace overstatements and unrelated configuration details with traceable limitations.",
+      "source_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P05",
+      "country": "Azerbaijan",
+      "system": "Orbiter 1K",
+      "field": "First receipt",
+      "category": "Correction",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "2020 is contradicted as the first documented possession year by an official 2018 parade. No actual first-receipt year is established. Do not substitute a purchase interval or parade date for first receipt.",
+      "source_ids": [
+        "S11",
+        "S12"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P06",
+      "country": "Azerbaijan",
+      "system": "Orbiter 1K",
+      "field": "Range",
+      "category": "Decision",
+      "recommendation": "Retain provisionally; clarify the metric.",
+      "reason": "The source does not clearly distinguish total flight distance from mission/effective range. Do not substitute an invented figure.",
+      "source_ids": [
+        "S07"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P07",
+      "country": "Azerbaijan",
+      "system": "Orbiter 1K",
+      "field": "AI capability",
+      "category": "Evidence gap",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "AI/ML was not established for the country and configuration. Recommend unknown rather than an unsupported Yes or a factual No.",
+      "source_ids": [
+        "S07",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P08",
+      "country": "Azerbaijan",
+      "system": "Orbiter 1K",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Use the listed checked sources and add access date 6 November 2026. Full titles and URLs are on Sources.",
+      "reason": "Give this row its own checked sources, including primary originals and corrected canonical URLs.",
+      "source_ids": [
+        "S07",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P09",
+      "country": "Azerbaijan",
+      "system": "Orbiter 1K",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "An official June 2018 parade account names Orbiter 1K, establishing possession before 2020. First receipt and first operational fielding remain unknown; a parade or an inventory estimate does not date either event. FlightGlobal reported licensed Azad Systems production in 2017. The historical 1K brochure is the appropriate specification source; the former product link now redirects to Orbiter 2 LM. Its 50 km is mission range, not explicitly total flight distance. Published price estimates are generic. Zarba-related names need configuration matching; do not merge them automatically. AI use, commercial products and annual production capacity remain unverified.",
+      "reason": "Replace overstatements and unrelated configuration details with traceable limitations.",
+      "source_ids": [
+        "S07",
+        "S09",
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S14"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P10",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "Import classification",
+      "category": "Decision",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "Turkish-origin local joint assembly is documented; foreign procurement or licensed production is not established. Binary classification remains unresolved.",
+      "source_ids": [
+        "S15",
+        "S16"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P11",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "Import origin",
+      "category": "Decision",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "Turkish origin can be documented, but an import-origin classification depends on resolving whether the transaction constitutes an import.",
+      "source_ids": [
+        "S15"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P12",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "First receipt",
+      "category": "Decision",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "2025 combat use does not establish first import; local assembly makes the event definition unresolved.",
+      "source_ids": [
+        "S15"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P13",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "Range",
+      "category": "Decision",
+      "recommendation": "Retain provisionally; clarify the metric.",
+      "reason": "The source does not clearly distinguish total flight distance from mission/effective range. Do not substitute an invented figure.",
+      "source_ids": [
+        "S17"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P14",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "Payload",
+      "category": "Correction",
+      "recommendation": "10 kg explosive payload (Indian Army claim, reported by WION/PTI)",
+      "reason": "Remove the autopilot from the payload field and avoid importing 2026 camera details into the 2025 configuration.",
+      "source_ids": [
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P15",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "AI capability",
+      "category": "Evidence gap",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "AI/ML was not established for the country and configuration. Recommend unknown rather than an unsupported Yes or a factual No.",
+      "source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P16",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Use the listed checked sources and add access date 6 November 2026. Full titles and URLs are on Sources.",
+      "reason": "Give this row its own checked sources, including primary originals and corrected canonical URLs.",
+      "source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P17",
+      "country": "Pakistan",
+      "system": "YIHA-III",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "Reuters reported Pakistani use in May 2025 and local assembly through Baykar and NASTP. The checked sources do not establish a foreign purchase, licence or first import date. Reported range and payload figures are attributed to an Indian Army display of a recovered unit, not independent manufacturer confirmation. Current Sivrisinek AI claims cannot be assumed for Pakistan’s 2025 configuration. Baykar’s completed Piaggio acquisition supports commercial aircraft activity, but related civilian technology remains unresolved. Price, endurance and annual capacity were not established. An unknown price leaves price-based inclusion unresolved.",
+      "reason": "Replace overstatements and unrelated configuration details with traceable limitations.",
+      "source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18",
+        "S19",
+        "S20",
+        "S21"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P18",
+      "country": "Saudi Arabia",
+      "system": "Jaser",
+      "field": "Export status",
+      "category": "Decision",
+      "recommendation": "Treat export status as unresolved unless the chosen rule explicitly distinguishes no known exports from confirmed absence.",
+      "reason": "No confirmed export was found in the checked sources. A common unknown-export rule is needed.",
+      "source_ids": [],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P19",
+      "country": "Saudi Arabia",
+      "system": "Jaser",
+      "field": "Range",
+      "category": "Decision",
+      "recommendation": "Retain provisionally; clarify the metric.",
+      "reason": "The source does not clearly distinguish total flight distance from mission/effective range. Do not substitute an invented figure.",
+      "source_ids": [
+        "S23"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P20",
+      "country": "Saudi Arabia",
+      "system": "Jaser",
+      "field": "Payload",
+      "category": "Correction",
+      "recommendation": "About 3 kg payload; day and thermal imaging cameras (EO/IR)",
+      "reason": "Remove navigation and maximum take-off mass from the payload field; preserve supported payload and sensor information.",
+      "source_ids": [
+        "S23"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P21",
+      "country": "Saudi Arabia",
+      "system": "Jaser",
+      "field": "AI capability",
+      "category": "Evidence gap",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "AI/ML was not established for the country and configuration. Recommend unknown rather than an unsupported Yes or a factual No.",
+      "source_ids": [
+        "S22",
+        "S23",
+        "S24"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P22",
+      "country": "Saudi Arabia",
+      "system": "Jaser",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Use the listed checked sources and add access date 6 November 2026. Full titles and URLs are on Sources.",
+      "reason": "Give this row its own checked sources, including primary originals and corrected canonical URLs.",
+      "source_ids": [
+        "S22",
+        "S23",
+        "S24"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P23",
+      "country": "Saudi Arabia",
+      "system": "Jaser",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "Exhibition reporting attributes service by 2026 to Serb; the actual introduction date could be earlier. Janes reported production in 2024 but did not date Jaser deliveries. Its separate Samil discussion must not supply Jaser’s datalink or delivery claims. Computer-assisted tracking does not establish AI/ML. Reported effective range is not explicitly flight distance. Exports, commercial products, annual capacity and unit price remain unverified. Small size does not establish a price threshold.",
+      "reason": "Replace overstatements and unrelated configuration details with traceable limitations.",
+      "source_ids": [
+        "S22",
+        "S23",
+        "S24"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P24",
+      "country": "United Arab Emirates",
+      "system": "Hunter 2-S",
+      "field": "Mission",
+      "category": "Correction",
+      "recommendation": "Strike; intelligence, surveillance and reconnaissance",
+      "reason": "Spelling and consistent wording; the manufacturer describes both missions.",
+      "source_ids": [
+        "S25",
+        "S26"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P25",
+      "country": "United Arab Emirates",
+      "system": "Hunter 2-S",
+      "field": "Range",
+      "category": "Correction",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "The cited 50 km is communication range. Communication range and total flight distance are different quantities. Keep the 50 km figure labeled in Notes.",
+      "source_ids": [
+        "S26",
+        "S27"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P26",
+      "country": "United Arab Emirates",
+      "system": "Hunter 2-S",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "https://edgegroup.ae/news/edge-awarded-contract-worth-aed-11-billion-supply-hunter-loitering-munitions-uae-armed-forces",
+      "reason": "Use the manufacturer’s current canonical announcement URL, dated 21 February 2023; reviewed 6 November 2026.",
+      "source_ids": [
+        "S25"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P27",
+      "country": "United Arab Emirates",
+      "system": "Hunter 2-S",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "EDGE announced a UAE order covering Hunter 2-S, Hunter 5 and Hunter 10 on 21 February 2023. It does not establish completed delivery or operational acceptance. The AED 1.1 billion package lacks model quantities, so it cannot establish a unit price. The Hunter 2-S datasheet labels 50 km as communication range. It explicitly describes AI-assisted coordination, while the current page describes operator target designation and engagement authorization. These are manufacturer claims, not independent testing. Confirmed exports and commercial-product scope at the HALCON producer level remain unresolved.",
+      "reason": "Separate the confirmed order and manufacturer specifications from unresolved fielding, cost and export questions.",
+      "source_ids": [
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P28",
+      "country": "France",
+      "system": "MX-10 Damocles",
+      "field": "First operational fielding",
+      "category": "Decision",
+      "recommendation": "Do not treat a receipt-based estimate as confirmed first operational use.",
+      "reason": "Delivery and operational use are different events; neither 2025 nor a replacement 2026 is established as the exact first year.",
+      "source_ids": [
+        "S28",
+        "S29"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P29",
+      "country": "France",
+      "system": "MX-10 Damocles",
+      "field": "AI capability",
+      "category": "Decision",
+      "recommendation": "Hold pending a consistent rule for unknown AI; do not infer an affirmative capability.",
+      "reason": "No affirmative AI evidence, but no proof of exclusively traditional guidance.",
+      "source_ids": [
+        "S30"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P30",
+      "country": "France",
+      "system": "MX-10 Damocles",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "https://knds.com/en/products/ammunition/mx-10-damocles",
+      "reason": "Use the working exact-model manufacturer page.",
+      "source_ids": [
+        "S30"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P31",
+      "country": "France",
+      "system": "MX-10 Damocles",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "The DGA announcement dated 22 January 2026 reports delivery on 2 December 2025. Ministry material documents operational use by 2026 without establishing the first operational date. Recommend keeping receipt separate from fielding. Manufacturer specifications do not establish the configuration of a particular delivered batch. Delair also makes civil drones. No completed export, affirmative AI function or unit price was verified. Missing AI evidence is not evidence of exclusively traditional guidance. A daily production claim cannot establish measured annual output.",
+      "reason": "Replace the note with a shorter account of the evidence and unresolved points.",
+      "source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P32",
+      "country": "Germany",
+      "system": "HX-2",
+      "field": "Dataset inclusion",
+      "category": "Decision",
+      "recommendation": "Distinguish the German pending acquisition from confirmed operational fielding. Ukrainian evidence cannot establish German use.",
+      "reason": "Orders and tests do not establish German operational fielding.",
+      "source_ids": [
+        "S32",
+        "S33"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P33",
+      "country": "Germany",
+      "system": "HX-2",
+      "field": "Related and general commercial products",
+      "category": "Decision",
+      "recommendation": "Review subsidiary scope and shared-technology rule.",
+      "reason": "Grob ownership alone does not settle whether the HX-2 producer has related commercial technology. Failure to identify a civilian drone does not establish that related commercial technology is absent.",
+      "source_ids": [
+        "S39",
+        "S40"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P34",
+      "country": "Germany",
+      "system": "HX-2",
+      "field": "Payload",
+      "category": "Decision",
+      "recommendation": "Manufacturer lists multipurpose, anti-tank and anti-structure payload options. Warhead mass and the German order’s configuration were not verified.",
+      "reason": "Remove unverified numeric/detail claims if no supporting citation is supplied.",
+      "source_ids": [
+        "S34",
+        "S41"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P35",
+      "country": "Germany",
+      "system": "HX-2",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "German orders and tests are documented; first operational fielding was not verified. The July 2025 report of 450 per month annualizes to 5,400 per year, but it is not measured annual production or verified 2026 capacity. Helsing separately advertises over 1,000 per month. A EUR 44,000 net draft-contract price converts to about USD 51,929 using 1.1802 USD/EUR on 26 February 2026; this is a reported estimate, not a confirmed paid price. Model-level AI and payload statements are manufacturer claims. The German delivery configuration was not verified. Commercial-product classification depends on whether and how subsidiary Grob is included.",
+      "reason": "Replace the note with a shorter account of the evidence and unresolved points.",
+      "source_ids": [
+        "S32",
+        "S33",
+        "S34",
+        "S35",
+        "S36",
+        "S37",
+        "S38",
+        "S39",
+        "S40",
+        "S41"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P36",
+      "country": "Germany",
+      "system": "Virtus",
+      "field": "Dataset inclusion",
+      "category": "Decision",
+      "recommendation": "Distinguish the pending acquisition from confirmed operational fielding; retain it only if pending acquisitions belong in the sample.",
+      "reason": "Contract and tests precede confirmed operational fielding.",
+      "source_ids": [
+        "S32",
+        "S44"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P37",
+      "country": "Germany",
+      "system": "Virtus",
+      "field": "Related and general commercial products",
+      "category": "Decision",
+      "recommendation": "Keep provisional pending producer evidence.",
+      "reason": "A defence-oriented portfolio does not by itself prove there are no related or general commercial products.",
+      "source_ids": [
+        "S43"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P38",
+      "country": "Germany",
+      "system": "Virtus",
+      "field": "Endurance (hours)",
+      "category": "Correction",
+      "recommendation": "1.25 hours (75 minutes); retain the earlier 90-minute claim with its date.",
+      "reason": "Use the current 75-minute manufacturer figure, corroborated in a September report specifically about the German-sold drone; preserve the earlier 90-minute claim in Notes.",
+      "source_ids": [
+        "S42",
+        "S43",
+        "S44"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P39",
+      "country": "Germany",
+      "system": "Virtus",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "The German contract was announced on 26 February 2026; operational fielding was not verified. The manufacturer page checked in November and a September interview about the German order give 75 minutes, or 1.25 hours; the February release gave 90 minutes. The checked sources do not explain the difference as a version change. STARK explicitly describes onboard AI. A reported EUR 80,000 net estimate converts to USD 94,840 at 1.1855 USD/EUR on 16 February 2026; the contract draft price was redacted. Payload descriptions are advertised or tested options, not proof of the accepted German configuration.",
+      "reason": "Replace the note with a shorter account of the evidence and unresolved points.",
+      "source_ids": [
+        "S32",
+        "S37",
+        "S42",
+        "S43",
+        "S44",
+        "S45",
+        "S46",
+        "S47"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P40",
+      "country": "Latvia",
+      "system": "BLAZE",
+      "field": "First operational fielding",
+      "category": "Decision",
+      "recommendation": "Record receipt separately; operational fielding remains unresolved.",
+      "reason": "Ministerial delivery announcement and later integration reporting do not settle the first operational date.",
+      "source_ids": [
+        "S49",
+        "S51"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P41",
+      "country": "Latvia",
+      "system": "BLAZE",
+      "field": "Range",
+      "category": "Decision",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "If S requires maximum flight range, leave blank until that value is sourced; retain the reported engagement-range lower bound in Notes. Do not invent a replacement maximum.",
+      "source_ids": [
+        "S52"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P42",
+      "country": "Latvia",
+      "system": "BLAZE",
+      "field": "Payload",
+      "category": "Decision",
+      "recommendation": "High-explosive fragmentation warhead; EO/IR sensors and AI computer vision. Published warhead options vary; the configuration delivered to Latvia was not verified.",
+      "reason": "Keep verified model description and remove the unverified combination of variant, certification and delivered-fit claims.",
+      "source_ids": [
+        "S48",
+        "S53"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P43",
+      "country": "Latvia",
+      "system": "BLAZE",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "EDR DSEI article: 6 October 2025",
+      "reason": "Correct article publication date; DSEI event month is not publication date.",
+      "source_ids": [
+        "S52"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P44",
+      "country": "Latvia",
+      "system": "BLAZE",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "Latvian receipt was reported by February 2026. Later reporting about further warhead integration leaves the first operational date unresolved despite earlier delivery and deployment language. Origin explicitly describes AI computer vision. Engagement beyond 10 km is a lower bound, not an exact maximum flight distance. Earlier and later published warhead options do not identify Latvia’s delivered configuration. Unit price, annual capacity and a current commercial product line remain unverified. The founders’ previous Airdog business does not establish current Origin commercial production.",
+      "reason": "Replace the note with a shorter account of the evidence and unresolved points.",
+      "source_ids": [
+        "S48",
+        "S49",
+        "S50",
+        "S51",
+        "S52",
+        "S53",
+        "S54"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P45",
+      "country": "Estonia",
+      "system": "BLAZE",
+      "field": "First operational fielding",
+      "category": "Correction",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "No source establishing operational fielding; receipt/test dates are not interchangeable.",
+      "source_ids": [
+        "S55",
+        "S56"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P46",
+      "country": "Estonia",
+      "system": "BLAZE",
+      "field": "Range",
+      "category": "Decision",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "The source says engagement beyond 10 km. This is neither an exact maximum nor a confirmed flight distance figure; apply the same range definition for both countries.",
+      "source_ids": [
+        "S52"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P47",
+      "country": "Estonia",
+      "system": "BLAZE",
+      "field": "Payload",
+      "category": "Decision",
+      "recommendation": "High-explosive fragmentation warhead; EO/IR sensors and AI computer vision. Published warhead options vary; the configuration delivered to Estonia was not verified.",
+      "reason": "Keep older and newer warheads separate. The delivered fit is unknown.",
+      "source_ids": [
+        "S48",
+        "S52"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P48",
+      "country": "Estonia",
+      "system": "BLAZE",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Add the cited original sources and access date 6 November 2026. EDR DSEI publication is 6 October 2025, not September; add exact-model OEM and EDF exercise source with access date.",
+      "reason": "EDR DSEI publication is 6 October 2025, not September; add exact-model OEM and EDF exercise source with access date.",
+      "source_ids": [
+        "S48",
+        "S52",
+        "S55",
+        "S56",
+        "S57"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P49",
+      "country": "Estonia",
+      "system": "BLAZE",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "Manufacturer-attributed reporting places first Estonian batches in January 2026. It describes evaluation and integration, and the Estonian Defence Forces reports March exercise testing. These establish receipt and testing, not first operational acceptance. Origin explicitly describes model-level AI-assisted recognition. Published range is an engagement lower bound. The fitted warhead, endurance and unit price of the delivered configuration remain unverified; small airframe mass does not establish price eligibility.",
+      "reason": "Use the original receiving-government and manufacturer sources; keep receipt, fielding and variant claims separate.",
+      "source_ids": [
+        "S48",
+        "S52",
+        "S55",
+        "S56",
+        "S57"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P50",
+      "country": "Sweden",
+      "system": "Raptor 2",
+      "field": "Range",
+      "category": "Correction",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "45 km is explicitly radio range.",
+      "source_ids": [
+        "S59"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P51",
+      "country": "Sweden",
+      "system": "Raptor 2",
+      "field": "AI capability",
+      "category": "Evidence gap",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "Remove unsupported positive pending exact Raptor 2 AI configuration; generic/development claims are not decisive.",
+      "source_ids": [
+        "S59",
+        "S60"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P52",
+      "country": "Sweden",
+      "system": "Raptor 2",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Add the cited original sources and access date 6 November 2026. Add FMV 19 August 2026 original and exact manufacturer links. Swedish source language should be labeled.",
+      "reason": "Add FMV 19 August 2026 original and exact manufacturer links. Swedish source language should be labeled.",
+      "source_ids": [
+        "S58",
+        "S59",
+        "S60",
+        "S61",
+        "S62"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P53",
+      "country": "Sweden",
+      "system": "Raptor 2",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "FMV’s August 2026 announcement identifies Raptor 2 and plans delivery and military handover for Q2 2027. It does not establish Swedish receipt or fielding by the review date. The generic product page’s 45 km is radio-link range. Its three-hour endurance differs from a co-founder interview describing up to four hours for Raptor 2. Generic or developmental ML statements do not establish Sweden’s configuration. A mixed-system package cannot provide a unit cost without quantities and allocation. Historical mapping products do not settle current commercial-product classification.",
+      "reason": "Use the original receiving-government and manufacturer sources; keep receipt, fielding and variant claims separate.",
+      "source_ids": [
+        "S58",
+        "S59",
+        "S60",
+        "S61",
+        "S62"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P54",
+      "country": "Australia",
+      "system": "Switchblade 300 Block 20",
+      "field": "Related commercial products",
+      "category": "Decision",
+      "recommendation": "Resolve the reference year before classifying related commercial products.",
+      "reason": "Quantix is discontinued. Historical commercial UAS products support a historical interpretation, but do not establish a current offering. Current general commercial activity has separate supporting evidence.",
+      "source_ids": [
+        "S73",
+        "S74",
+        "S75",
+        "S76"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P55",
+      "country": "Australia",
+      "system": "Switchblade 300 Block 20",
+      "field": "AI capability",
+      "category": "Evidence gap",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "Do not transfer the 2025 updated variant AI claim to the 2024 Australian acquisition.",
+      "source_ids": [
+        "S63",
+        "S67",
+        "S68"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P56",
+      "country": "Australia",
+      "system": "Switchblade 300 Block 20",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Add the cited original sources and access date 6 November 2026. Legacy 300 v 04 PDF no longer resolves. Current original source is v07/version 250911; cite as an updated source, not an identical v 04 migration. Add July 2025 government service-introduction evidence.",
+      "reason": "Legacy 300 v 04 PDF no longer resolves. Current original source is v07/version 250911; cite as an updated source, not an identical v 04 migration. Add July 2025 government service-introduction evidence.",
+      "source_ids": [
+        "S63",
+        "S64",
+        "S65",
+        "S66",
+        "S67",
+        "S68",
+        "S73",
+        "S74",
+        "S75",
+        "S76"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P57",
+      "country": "Australia",
+      "system": "Switchblade 300 Block 20",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "Australia announced a Switchblade 300 order in July 2024; contemporaneous reporting identifies Block 20. In July 2025 the government said service introduction was underway, without dating first receipt or completed operational acceptance. The current 30 km specification depends on an extended-range antenna. The later AI/EFP update is not established for the earlier Australian order. Quantix was discontinued, but current general commercial activity is documented. Related commercial UAS classification needs an explicit reference year. No supported unit price was found.",
+      "reason": "Use the original receiving-government and manufacturer sources; keep receipt, fielding and variant claims separate.",
+      "source_ids": [
+        "S63",
+        "S64",
+        "S65",
+        "S66",
+        "S67",
+        "S68",
+        "S73",
+        "S74",
+        "S75",
+        "S76"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P58",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "field": "First operational fielding",
+      "category": "Correction",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "Warehouse receipt does not establish first operational fielding.",
+      "source_ids": [
+        "S69"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P59",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "field": "Annual production rate",
+      "category": "Dated estimate",
+      "recommendation": "2,880 per year, annualized from the October 2025 statement of 240 per month; label as a historical rate.",
+      "reason": "AV reported 240 Switchblade 600 systems/month in October 2025. Multiply by 12 for a dated annualized rate, not measured annual output or current capacity.",
+      "source_ids": [
+        "S68"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P60",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "field": "Related commercial products",
+      "category": "Decision",
+      "recommendation": "Resolve the reference year before classifying related commercial products.",
+      "reason": "Quantix is discontinued. Historical commercial UAS products support a historical interpretation, but do not establish a current offering. Current general commercial activity has separate supporting evidence.",
+      "source_ids": [
+        "S73",
+        "S74",
+        "S75",
+        "S76"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P61",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "field": "Range",
+      "category": "Decision",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "If the intended metric is maximum flight range, 40 km target distance does not establish it.",
+      "source_ids": [
+        "S70",
+        "S71"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P62",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "field": "AI capability",
+      "category": "Evidence gap",
+      "recommendation": "Unknown; leave the value unset pending supporting evidence.",
+      "reason": "Delivered variant unknown; baseline tracking does not establish AI.",
+      "source_ids": [
+        "S68",
+        "S69",
+        "S72"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P63",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "field": "Citations",
+      "category": "Citation update",
+      "recommendation": "Add the cited original sources and access date 6 November 2026. Replace legacy 600 v 04 URL with recovered official same-version path; add Oct 7 receiving-government announcement and dated 22 December 2022 procurement page.",
+      "reason": "Replace legacy 600 v 04 URL with recovered official same-version path; add Oct 7 receiving-government announcement and dated 22 December 2022 procurement page.",
+      "source_ids": [
+        "S68",
+        "S69",
+        "S70",
+        "S71",
+        "S72",
+        "S73",
+        "S74",
+        "S75",
+        "S76"
+      ],
+      "status": "proposed; not applied in this review"
+    },
+    {
+      "id": "P64",
+      "country": "Lithuania",
+      "system": "Switchblade 600",
+      "field": "Evidence note",
+      "category": "Note replacement",
+      "recommendation": "By the ministry’s 7 October 2026 announcement, the first Switchblade 600 shipment had reached Lithuanian military warehouses. The announcement does not establish the exact arrival day or operational start date. The delivered block is unstated, so newer Block 2 AI claims cannot be assumed. Procurement material’s target distance is not explicitly total flight range. The package includes equipment and support without a usable unit count. Current general commercial activity is documented; related commercial UAS classification needs a reference year. A producer statement of 240 systems per month in October 2025 annualizes to 2,880 per year, a historical rate rather than measured annual output or verified current capacity.",
+      "reason": "Use the original receiving-government and manufacturer sources; keep receipt, fielding and variant claims separate.",
+      "source_ids": [
+        "S68",
+        "S69",
+        "S70",
+        "S71",
+        "S72",
+        "S73",
+        "S74",
+        "S75",
+        "S76"
+      ],
+      "status": "proposed; not applied in this review"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "publisher": "manufacturer",
+      "title": "SkyStriker Tactical Loitering Munition",
+      "date": "Undated",
+      "evidence": "Identifies Elbit and loitering munition role, payload options and tracking. Autonomy and a tracker do not establish AI/ML.",
+      "location": "Overview and Key Features",
+      "url": "https://www.elbitsystems.com/autonomous/aerial/loitering-munition-systems/skystriker",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S02",
+      "publisher": "manufacturer brochure",
+      "title": "SkyStriker: Tactical loitering munitions for covert and precise airstrikes",
+      "date": "Undated",
+      "evidence": "Two-hour maximum depends on the lighter payload; one hour is stated for the heavier option. Does not establish AI.",
+      "location": "High-speed performance / Features",
+      "url": "https://www.elbitsystems.com/sites/default/files/2025-02/skystriker.pdf",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S03",
+      "publisher": "original defense reporting interpreting Azerbaijan MoD footage",
+      "title": "Azerbaijan tests SkyStriker loitering munition UAV",
+      "date": "2019-09-25",
+      "evidence": "Reports Azerbaijani Army use in September exercises and launch from a towed launcher. The service conclusion is the outlet’s interpretation, not a quoted commissioning order.",
+      "location": "Opening and first substantive paragraph",
+      "url": "https://www.armyrecognition.com/archives/archives-aerospace-defense/aerospace-defense-2019/azerbaijan-tests-skystriker-loitering-munition-uav",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S04",
+      "publisher": "defense reporting citing Azeri Defence",
+      "title": "Azerbaijan unveils SkyStriker loitering munitions",
+      "date": "2019-01-11",
+      "evidence": "Reports physical systems displayed at the State Border Service during the January presidential visit. Supports possession by January 2019, not a precise first-delivery date.",
+      "location": "Opening paragraphs",
+      "url": "https://defence-blog.com/azerbaijan-unveils-skystriker-loitering-munitions/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S05",
+      "publisher": "original defense reporting / Defence Insight estimate",
+      "title": "Elbit Systems wins $95 million contract for SkyStriker loitering munitions",
+      "date": "2023-09-19",
+      "evidence": "Explicitly reports $105,000 and 100 km range. Generic system price estimate, not Azerbaijan’s paid price or a contract-total calculation. The range is not explicitly identified as total flight distance.",
+      "location": "Unit price paragraph and performance paragraph",
+      "url": "https://www.shephardmedia.com/news/air-warfare/elbit-systems-wins-95m-contract-for-skystriker-loitering-munitions/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S06",
+      "publisher": "manufacturer",
+      "title": "Universal Avionics Announces Certification for ClearVision EFVS",
+      "date": "2020-03-03",
+      "evidence": "Establishes Elbit subsidiary commercial aviation products. Does not by itself prove significant technology shared with this munition.",
+      "location": "Certification announcement and About Universal Avionics",
+      "url": "https://www.elbitsystems.com/news/universal-avionics-announces-certification-clearvisiontm-efvs",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S07",
+      "publisher": "manufacturer brochure; URL upload directory 2023/01, not asserted publication date",
+      "title": "ORBITER 1K — Loitering Munition UAS",
+      "date": "Undated",
+      "evidence": "Historical model-specific support for the published mission range, endurance, payload and launch categories. Autonomous flight and GPS-denied operation do not establish AI/ML. Mission-range wording needs metric clarification under a clearly defined classification rule.",
+      "location": "Page 2: specifications, applications, main features",
+      "url": "https://aeronautics-sys.com/wp-content/uploads/2023/01/Orbiter1K.pdf",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S08",
+      "publisher": "manufacturer current page",
+      "title": "ORBITER 2 LM",
+      "date": "Undated",
+      "evidence": "The historical 1K URL now redirects to a different designation and states 2.5 h. Use the historical 1 K brochure; do not replace old values with the redirect’s specifications.",
+      "location": "Heading and overview",
+      "url": "https://aeronautics-sys.com/systems/orbiter-1k/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S09",
+      "publisher": "original defense reporting / Defence Insight estimate",
+      "title": "Aeronautics wins order for Orbiter loitering munitions",
+      "date": "2023-09-01",
+      "evidence": "Orbiter 1 K-specific estimate. Supports a unit price only as a generic reported estimate, not the Azerbaijan procurement price. Also reports Azerbaijan’s 2020 inventory using CSIS.",
+      "location": "Second substantive paragraph",
+      "url": "https://www.shephardmedia.com/news/air-warfare/aeronautics-wins-order-for-orbiter-loitering-munitions/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S10",
+      "publisher": "original defense reporting",
+      "title": "Azerbaijan starts producing Zarba armed UAV",
+      "date": "2017-01-10",
+      "evidence": "Supports Israeli design, Aeronautics as lead producer and licensed manufacture by Azad Systems. Production alone is not military receipt or operational fielding.",
+      "location": "Opening paragraph",
+      "url": "https://www.flightglobal.com/military-uavs/azerbaijan-starts-producing-zarba-armed-uav/122744.article",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S11",
+      "publisher": "receiving-government original; Azerbaijani",
+      "title": "Ilham Aliyev attended the Armed Forces centenary military parade",
+      "date": "2018-06-26",
+      "evidence": "Exact Orbiter 1 K is named in the 2018 military parade account. Establishes documented possession before 2020. A parade alone does not date operational fielding; the English version omits this detailed equipment paragraph.",
+      "location": "Paragraph beginning “ORBİTER 1 K”, within equipment parade account",
+      "url": "https://president.az/az/articles/view/29165",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S12",
+      "publisher": "research institution, original analysis using SIPRI and ministries",
+      "title": "The Air and Missile War in Nagorno-Karabakh: Lessons for the Future of Strike and Defense",
+      "date": "2020-12-08",
+      "evidence": "Table gives this purchase interval for both systems, and 80 Orbiter 1 K as an estimated inventory. It does not say delivery interval or first operational year. Image directly inspected, not inferred from a later citation.",
+      "location": "Table 2 image, Orbiter 1 K and SkyStriker rows; surrounding inventory text",
+      "url": "https://missilethreat.csis.org/the-air-and-missile-war-in-nagorno-karabakh-lessons-for-the-future-of-strike-and-defense/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S13",
+      "publisher": "original visual inventory analysis",
+      "title": "Death From Above — Azerbaijan’s Killer Drone Arsenal",
+      "date": "2021-12-29",
+      "evidence": "Labels Zarba-K and Iti Qovan as local 1 K versions, but lists Zarba separately. Do not combine all these names/configurations automatically. Also lists early and late SkyStriker.",
+      "location": "Loitering Munitions list and Azad Systems paragraph",
+      "url": "https://www.oryxspioenkop.com/2021/12/death-from-above-azerbaijans-killer.html",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S14",
+      "publisher": "original report quoting Azerbaijan defence industry minister",
+      "title": "Azerbaijan to start serial production of Zarba drones",
+      "date": "2016-12-17",
+      "evidence": "Tests and anticipated production do not establish a military first-receipt year or resolve which later Zarba designation is meant.",
+      "location": "Minister’s production comments",
+      "url": "https://www.trend.az/azerbaijan/politics/2699316.html",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S15",
+      "publisher": "Reuters original reporting republished by Arab News",
+      "title": "India and Pakistan’s drone battles mark new arms race in Asia",
+      "date": "2025-05-27",
+      "evidence": "Pakistani sources report Turkish-origin YIHA-III use during May 2025 and Baykar–NASTP local assembly. Pakistan military and Baykar did not comment. No licence, import event, first delivery or unit price is supplied.",
+      "location": "Domestic assembly paragraph and Drone Swarms section",
+      "url": "https://www.arabnews.pk/pakistan/india-and-pakistans-drone-battles-mark-new-arms-race-in-asia-2602296",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S16",
+      "publisher": "original defense reporting",
+      "title": "Baykar displays previously little-known one-way attack UAV",
+      "date": "2026-04-27",
+      "evidence": "Links 2026 Sivrisinek to the earlier reported YIHA designation, but says the name’s origin is unclear. Its camera description concerns the displayed type, not an independently verified 2025 Pakistani configuration.",
+      "location": "Opening and provenance paragraphs",
+      "url": "https://www.janes.com/defence-intelligence-insights/defence-news/air/baykar-displays-previously-little-known-one-way-attack-uav",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S17",
+      "publisher": "news reporting citing PTI and Indian Army display",
+      "title": "Made-in-Turkey, fired from Lahore: India shows Pakistani drone it captured during Op Sindoor",
+      "date": "2025-12-16",
+      "evidence": "Supports those figures only as the Indian Army’s claim about a recovered Pakistani unit. Not manufacturer-confirmed. The range definition is unspecified.",
+      "location": "First main paragraph",
+      "url": "https://www.wionews.com/india-news/made-in-turkey-fired-from-lahore-india-shows-pakistani-drone-it-captured-during-op-sindoor-video-1765865921554",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S18",
+      "publisher": "blog citing AFI; weak component provenance",
+      "title": "Revealed: Pakistani YIHA-III Kamikaze Drone Uses Australian-Made Pixhawk Cube Orange Flight Controller",
+      "date": "2025-12-16",
+      "evidence": "A component-identification claim, not a manufacturer or official forensic report. An autopilot is not payload and does not prove AI/ML.",
+      "location": "Opening component-identification paragraphs",
+      "url": "https://idrw.org/revealed-pakistani-yiha-iii-kamikaze-drone-uses-australian-made-pixhawk-cube-orange-flight-controller/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S19",
+      "publisher": "manufacturer current product page",
+      "title": "Sivrisinek",
+      "date": "Undated",
+      "evidence": "Explicit AI claim for current Sivrisinek variants; cannot be back-applied to Pakistan’s 2025 YIHA-III without configuration evidence. Current performance figures also differ from the captured-unit report.",
+      "location": "General Information; Technical Specifications, variants UM and UMX",
+      "url": "https://baykartech.com/en/uav/sivrisinek/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S20",
+      "publisher": "manufacturer corporate announcement",
+      "title": "Baykar finalizes acquisition of Italian aviation giant Piaggio",
+      "date": "2025-06-30",
+      "evidence": "Supports commercial aircraft activity through Piaggio as of the review date. Does not establish a civilian YIHA-related product.",
+      "location": "Opening and acquisition description",
+      "url": "https://www.baykartech.com/en/press/baykar-finalizes-acquisition-of-italian-aviation-giant-piaggio/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S21",
+      "publisher": "manufacturer original, Turkish",
+      "title": "Baykar took its place at NASTP in Pakistan",
+      "date": "2023-08-05",
+      "evidence": "Identifies the August 2023 ceremony as Rawalpindi; it does not support locating that ceremony in Karachi. Cooperation announcement alone does not establish YIHA military fielding or import.",
+      "location": "Opening ceremony paragraph",
+      "url": "https://www.baykartech.com/tr/press/baykar-pakistanda-acilan-nastpta-yerini-aldi/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S22",
+      "publisher": "original defense reporting, company interview",
+      "title": "WDS 2024: Saudi company Serb mass-producing UAVs",
+      "date": "2024-02-09",
+      "evidence": "Supports Saudi producer, government customer, pneumatic launcher and 45-minute endurance. No Jaser delivery date given. The 60 km datalink figure and late-2023 delivery statement refer to Samil, not Jaser.",
+      "location": "Jaser paragraphs; separate following Samil paragraph",
+      "url": "https://www.janes.com/defence-intelligence-insights/defence-news/air/wds-2024-saudi-company-serb-mass-producing-uavs",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S23",
+      "publisher": "original exhibition reporting attributing delivery claim to Serb",
+      "title": "WDS 2026: Saudi Arabia Confirms Jaser Loitering Munition in Active Military Service",
+      "date": "2026-02-09",
+      "evidence": "Supports reported service by 2026 and current loitering role. Opening also infers service from stand placement. Computer-assisted tracking does not establish AI. “Effective range” of 60 km is not explicitly flight distance.",
+      "location": "Third substantive paragraph; later tracking and specification paragraphs",
+      "url": "https://www.armyrecognition.com/archives/archives-defense-exhibitions/2026-archives-news-defense-exhibitions/world-defense-show-2026/saudi-arabia-confirms-jaser-loitering-munition-in-active-military-service",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S24",
+      "publisher": "Arabic magazine synthesis",
+      "title": "Saudi drones watching from across the border",
+      "date": "2026-08-25",
+      "evidence": "Repeats earlier exhibition reporting; not independent delivery confirmation. Search-index excerpt inspected; direct page fetch timed out.",
+      "location": "Jaser section",
+      "url": "https://www.majalla.com/node/332706",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S25",
+      "publisher": "EDGE",
+      "title": "EDGE Awarded Contract Worth AED 1.1 Billion to Supply HUNTER Loitering Munitions to the UAE Armed Forces",
+      "date": "2023-02-21",
+      "evidence": "Names the three contracted Hunter models, HALCON and UAE customer. Explicitly attributes AI-enabled swarm coordination to Hunter 2-S. Does not give quantities, unit price or completed delivery.",
+      "location": "Opening and following two paragraphs",
+      "url": "https://edgegroup.ae/news/edge-awarded-contract-worth-aed-11-billion-supply-hunter-loitering-munitions-uae-armed-forces",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S26",
+      "publisher": "HALCON / EDGE",
+      "title": "Hunter 2-S product sheet",
+      "date": "2023-03 (file path; undated sheet)",
+      "evidence": "Describes AI-assisted sharing of information and relative-position tracking. Lists 45-minute endurance, 50 km communication range, 2 kg payload including fuse/SAD and up to 13 kg takeoff weight. The page 1 launcher statement refers to 64 drones.",
+      "location": "Page 1 description; page 2 specifications",
+      "url": "https://products-webfiles.edgegroup.ae/s3fs-public/2023-03/hunter-2-s.pdf",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S27",
+      "publisher": "EDGE",
+      "title": "HUNTER 2-S Autonomous Loitering Munition",
+      "date": "Undated current product page",
+      "evidence": "Confirms 45-minute endurance, 50 km communication range and 2 kg payload. Says a remote pilot designates the target and activates engagement.",
+      "location": "Description and specifications",
+      "url": "https://edgegroup.ae/solutions/hunter-2-s",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S28",
+      "publisher": "",
+      "title": "La DGA livre la première munition télé-opérée de courte portée DAMOCLES aux forces armées",
+      "date": "2026-01-22",
+      "evidence": "Military receipt; does not give first operational-use date.",
+      "location": "Opening delivery paragraph. official PDF text retrieved",
+      "url": "https://www.defense.gouv.fr/sites/default/files/ministere-armees/Communiqu%C3%A9_A_La%20DGA%20livre%20la%20premi%C3%A8re%20munition%20t%C3%A9l%C3%A9-op%C3%A9r%C3%A9e%20de%20courte%20port%C3%A9e%20DAMOCLES%20aux%20forces%20arm%C3%A9es.pdf",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S29",
+      "publisher": "",
+      "title": "Munition téléopérée Damocles (MTO)",
+      "date": "Undated",
+      "evidence": "Documents operational use by the French navy in the Red Sea by 2026, but does not date its beginning.",
+      "location": "Eurosatory 2026 equipment entry. official page search text retrieved",
+      "url": "https://www.defense.gouv.fr/eurosatory/stand-equipements/eurosatory-2026-equipements-exposes/combat-indirect/griffon-mepac/munition-teleoperee",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S30",
+      "publisher": "",
+      "title": "MX-10 DAMOCLES",
+      "date": "Undated",
+      "evidence": "Manufacturer specifications; no explicit AI claim or proof that AI is absent. Original cited /mx-10 URL failed; this is the same-product replacement.",
+      "location": "Operational data and Warhead sections. full original manufacturer page opened",
+      "url": "https://knds.com/en/products/ammunition/mx-10-damocles",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S31",
+      "publisher": "",
+      "title": "French forces order more MX-10 DAMOCLES loitering munitions",
+      "date": "2026-10-13",
+      "evidence": "Company release. Export campaigns do not establish completed exports.",
+      "location": "Delivery, export campaigns, and About Delair paragraphs. full manufacturer press release opened through EQS distributor",
+      "url": "https://live.deutsche-boerse.com/nachrichten/French-forces-order-more-MX-10-DAMOCLES-loitering-munitions-KNDS-and-DELAIR-consolidate-their-position-as-the-benchmark-in-the-field-c1516ad6-abea-4f65-b942-1e218984d84a",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S32",
+      "publisher": "",
+      "title": "Loitering Munition: Gamechanger für die Bundeswehr",
+      "date": "2026-06-02",
+      "evidence": "Orders and testing are established; first operational unit planned from 2027.",
+      "location": "Contracts, trials and Panzerbrigade 45 paragraphs. full official military page opened",
+      "url": "https://www.bundeswehr.de/de/ausruestung-technik-bundeswehr/loitering-munition",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S33",
+      "publisher": "",
+      "title": "Bundeswehr is procuring HX-2 loitering munition, Helsing confirms",
+      "date": "2025-07-10",
+      "evidence": "450 per month is a dated capacity statement, not verified 2026 output. The article separately discusses expansion.",
+      "location": "Interview with Simon Brünjes, 9 July 2025; production paragraph. full original reporting opened",
+      "url": "https://www.janes.com/defence-intelligence-insights/defence-news/air/bundeswehr-is-procuring-hx-2-loitering-munition-helsing-confirms",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S34",
+      "publisher": "",
+      "title": "HX-2 – AI Strike Drone",
+      "date": "Undated",
+      "evidence": "Model advertising, not acceptance evidence for a German batch. Does not publish 4.5 kg warhead mass or flight endurance.",
+      "location": "Introductory AI claim and specification list. full original manufacturer page opened",
+      "url": "https://helsing.ai/hx-2",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S35",
+      "publisher": "",
+      "title": "Resilience Factories",
+      "date": "Undated",
+      "evidence": "Advertises over 1,000 per month; not interchangeable with the dated July 2025 Janes interview.",
+      "location": "RF-1 production-capacity paragraph. full original manufacturer page opened",
+      "url": "https://helsing.ai/resilience-factories",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S36",
+      "publisher": "",
+      "title": "Helsing appoints Andriy Shevchenko as Managing Director for Ukraine",
+      "date": "2026-07-15",
+      "evidence": "Producer reports actual deployment to Ukraine. Not a German fielding source.",
+      "location": "Paragraph describing HX-2 deployment since early 2026. manufacturer search text retrieved",
+      "url": "https://helsing.ai/newsroom/helsing-appoints-andriy-shevchenko-as-managing-director-for-ukraine",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S37",
+      "publisher": "",
+      "title": "Kamikazedrohnen von Helsing und Stark: Pistorius muss um Einkauf bangen",
+      "date": "2026-02-17",
+      "evidence": "HX-2 EUR 44,000 net from draft; Virtus about EUR 80,000 net from sources because its draft price was redacted. Neither is a confirmed final paid unit price.",
+      "location": "Draft-contract pricing paragraphs. original reporting search text retrieved",
+      "url": "https://www.t-online.de/nachrichten/deutschland/militaer-verteidigung/id_101131654/kamikazedrohnen-von-helsing-und-stark-pistorius-muss-um-einkauf-bangen.html",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S38",
+      "publisher": "",
+      "title": "Euro-U.S. Dollar History: 2026",
+      "date": "Undated",
+      "evidence": "Mid-rate 1.1802 USD/EUR; 44,000 × 1.1802 = 51,928.8. Source is a commercial historical-rate table.",
+      "location": "26 February 2026 row. full exchange-rate table opened",
+      "url": "https://www.poundsterlinglive.com/history/EUR-USD-2026",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S39",
+      "publisher": "",
+      "title": "Helsing acquires Grob Aircraft to accelerate innovation in aerospace and defence",
+      "date": "2025-06-04",
+      "evidence": "Announcement initially subject to regulatory approval; no precise commercial-technology overlap with HX-2 established.",
+      "location": "Acquisition and military/general aviation paragraphs. manufacturer search text retrieved",
+      "url": "https://helsing.ai/newsroom/helsing-acquires-grob-aircraft-to-accelerate-innovation-in-aerospace-and-defence",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S40",
+      "publisher": "",
+      "title": "Helsing unveils CA-1 Europa, an autonomous fighter jet",
+      "date": "2025-09-25",
+      "evidence": "Supports group ownership; commercial-product coding still depends on whether subsidiaries count.",
+      "location": "Grob Aircraft subsidiary paragraph. manufacturer search text retrieved",
+      "url": "https://helsing.ai/newsroom/helsing-unveils-ca-1-europa-an-autonomous-fighter-jet",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S41",
+      "publisher": "",
+      "title": "HX-2: Helsing releases details of AI-enabled loitering munition",
+      "date": "2024-12-05",
+      "evidence": "The EO sensor identification is qualified as apparent in this article; no 4.5 kg warhead figure found.",
+      "location": "Technical description paragraph. full original reporting opened",
+      "url": "https://www.calibredefence.co.uk/hx-2-helsing-releases-details-of-ai-enabled-loitering-munition/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S42",
+      "publisher": "",
+      "title": "STARK to Deliver Loitering Munition System Virtus to the Bundeswehr",
+      "date": "2026-02-26",
+      "evidence": "Announced 90 minutes and future deliveries. Does not establish operational fielding. Later published endurance differs.",
+      "location": "Contract, qualification and specifications paragraphs. full original manufacturer release opened",
+      "url": "https://stark-defence.com/en/news/stark-to-deliver-virtus-to-the-bundeswehr",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S43",
+      "publisher": "",
+      "title": "VIRTUS: One-Way-Effector",
+      "date": "Undated",
+      "evidence": "Current page explicitly claims onboard AI, lists flight range and modular payload options. Manufacturer claims, not independent performance verification.",
+      "location": "Core capabilities and Virtus OWE-V specifications. full original manufacturer page opened",
+      "url": "https://stark-defence.com/en/systems/stark-owe-v-virtus",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S44",
+      "publisher": "",
+      "title": "Kamikaze-Drohnen für Bundeswehr: Lieferung soll bald starten",
+      "date": "2026-09-23",
+      "evidence": "German-sold drone is described as up to 75 minutes. Delivery was still prospective in this interview.",
+      "location": "Paragraph beginning Die an die Bundeswehr verkaufte Drohne; SVP delivery quotation. full dpa interview report opened",
+      "url": "https://www.infranken.de/deutschland/kamikaze-drohnen-fuer-bundeswehr-lieferung-soll-bald-starten-art-6397866",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S45",
+      "publisher": "",
+      "title": "Euro foreign exchange reference rates as of 16 February 2026",
+      "date": "2026-02-16",
+      "evidence": "1.1855 USD/EUR; 80,000 × 1.1855 = 94,840. Date precedes contract announcement and is disclosed.",
+      "location": "USD row. full central-bank rate table opened",
+      "url": "https://www.bancaditalia.it/compiti/operazioni-cambi/cambio/cambi_rif_20260216/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S46",
+      "publisher": "",
+      "title": "Europe’s Top Defence Investor Becomes CEO of STARK",
+      "date": "Undated",
+      "evidence": "Specific model export claim; exact article date not verified.",
+      "location": "Paragraph describing Virtus deployed in Ukraine. manufacturer search text retrieved",
+      "url": "https://stark-defence.com/en/news/europe-s-top-defence-investor-becomes-ceo-of-stark",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S47",
+      "publisher": "",
+      "title": "TDW and STARK demonstrate first loitering munition hot strike",
+      "date": "2025-12-22",
+      "evidence": "Tested configuration, not proof of the eventual accepted German batch.",
+      "location": "German warhead test paragraph. manufacturer search text retrieved",
+      "url": "https://stark-defence.com/en/news/tdw-and-stark-demonstrate-first-loitering-munition-hot-strike",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S48",
+      "publisher": "",
+      "title": "BLAZE",
+      "date": "Undated",
+      "evidence": "Exact model AI claim. No quantitative range, warhead weight or price on this page.",
+      "location": "AI and payload/sensors sections. full original manufacturer page opened",
+      "url": "https://origin-robotics.com/blaze",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S49",
+      "publisher": "",
+      "title": "Latvia, Estonia and Belgium receive first Blaze military drones",
+      "date": "2026-02-06",
+      "evidence": "Supports receipt and exports. Uses deploy wording, but does not resolve subsequent warhead-integration/readiness questions.",
+      "location": "Defence minister announcement. full original public-broadcaster report opened",
+      "url": "https://eng.lsm.lv/article/society/defence/06.02.2026-latvia-estonia-and-belgium-receive-first-blaze-military-drones.a633457/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S50",
+      "publisher": "",
+      "title": "Ministru kabinets apstiprina SAFE instrumenta izmantošanu bezpilota lidaparātu un pretdronu sistēmu iegādei",
+      "date": "2026-04-21",
+      "evidence": "Procurement approval is not operational acceptance.",
+      "location": "SAFE procurement and Latvian producers paragraphs. official ministry search text retrieved",
+      "url": "https://www.mod.gov.lv/lv/zinas/ministru-kabinets-apstiprina-safe-instrumenta-izmantosanu-bezpilota-lidaparatu-un-pretdronu",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S51",
+      "publisher": "",
+      "title": "Kulbergs: Läti unustas droonitõrjesüsteeme ostes laskemoona ära",
+      "date": "2026-08-12",
+      "evidence": "Reports a dispute and cites a Delfi interview; do not repeat the accusation that ammunition was forgotten as established fact.",
+      "location": "Former defence minister response and explosives-integration discussion. full public-broadcaster report opened",
+      "url": "https://www.err.ee/1610108587/kulbergs-lati-unustas-droonitorjesusteeme-ostes-laskemoona-ara",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S52",
+      "publisher": "",
+      "title": "DSEI 2025 – Origin Robotics counter-UAS interceptor Blaze",
+      "date": "2025-10-06",
+      "evidence": "Engagement-range lower bound, not a verified maximum flight distance. Publication date checked separately from the exhibition date.",
+      "location": "Manufacturer-attributed range paragraph in search excerpt. search excerpt retrieved; direct access blocked",
+      "url": "https://www.edrmagazine.eu/dsei-2025-origin-robotics-counter-uas-interceptor-blaze",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S53",
+      "publisher": "",
+      "title": "ORIGIN and WITU unveil BLAZE with latest version of warhead at MSPO",
+      "date": "2026-09-08",
+      "evidence": "New advertised module, not proof of the module fitted to Latvia’s delivered units.",
+      "location": "New 700 g module and standards paragraph. full manufacturer release reprint opened",
+      "url": "https://www.suasnews.com/2026/09/origin-and-witu-unveil-blaze-with-latest-version-of-warhead-at-mspo/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S54",
+      "publisher": "",
+      "title": "Origin Robotics ambīcijas: kļūt par Eiropas pārtvērējdronu sistēmu tirgus līderi",
+      "date": "2026-07-29",
+      "evidence": "Airdog was the founders’ previous company, sold in 2020; its consumer products do not establish current Origin commercial production. Describes BLAZE as 6 kg, not strictly under 6 kg.",
+      "location": "Company history and product paragraphs. full original interview opened",
+      "url": "https://www.lsm.lv/raksts/zinas/ekonomika/29.07.2026-origin-robotics-ambicijas-klut-par-eiropas-partverejdronu-sistemu-tirgus-lideri.a656454/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S55",
+      "publisher": "",
+      "title": "Special report: Estonia, Latvia, and Belgium receive Blaze interceptor UAVs from Origin Robotics",
+      "date": "2026-02",
+      "evidence": "First batches arrived from January 2026. Receipt is distinct from operational fielding; evaluation and integration do not establish the latter. Exact publication day not exposed in opened page.",
+      "location": "Opening paragraphs and Mass production section. Opened original publisher page",
+      "url": "https://www.janes.com/defence-intelligence-insights/defence-news/air/special-report-estonia-latvia-and-belgium-receive-blaze-interceptor-uavs-from-origin-robotics",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S56",
+      "publisher": "",
+      "title": "The Estonian Defence Forces practiced repelling unmanned aerial vehicles in Rutja together with Allied forces",
+      "date": "2026-03-06",
+      "evidence": "Receiving-military primary report confirms March 5 exercise testing; not an operational acceptance statement.",
+      "location": "Body paragraph naming Origin Blaze. Opened original publisher page",
+      "url": "https://mil.ee/en/news/the-estonian-defence-forces-practiced-repelling-unmanned-aerial-vehicles-in-rutja-together-with-allied-forces/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S57",
+      "publisher": "",
+      "title": "Origin Robotics Unveils BLAZE, a Cost-Effective Drone Interceptor with AI-powered Computer Vision",
+      "date": "2025-09-10",
+      "evidence": "Primary producer release republished Sept 10, with May 6 dateline. Supports model AI and warhead type; not independent fielding evidence.",
+      "location": "Reprinted Origin release, body paragraphs 6–8. Opened original publisher page",
+      "url": "https://soldiersystems.net/2025/09/10/origin-robotics-unveils-blaze-a-cost-effective-drone-interceptor-with-ai-powered-computer-vision/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S58",
+      "publisher": "",
+      "title": "FMV köper spanings-och patrullrobotsystem",
+      "date": "2026-08-19",
+      "evidence": "FMV identifies Raptor 2, Danish supplier and planned Q2 2027 delivery/handover. Sweden is an ordered customer, not established fielding country.",
+      "location": "Paragraph before Läglighetsköp. Language: Swedish. Opened original publisher page",
+      "url": "https://www.fmv.se/aktuellt--press/aktuella-handelser/fmv-koper-spanings-och-patrullrobotsystem/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S59",
+      "publisher": "",
+      "title": "RAPTOR — Unmanned Attack Drone System",
+      "date": "Undated",
+      "evidence": "Generic RAPTOR page supports 3 h, hand launch, payload and weights. Its 45 km is radio range. Explicit ML mode is under development; page does not identify Sweden’s Raptor 2 configuration.",
+      "location": "Feature list; radio section; Long Range Attack Mode. Opened original publisher page",
+      "url": "https://nordic-wing.com/raptor/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S60",
+      "publisher": "",
+      "title": "A dream come true: Denmark’s Nordic Wing on selling drones to Sweden",
+      "date": "2026-08-23, updated 2026-08-24",
+      "evidence": "Direct co-founder interview names Raptor 2 and up to four-hour endurance. Pixel lock does not independently establish AI/ML. Conflicts with generic 3 h specification.",
+      "location": "Interview, One loop, three attack drones. Opened original publisher page",
+      "url": "https://nordicdefencesector.com/en/article/a-dream-come-true-denmarks-nordic-wing-on-selling-drones-to-sweden",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S61",
+      "publisher": "",
+      "title": "Non-proprietary software solutions and EU suppliers",
+      "date": "2025-03-17",
+      "evidence": "Producer identifies Danish development and manufacture. This supports supplier/origin, not Swedish receipt.",
+      "location": "Main paragraph. Opened original publisher page",
+      "url": "https://nordic-wing.com/news/since-day-one-nordic-wing-has-maintained-a-strong-commitment-to-non-proprietary-software-solutions-and-eu-suppliers/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S62",
+      "publisher": "",
+      "title": "Nordic Wing support employee vacancy",
+      "date": "2024-06 (URL directory)",
+      "evidence": "Historical company material mentions mapping/surveying; insufficient to identify a currently available civilian product. Current commercial-product classification remains unresolved.",
+      "location": "Closing company profile. Official PDF indexed text",
+      "url": "https://nordic-wing.com/wp-content/uploads/2024/06/Job-posting-Support-Employee.pdf",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S63",
+      "publisher": "",
+      "title": "Australian Government announces acquisition of precision loitering munition",
+      "date": "2024-07-08",
+      "evidence": "Future receipt/service expectation; no actual delivery confirmation. Government identifies 300 but does not specify Block 20.",
+      "location": "Release body. Opened original publisher page",
+      "url": "https://www.minister.defence.gov.au/media-releases/2024-07-08/australian-government-announces-acquisition-precision-loitering-munition",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S64",
+      "publisher": "",
+      "title": "Accelerating the acquisition of drone and counter-drone technology",
+      "date": "2025-07-24",
+      "evidence": "Stronger primary evidence than the earlier order announcement: service introduction underway in 2025. Does not state first receipt or completed operational acceptance.",
+      "location": "Final paragraph. Opened original publisher page",
+      "url": "https://www.minister.defence.gov.au/media-releases/2025-07-24/accelerating-acquisition-drone-counter-drone-technology",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S65",
+      "publisher": "",
+      "title": "Australia to acquire Switchblade 300 loitering munition",
+      "date": "2024-07-09",
+      "evidence": "Original defence reporting identifies Block 20 and baseline range/endurance/mass in July 2024, before the 2025 EFP/AI update.",
+      "location": "Opening two paragraphs. Opened original publisher page",
+      "url": "https://www.ex2.com.au/news/australia-to-acquire-switchblade-300-loitering-munition/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S66",
+      "publisher": "",
+      "title": "Switchblade 300 Block 20",
+      "date": "Undated",
+      "evidence": "Current exact-model page supports 20+ min, antenna-dependent 30 km,1.68 kg munition and 3.27 kg all-up round. Generic lower-page copy also mentions 10–15 min, so use precise model specification, not generic copy.",
+      "location": "Top specification table. Opened original publisher page",
+      "url": "https://www.avinc.com/solution/switchblade-300-block-20/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S67",
+      "publisher": "",
+      "title": "Switchblade 300 Block 20 datasheet, version250911/v07",
+      "date": "2025-09-11 (version code)",
+      "evidence": "Live manufacturer replacement is v 07, not the dead cited v 04. It describes the updated fragmentation/EFP model. Do not claim this proves Australian batch fit.",
+      "location": "Page 2 specification table. Opened original publisher page",
+      "url": "https://www.avinc.com/wp-content/uploads/2026/03/2025_Switchblade-300B20_Datasheet_250911_v07.pdf?quality=100",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S68",
+      "publisher": "",
+      "title": "AV Unveils Next Generation of Switchblade Loitering Munitions",
+      "date": "2025-10-13",
+      "evidence": "AI claims apply to the announced new variants, including 600 Block 2 and updated 300 B 20 EFP. They cannot establish Lithuania’s unspecified variant or Australia’s 2024 order. Producer reports 600 output 240/month then; annualization is historical, not measured annual/current capacity.",
+      "location": "600 Block 2 paragraph; shared AV_Halo Vision paragraph; final capacity paragraph. Opened original publisher page",
+      "url": "https://investor.avinc.com/news-releases/news-release-details/av-unveils-next-generation-switchblader-loitering-munitions",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S69",
+      "publisher": "",
+      "title": "The Lithuanian Armed Forces added the Switchblade600 loitering ammunition to its inventory",
+      "date": "2026-10-07",
+      "evidence": "Ministry announcement dated 7 October confirms that the first shipment had reached warehouses by publication. It does not give the exact arrival day, operational acceptance date or delivered block.",
+      "location": "First body paragraph. Opened original publisher page",
+      "url": "https://kam.lt/en/the-lithuanian-armed-forces-added-the-switchblade-600-loitering-ammunition-to-its-inventory/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S70",
+      "publisher": "",
+      "title": "Lithuania and the U.S. Government signs Switchblade procurement contract",
+      "date": "2022-12-22",
+      "evidence": "Primary states package scope,40 min and 40 km target distance. Package lacks disclosed quantity in this source; cannot derive unit cost. The previous ?p=66059 citation can be replaced by this dated canonical URL.",
+      "location": "Contract body. Opened original publisher page",
+      "url": "https://kam.lt/en/lithuania-and-the-u-s-government-signs-switchblade-procurement-contract/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S71",
+      "publisher": "",
+      "title": "Switchblade600 datasheet, version250428/v04",
+      "date": "2025-04-28 (version code)",
+      "evidence": "Exact version recovered at current official path. It supports 40+min,15 kg munition,29.5 kg round,2-axis 4-sensor EO/IR;60+ and 90+ are standoff/handoff figures, not total flight distance.",
+      "location": "Page 2 range and specifications table. Opened original publisher page",
+      "url": "https://www.avinc.com/wp-content/uploads/2026/03/2025_Switchblade-600_Datasheet_250428_v04.pdf?quality=100",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S72",
+      "publisher": "",
+      "title": "Switchblade600",
+      "date": "Undated",
+      "evidence": "Current baseline product page does not explicitly identify AI/ML. It supports ordinary sensor tracking and type-level ground launch; not Lithuania’s fielding date.",
+      "location": "Top description and Key Features. Opened original publisher page",
+      "url": "https://www.avinc.com/solution/switchblade-600/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S73",
+      "publisher": "",
+      "title": "Quantix Sunset Customer Announcement",
+      "date": "2023-01-23",
+      "evidence": "The 2020 commercial-product example is historical. New orders/support were wound down. This is not proof AV has no other commercial products.",
+      "location": "First page, sunset plan. Official publisher PDF indexed text; direct legacy URL returned 404",
+      "url": "https://www.avinc.com/images/uploads/product_docs/Quantix_Sunset_Customer_Announcement_for_AVINC.pdf",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S74",
+      "publisher": "",
+      "title": "AV Announces LINX Connected Transportation Platform to Modernize Real-Time Traveler Communications",
+      "date": "2026-06-08 page date;2026-06-09 body dateline",
+      "evidence": "Current nonmilitary transportation software offering supports general general commercial-product classification. This is not a related civilian drone by itself.",
+      "location": "Opening body and transportation-customer paragraphs. Opened original publisher page",
+      "url": "https://www.avinc.com/2026/06/08/av-announces-linx-connected-transportation-platform-to-modernize-real-time-traveler-communications/",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S75",
+      "publisher": "",
+      "title": "AeroVironment FY2026 Form10-K",
+      "date": "FY ended2026-04-30",
+      "evidence": "Current company disclosure supports continued nonmilitary commercial business; no need to infer no commercial activity merely because Quantix was sunset.",
+      "location": "Customers, printed page 7. Opened original publisher page",
+      "url": "https://investor.avinc.com/node/21001/html",
+      "reviewed_on": "2026-11-06"
+    },
+    {
+      "id": "S76",
+      "publisher": "",
+      "title": "AeroVironment Introduces Next-Generation All-Electric VAPOR55MX Helicopter UAS",
+      "date": "2022-09-13 release on current product archive",
+      "evidence": "Related commercial UAS technology base is documented historically. Current portfolio now highlights CLE; related-commercial-product classification depends on the reference date and definition. Do not infer a civilian Switchblade variant.",
+      "location": "2022 launch release in product archive. Opened original publisher page",
+      "url": "https://www.avinc.com/avinc_product_family/vapor/",
+      "reviewed_on": "2026-11-06"
+    }
+  ]
+}

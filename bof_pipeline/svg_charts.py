@@ -24,8 +24,7 @@ from typing import Sequence
 
 import pandas as pd
 
-from bof_pipeline.config import TECHNOLOGY_CLUSTER_PATTERNS
-from bof_pipeline.transform import _match_multiple_categories, _to_lower
+from bof_pipeline.transform import classify_technology
 
 # ── Brand tokens ────────────────────────────────────────────────────────────
 PAPER       = "#EAE3D8"
@@ -59,16 +58,17 @@ _PAGE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<title>{title} · Fortify</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%23242824'/><text x='17' y='47' font-family='Arial,sans-serif' font-size='44' font-weight='600' fill='white'>F</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   html, body {{
     margin: 0;
     padding: 0;
-    background: {paper};
+    background: #f7f7f5;
+    overflow-x: hidden;
     font-family: 'Inter', -apple-system, sans-serif;
     color: {text_dark};
   }}
@@ -78,56 +78,78 @@ _PAGE = """<!DOCTYPE html>
     flex-direction: column;
   }}
   .bof-bar {{
-    flex-wrap: wrap;
-    gap: 10px 24px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 28px;
-    background: {paper_soft};
-    border-bottom: 1px solid {border};
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1.2px;
-    color: {text_mid};
+    gap: 8px 24px;
+    min-height: 68px;
+    padding: 10px 28px;
+    box-sizing: border-box;
+    background: #fff;
+    border-bottom: 1px solid #daddd8;
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    color: #626862;
     flex-shrink: 0;
   }}
   .bof-bar .bof-brand {{
-    min-width: 0;
-    display: flex; align-items: center; gap: 10px;
-    color: inherit; text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #242824;
+    text-decoration: none;
   }}
-  .bof-bar .bof-brand svg {{
-    flex-shrink: 0;
-    width: 18px; height: 18px;
-    color: {brass};
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
-  }}
-  .bof-bar .bof-brand:hover svg {{ transform: rotate(45deg); }}
   .bof-bar .bof-brand strong {{
-    line-height: 1.5;
-    color: {text_dark}; font-weight: 700; letter-spacing: 1.4px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
   }}
   .bof-bar a.bof-back {{
-    color: {text_mid}; text-decoration: none; letter-spacing: 1.2px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #626862;
+    text-decoration: none;
+    white-space: nowrap;
   }}
-  .bof-bar a.bof-back:hover {{ color: {brass}; }}
+  .bof-bar a.bof-back:hover {{
+    color: #242824;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }}
+  .bof-bar a:focus-visible {{
+    outline: 2px solid #52645b;
+    outline-offset: 4px;
+  }}
 
   .chart-frame {{
-    flex: 1;
     width: 100%;
+    min-width: 0;
     padding: 18px 32px 28px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
   }}
   .chart-frame svg {{
     width: 100%;
+    min-width: 1600px;
     height: auto;
     display: block;
-    max-height: 100%;
-    flex: 1;
+  }}
+  .chart-frame:focus-visible {{
+    outline: 2px solid #52645b;
+    outline-offset: -2px;
+  }}
+  @media (max-width: 1664px) {{
+    .chart-frame::before {{
+      content: "Scroll horizontally to see the full chart.";
+      display: block;
+      margin-bottom: 12px;
+      font: 13px/1.5 'Public Sans', sans-serif;
+      color: #626862;
+    }}
   }}
 
   /* Shared SVG element styling */
@@ -288,23 +310,17 @@ _PAGE = """<!DOCTYPE html>
   .hm-cell:hover .hm-num {{ opacity: 1 !important; }}
   .hm-cell:hover .hm-badge {{ opacity: 1; }}
   @media (max-width: 720px) {{
-    .bof-bar {{ padding: 10px 14px; font-size: 10px; }}
+    .bof-bar {{ padding: 8px 16px; }}
     .chart-frame {{ padding: 10px 12px 18px; }}
   }}
 </style>
 </head>
 <body>
 <div class="bof-bar">
-  <a class="bof-brand" href="../" title="Back to dashboard">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
-      <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
-    </svg>
-    <strong>Military Innovation and Technology Adoption</strong>
-  </a>
-  <a class="bof-back" href="../">← back to dashboard</a>
+  <a class="bof-brand" href="../" title="Fortify archive"><strong>Fortify</strong></a>
+  <a class="bof-back" href="../">Back to archive</a>
 </div>
-<div class="chart-frame">
+<div class="chart-frame" role="region" aria-label="Scrollable chart" tabindex="0">
 {svg}
 </div>
 </body>
@@ -394,7 +410,7 @@ def _classify_clusters(allotments: pd.DataFrame) -> pd.DataFrame:
     out = allotments.copy()
     out["description"] = out["description"].astype(str)
     out["primary_cluster"] = out["description"].map(
-        lambda t: (_match_multiple_categories(_to_lower(t), TECHNOLOGY_CLUSTER_PATTERNS) or ["Other/Unclassified"])[0]
+        lambda t: (classify_technology(t) or ["Other/Unclassified"])[0]
     )
     return out
 

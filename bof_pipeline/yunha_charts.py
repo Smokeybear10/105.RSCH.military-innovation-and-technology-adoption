@@ -4,7 +4,7 @@ Three views of how BOF dollars flowed into different technology areas,
 built directly off the master 1888-1918 allotment ledger and the 1897-1908
 subjects-considered records.
 
-The classifier reuses the project's existing TECHNOLOGY_CLUSTER_PATTERNS
+The classifier reuses the project's shared classify_technology function
 (seven categories: Artillery, Explosives, Small Arms, Armor & Protection,
 Fortification & Engineering, Communications & Observation, Logistics &
 Support) so cluster taxonomy is identical across the dashboard.
@@ -12,7 +12,7 @@ Support) so cluster taxonomy is identical across the dashboard.
 Charts:
   1. save_yunha_dollars_by_cluster()      — treemap, total $ per cluster
   2. save_yunha_investment_trajectory()   — line chart, $ per cluster × year
-  3. save_yunha_approval_roi()            — bubble chart, cluster size vs approval rate
+  3. save_yunha_approval_roi()            — bubble chart, cluster size vs recorded-action labels
 """
 
 from __future__ import annotations
@@ -22,8 +22,8 @@ from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 
-from bof_pipeline.config import TECHNOLOGY_CLUSTER_PATTERNS
-from bof_pipeline.transform import _match_multiple_categories, _to_lower
+from bof_pipeline.transform import action_summary, classify_technology
+from bof_pipeline.visualize import _coverage_table, _write_chart
 
 # ── Design tokens ───────────────────────────────────────────────────────
 _PLOT_BG = "#EAE3D8"
@@ -83,9 +83,7 @@ def classify_allotments(allotments: pd.DataFrame) -> pd.DataFrame:
     """
     out = allotments.copy()
     out["description"] = out["description"].astype(str)
-    out["technology_clusters"] = out["description"].map(
-        lambda t: _match_multiple_categories(_to_lower(t), TECHNOLOGY_CLUSTER_PATTERNS)
-    )
+    out["technology_clusters"] = out["description"].map(classify_technology)
     out["primary_cluster"] = out["technology_clusters"].map(
         lambda tags: tags[0] if tags else "Other/Unclassified"
     )
@@ -227,76 +225,45 @@ def save_yunha_investment_trajectory(allotments: pd.DataFrame, out: Path) -> Non
 
 
 def save_yunha_approval_roi(proposals: pd.DataFrame, out: Path) -> None:
-    """Compare record counts with automated approval-label shares by cluster."""
-    df = proposals[
-        proposals["primary_cluster"].notna()
-        & (proposals["primary_cluster"] != "Other/Unclassified")
-    ].copy()
-
-    grp = df.groupby("primary_cluster").agg(
-        total=("status", "size"),
-        approved=("status", lambda s: (s == "Approved").sum()),
-    ).reset_index()
-    grp["approval_rate"] = grp["approved"] / grp["total"] * 100
-    grp = grp.sort_values("total", ascending=False)
-
-    overall_rate = (df["status"] == "Approved").sum() / len(df) * 100
-
+    """Compare record counts and approval labels among recorded actions."""
+    summary = action_summary(proposals, ["primary_cluster"]).sort_values("submissions", ascending=False)
+    recorded = int(summary["recorded_actions"].sum())
+    approved = int(summary["approved"].sum())
     fig = go.Figure()
-
-    for _, row in grp.iterrows():
+    for _, row in summary.iterrows():
         cluster = row["primary_cluster"]
-        color = CLUSTER_PALETTE.get(cluster, "#546E7A")
+        share = row["approval_share_recorded"]
         fig.add_trace(go.Scatter(
-            x=[row["total"]], y=[row["approval_rate"]],
-            mode="markers+text",
-            name=cluster,
-            marker=dict(
-                size=max(20, row["approved"] * 1.5),
-                color=color,
-                opacity=0.78,
-                line=dict(width=2, color=_PLOT_BG),
-            ),
-            text=[cluster.replace(" and ", " &<br>")],
-            textposition="middle center",
-            textfont=dict(family=_SERIF, size=10, color="white"),
-            customdata=[[row["total"], row["approved"], row["approval_rate"]]],
-            hovertemplate=(
-                f"<b>{cluster}</b><br>"
-                "Records: %{customdata[0]}<br>"
-                "Labeled Approved: %{customdata[1]}<br>"
-                "Share labeled Approved: %{customdata[2]:.1f}%<extra></extra>"
-            ),
-            showlegend=False,
+            x=[int(row["submissions"])],
+            y=[None if pd.isna(share) else share * 100],
+            mode="markers", name=cluster,
+            marker=dict(size=max(10, float(row["approved"]) * 1.5),
+                        color=CLUSTER_PALETTE.get(cluster, "#546E7A"), opacity=.85),
+            customdata=[[int(row[name]) for name in ("submissions", "recorded_actions", "missing_actions", "approved")]],
+            hovertemplate=(f"{cluster}<br>Records: %{{customdata[0]}}"
+                           "<br>Recorded actions: %{customdata[1]}"
+                           "<br>Missing actions: %{customdata[2]}"
+                           "<br>Approved labels: %{customdata[3]}"
+                           "<br>Approved / recorded actions: %{y:.1f}%<extra></extra>"),
         ))
-
-    fig.add_hline(
-        y=overall_rate, line_dash="dot", line_color=_TEXT_MID, line_width=1,
-        annotation_text=f"overall labeled Approved: {overall_rate:.1f}%",
-        annotation_position="bottom right",
-        annotation_font=dict(family=_SERIF, size=10, color=_TEXT_MID),
+    if recorded:
+        overall = approved / recorded * 100
+        fig.add_hline(y=overall, line_dash="dot", line_color="#626862", line_width=1,
+                      annotation_text=f"All groups: {approved} / {recorded} recorded actions ({overall:.1f}%)",
+                      annotation_position="top right")
+    fig.update_layout(
+        height=560, xaxis=dict(title="Proposal records", rangemode="tozero", gridcolor="#daddd8"),
+        yaxis=dict(title="Approved labels / recorded actions (%)", ticksuffix="%", rangemode="tozero", gridcolor="#daddd8"),
+        legend=dict(orientation="h", y=-.25),
     )
-
-    layout = _layout(
-        "Proposal Volume and Recorded Approval Labels",
-        "Subjects considered · X = record count, Y = share labeled Approved, "
-        "bubble size = Approved count. Automated labels; not a financial return measure.",
-        height=560,
-    )
-    layout["xaxis"] = dict(
-        title="Record count",
-        gridcolor=_GRID, zerolinecolor=_GRID,
-    )
-    layout["yaxis"] = dict(
-        title="Labeled Approved (%)", ticksuffix="%",
-        gridcolor=_GRID, zerolinecolor=_GRID,
-        range=[0, max(grp["approval_rate"].max() + 5, 25)],
-    )
-    layout["showlegend"] = False
-    fig.update_layout(**layout)
-
     out.parent.mkdir(parents=True, exist_ok=True)
-    fig.write_html(out, include_plotlyjs="cdn", full_html=True)
+    _write_chart(fig, out, "Proposal counts and recorded approval labels",
+                 f"All {len(proposals):,} records, including undated and unclassified entries: "
+                 f"{recorded:,} contain action text; {len(proposals) - recorded:,} do not. "
+                 "Each percentage divides Approved labels by recorded actions in that group. "
+                 "Bubble size reflects the Approved count. Groups with no recorded actions have no percentage. "
+                 "This is a descriptive comparison, not a measure of financial return.",
+                 _coverage_table(summary, ["primary_cluster"]))
 
 
 __all__ = [

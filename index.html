@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Military Innovation and Technology Adoption | BOF archive</title>
+<title>Fortify | Board of Ordnance and Fortification archive</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%23242824'/%3E%3Ctext x='12' y='29' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='white'%3EF%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Search historical proposals, appropriations, and technology reviews from the U.S. Board of Ordnance and Fortification.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=research-5">
+<link rel="stylesheet" href="style.css?v=fortify-6">
 <script>
   // Apply saved theme before first paint to avoid flash
   (function() {
@@ -29,15 +29,9 @@
 <!-- Sidebar nav -->
 <aside class="sidebar">
   <div class="sb-brand">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z"
-            fill="currentColor"/>
-      <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
-    </svg>
     <div>
-      <div class="sb-name">Military Innovation and Technology Adoption</div>
-      <div class="sb-sub">Board of Ordnance<br>&amp; Fortification</div>
+      <div class="sb-name">Fortify</div>
+      <div class="sb-sub">Board of Ordnance<br> &amp; Fortification</div>
     </div>
   </div>
 
@@ -74,8 +68,8 @@
     <summary>Reading room</summary>
     <nav class="sb-section" aria-label="Reading room">
       <a class="sb-link" href="reading-room.html">Overview</a>
-      <a class="sb-link" href="chiefs.html">Chiefs</a>
-      <a class="sb-link" href="reports.html">Source texts</a>
+      <a class="sb-link" href="chiefs.html">Crozier and Lewis</a>
+      <a class="sb-link" href="reports.html">Report notes</a>
       <a class="sb-link" href="tech-master.html">Technology roster</a>
       <a class="sb-link" href="tech-memos.html">Technology memos</a>
     </nav>
@@ -109,10 +103,10 @@
 <div id="view-proposals">
 
 <div class="view-header">
-  <div class="vh-crumb">ARCHIVE / <b>PROPOSALS</b></div>
+  <div class="vh-crumb">Archive / <b>Proposals</b></div>
   <h1 class="vh-title">Subjects considered</h1>
   <div class="vh-meta" id="proposal-data-summary">Loading proposal records…</div>
-  <p class="view-note">Search the transcribed submissions and read the recorded action. Decision and proposer categories are automated; missing actions are left unclassified.</p>
+  <p class="view-note">Search transcribed submissions and their recorded actions. Decision labels describe the text; they do not establish successful adoption. Proposer types are inferred from identity alone.</p>
 </div>
 
 <!-- Filter bar -->
@@ -135,7 +129,8 @@
       <option value="Approved">Approved</option>
       <option value="Investigating">Investigating</option>
       <option value="Rejected">Rejected</option>
-      <option value="Other">Other / unclassified</option>
+      <option value="Other">Other recorded action</option>
+      <option value="Missing">No action recorded</option>
     </select>
   </div>
   <div class="filter-group">
@@ -144,6 +139,7 @@
       <option value="">All proposers</option>
       <option value="government">Government</option>
       <option value="private">Private</option>
+      <option value="unknown">Unknown identity</option>
     </select>
   </div>
   <div class="filter-group search-wrap" id="search-wrap">
@@ -158,6 +154,7 @@
 
 <!-- Active filter chips -->
 <div class="active-chips" id="active-chips"></div>
+<p class="coverage-note" id="proposal-action-coverage" role="status" aria-live="polite"></p>
 
 
 <!-- Chart grid -->
@@ -212,7 +209,7 @@
 <div id="view-budget" hidden>
 
 <div class="view-header">
-  <div class="vh-crumb">ARCHIVE / <b>BUDGET</b></div>
+  <div class="vh-crumb">Archive / <b>Budgets</b></div>
   <h1 class="vh-title">Army and Navy appropriations</h1>
   <div class="vh-meta" id="budget-data-summary">Loading budget records…</div>
   <p class="view-note">2025-dollar values are supplied by the source worksheet; its adjustment method is not documented. Compare nominal values for the original recorded amounts.</p>
@@ -222,9 +219,9 @@
 <div class="filters">
   <div class="filter-group">
     <label for="b-year-min">Year</label>
-    <input type="number" id="b-year-min" aria-label="From year" min="1866" max="1920" step="1" value="1866">
+    <input type="number" id="b-year-min" aria-label="From year" min="1865" max="1920" step="1" value="1865">
     <span class="dash">→</span>
-    <input type="number" id="b-year-max" aria-label="To year" min="1866" max="1920" step="1" value="1920">
+    <input type="number" id="b-year-max" aria-label="To year" min="1865" max="1920" step="1" value="1920">
   </div>
   <div class="filter-group">
     <label for="b-branch">Branch</label>
@@ -237,8 +234,8 @@
   <div class="filter-group">
     <label for="b-units">Units</label>
     <select id="b-units">
-      <option value="2025">2025-adjusted</option>
       <option value="nominal">Nominal $</option>
+      <option value="2025">2025 $ (source worksheet)</option>
     </select>
   </div>
   <button class="clear" id="btn-clear-budget">Reset filters</button>
@@ -286,6 +283,7 @@
             <th data-bsort="appropriation_2025_usd" class="col-subject">Appropriation (2025 $) <span class="sort-ind">▼</span></th>
             <th data-bsort="appropriation_usd" class="col-proposer">Nominal $ <span class="sort-ind">▼</span></th>
             <th data-bsort="decade" class="col-status">Decade <span class="sort-ind">▼</span></th>
+            <th scope="col" class="budget-source">Source</th>
           </tr>
         </thead>
         <tbody id="b-records-tbody"></tbody>
@@ -302,7 +300,7 @@
 <div id="view-timeline" hidden>
 
 <div class="view-header">
-  <div class="vh-crumb">ARCHIVE / <b>TIMELINE</b></div>
+  <div class="vh-crumb">Archive / <b>Timeline</b></div>
   <h1 class="vh-title">Technology review timeline</h1>
   <div class="vh-meta">
     <span>1888 — 1916</span>
@@ -389,7 +387,7 @@
 <div id="view-spending" hidden>
 
 <div class="view-header">
-  <div class="vh-crumb">ARCHIVE / <b>SPENDING</b></div>
+  <div class="vh-crumb">Archive / <b>Allotments</b></div>
   <h1 class="vh-title">Board appropriations and allotments</h1>
   <div class="vh-meta">
     <span>1888 — 1920</span>
@@ -413,7 +411,7 @@
     <label for="s-revoked">Status</label>
     <select id="s-revoked">
       <option value="">All allotments</option>
-      <option value="active">Active only</option>
+      <option value="active">Not marked revoked</option>
       <option value="revoked">Revoked only</option>
     </select>
   </div>
@@ -426,6 +424,8 @@
   <button class="export" id="btn-export-spending">Export CSV</button>
   <span class="match-count">Showing <strong id="s-match-n">—</strong> · <strong id="s-match-sum">—</strong></span>
 </div>
+
+<p class="coverage-note" id="s-amount-note" role="status" aria-live="polite"></p>
 
 <!-- Spending chart grid -->
 <main>
@@ -478,7 +478,7 @@
 <!-- ============ MASTER LEDGER VIEW (Thomas Ou) ============ -->
 <div id="view-master" hidden>
   <div class="view-header">
-    <div class="vh-crumb">RESEARCH / <b>MONEY</b></div>
+    <div class="vh-crumb">Research / <b>Money</b></div>
     <h1 class="vh-title">Master Ledger</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#1D3461"></span>
@@ -520,7 +520,7 @@
 <!-- ============ FINANCIAL × TECHNOLOGY VIEW (Yunha) ============ -->
 <div id="view-yunha" hidden>
   <div class="view-header">
-    <div class="vh-crumb">RESEARCH / <b>MONEY</b></div>
+    <div class="vh-crumb">Research / <b>Money</b></div>
     <h1 class="vh-title">Financial × Technology</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#6B2D8B"></span>
@@ -562,7 +562,7 @@
 <!-- ============ TECHNOLOGY REVIEW LOG VIEW (Paul B) ============ -->
 <div id="view-paul" hidden>
   <div class="view-header">
-    <div class="vh-crumb">RESEARCH / <b>TECHNOLOGY</b></div>
+    <div class="vh-crumb">Research / <b>Technology</b></div>
     <h1 class="vh-title">Technology Review Log</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#2D6A4F"></span>
@@ -589,7 +589,7 @@
 <!-- ============ TYPE PREVALENCE VIEW (Tanisha) ============ -->
 <div id="view-tanisha" hidden>
   <div class="view-header">
-    <div class="vh-crumb">RESEARCH / <b>TECHNOLOGY</b></div>
+    <div class="vh-crumb">Research / <b>Technology</b></div>
     <h1 class="vh-title">Type Prevalence</h1>
     <div class="vh-meta">
       <span class="vhm-dot" style="background:#7C4318"></span>
@@ -645,17 +645,21 @@
         <p id="m-action">—</p>
       </div>
       <div class="modal-section" id="m-reasoning-section">
-        <h3>Recorded reasoning</h3>
+        <h3>Researcher notes</h3>
         <p id="m-reasoning">—</p>
       </div>
       <div class="modal-section">
         <h3>Proposed By</h3>
         <p id="m-proposer">—</p>
+        <p class="source-note" id="m-proposer-type">—</p>
       </div>
       <div class="modal-section">
         <h3>Source</h3>
         <div class="meta-pair"><span>Annual Report</span><span id="m-report">—</span></div>
         <div class="meta-pair"><span>Automated category</span><span id="m-status-raw">—</span></div>
+        <div class="meta-pair"><span>Source workbook</span><span id="m-source-file">—</span></div>
+        <h3>Recorded references</h3>
+        <p id="m-source-citations">—</p>
       </div>
     </div>
   </div>
@@ -667,6 +671,6 @@
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="timeline-data.js"></script>
-<script src="app.js?v=archive-4"></script>
+<script src="app.js?v=archive-5"></script>
 </body>
 </html>

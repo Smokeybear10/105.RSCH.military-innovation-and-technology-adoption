@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crozier and Lewis · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
+<title>Crozier and Lewis | Fortify</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%23242824'/%3E%3Ctext x='12' y='29' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='white'%3EF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F6F7F5;
+    --bg: #FFFFFF;
     --panel: #FFFFFF;
-    --panel-2: #F8F9F7;
-    --border: #D7DDDC;
-    --border-2: #B7C2C3;
-    --text: #263239;
-    --text-mid: #5D6A70;
-    --text-soft: #657177;
-    --brass: #294C5B;
-    --accent: #294C5B;
+    --panel-2: #F7F7F5;
+    --border: #DADDD8;
+    --border-2: #BFC5BD;
+    --text: #242824;
+    --text-mid: #626862;
+    --text-soft: #626862;
+    --brass: #364F40;
+    --accent: #364F40;
     --green: #2D6A4F;
     --amber: #956B32;
     --red: #A64D43;
@@ -52,12 +52,6 @@
     display: flex; align-items: center; gap: 10px;
     color: inherit; text-decoration: none;
   }
-  .tb-l svg {
-    flex-shrink: 0;
-    width: 18px; height: 18px; color: var(--brass);
-    transition: none;
-  }
-  .tb-l:hover svg { transform: none; }
   .tb-l strong { line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 0; }
   .tb-r { display: flex; gap: 18px; }
   .tb-r a { color: var(--text-mid); text-decoration: none; letter-spacing: 0; }
@@ -298,69 +292,79 @@
     .stats { grid-template-columns: repeat(2, 1fr); }
     .stat { border-bottom: 1px solid var(--border); }
     .stat:nth-child(2n) { border-right: 0; }
-    .inv td.detail, .inv td.mono { display: none; }
   }
 
   .hidden { display: none !important; }
   
 
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .topbar { padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }
-  .tb-l { max-width: 680px; align-items: flex-start; }
-  .tb-l svg { margin-top: 5px; transition: none; }
-  .tb-l:hover svg { transform: none; }
-  .tb-l strong { font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }
+  .topbar { padding: 16px 36px; font-size: 14px; line-height: 1.5; gap: 12px 28px; }
+  .tb-l { max-width: 680px; align-items: center; }
+  .tb-l strong { font: 600 20px/1.3 'Public Sans', -apple-system, sans-serif; letter-spacing: -.3px; }
+  .tb-l:hover { text-decoration: none; }
   .tb-r { display: flex; flex-wrap: wrap; gap: 8px 24px; }
   .tb-r a { display: inline-block; padding: 8px 0; }
+  .tb-r a[aria-current] { color: var(--text); font-weight: 600; }
   .wrap { min-width: 0; }
+  h1, h1.page-title, .title, .page-head h1 { font: 600 30px/1.25 'Public Sans', -apple-system, sans-serif; letter-spacing: -.6px; }
   .page-head { gap: 20px; }
-  .page-head .sub { margin-bottom: 8px; font-weight: 400; }
-  .page-head h1 { font-size: 36px; font-weight: 600; line-height: 1.2; }
-  .head-right { line-height: 1.7; overflow-wrap: anywhere; }
-  .filters { padding: 16px; gap: 12px; align-items: flex-end; }
+  .page-head .sub { margin-bottom: 8px; font-size: 14px; font-weight: 400; }
+  .head-right { font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+  .lede { font: 400 17px/1.65 'Public Sans', -apple-system, sans-serif; max-width: 900px; }
+  .stats { background: none; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; gap: 20px; }
+  .stat { background: none; border: 0; padding: 0 0 20px; }
+  .stat .n { font: 600 22px/1.3 'Public Sans', -apple-system, sans-serif; }
+  .stat .l { font-size: 14px; font-weight: 400; }
+  .stat.green .n, .stat.amber .n, .stat.brass .n { color: var(--text); }
+  .filters { padding: 0 0 18px; gap: 12px; align-items: flex-end; background: none; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; }
   .filter-field { display: grid; gap: 6px; min-width: 140px; }
   .filter-field select { width: 100%; }
-  .filters select, .filters input[type=text] { height: 42px; min-height: 42px; font-size: 14px; }
+  .filters label, .result-count { font-size: 14px; font-weight: 400; }
+  .filters select, .filters input[type=text] { height: 42px; min-height: 42px; font-size: 14px; border-radius: 3px; }
   .filters .clear { min-height: 42px; font-size: 14px; padding: 8px 12px; }
-  .inv thead th { font-size: 12px; font-weight: 500; }
+  .table-scroll { width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+  .inv { min-width: 760px; border-radius: 0; }
+  .inv thead th { font-size: 13px; font-weight: 500; }
   .inv td { font-size: 14px; line-height: 1.6; }
-  .chip { font-weight: 500; }
+  .inv td.mono, .inv td.detail { font-size: 14px; }
+  .chip, .chip.crozier, .chip.lewis, .chip.brass, .chip.green, .chip.amber, .chip.red, .chip.steel { background: none; border: 0; border-radius: 0; padding: 0; color: var(--text-mid); font-size: 13px; font-weight: 500; }
+  .eyebrow { font-size: 14px; font-weight: 400; margin-bottom: 12px; }
   .eyebrow::before { display: none; }
   .rr-card:hover, .reading-card:hover, .memo:hover { box-shadow: none; background: var(--panel-2); }
+  .modal h2 { font-family: 'Public Sans', -apple-system, sans-serif; font-size: 26px; font-weight: 600; line-height: 1.3; }
+  .modal .modal-meta, .modal-source { font-size: 14px; }
   .modal-close { min-height: 44px; min-width: 44px; font-size: 14px; }
-  footer, .pg-foot { font-size: 13px; line-height: 1.6; }
+  footer, .pg-foot { font-size: 14px; line-height: 1.6; }
   @media (max-width: 720px) {
-    .topbar { padding: 18px 20px; }
-    .tb-l strong { font-size: 21px; }
+    .topbar { padding: 12px 20px; }
+    .tb-r { gap: 8px 18px; }
     .wrap { padding: 28px 20px 56px; }
-    .page-head h1 { font-size: 30px; }
+    h1, h1.page-title, .title, .page-head h1 { font-size: 28px; }
+    .stats { gap: 18px; }
+    .stat { border: 0; padding-bottom: 16px; }
     .filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
     .filter-field { min-width: 0; }
     .filters .clear { justify-self: start; }
     .result-count { margin-left: 0; justify-self: end; align-self: center; }
     .filters select, .filters input[type=text] { max-width: 100%; min-width: 0; font-size: 16px; flex: 1 1 160px; }
     .filters input[type=text] { width: 100%; grid-column: 1 / -1; }
-    .inv { display: block; overflow-x: auto; max-width: 100%; }
     .modal-bg { padding: 16px 12px; }
     .modal { padding: 60px 22px 28px; }
-    .modal h2 { font-size: 26px; }
+    .modal h2 { font-size: 24px; }
     footer { padding: 22px 20px; margin-top: 48px; }
   }
 </style>
 </head>
 <body>
 <div class="topbar">
-  <a class="tb-l" href="./" title="Back to archive">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
-      <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
-    </svg>
-    <strong>Military Innovation and Technology Adoption</strong>
+  <a class="tb-l" href="./" title="Fortify archive">
+    <strong>Fortify</strong>
   </a>
-  <div class="tb-r">
-    <a href="./reading-room.html">Reading room</a>
-    <a href="./">Back to archive</a>
-  </div>
+  <nav class="tb-r" aria-label="Main navigation">
+    <a href="./">Archive</a>
+    <a href="./reading-room.html" aria-current="location">Reading room</a>
+    <a href="./about.html">About</a>
+  </nav>
 </div>
 <div class="wrap">
 
@@ -399,17 +403,19 @@
     <button class="clear" id="f-clear">Clear</button>
     <span class="result-count" id="f-count">— records</span>
   </div>
+  <div class="table-scroll" role="region" aria-label="Biographical records table" tabindex="0">
   <table class="inv">
     <thead>
       <tr>
-        <th style="width:80px">Year</th>
-        <th style="width:90px">Person</th>
-        <th>Event</th>
-        <th>Detail</th>
+        <th scope="col" style="width:80px">Year</th>
+        <th scope="col" style="width:90px">Person</th>
+        <th scope="col">Event</th>
+        <th scope="col">Detail</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
   </table>
+  </div>
   <div class="pg-foot">
     <span>Entries retain the dates and wording extracted from the biographical notes; source citations and research headings may also appear.</span>
     <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">GitHub</a>

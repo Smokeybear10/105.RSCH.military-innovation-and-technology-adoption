@@ -2,7 +2,7 @@
 
 Reads master allotments + structured proposals from output/ and produces
 three Plotly HTMLs covering total investment by cluster, year-over-year
-trajectory, and proposal-volume vs approval-rate ROI.
+trajectory, and proposal volume and recorded-action approval labels.
 
 Usage:
     python run_yunha_charts.py
@@ -65,7 +65,7 @@ def main() -> None:
 
     roi_path = args.output_dir / "yunha_approval_roi.html"
     save_yunha_approval_roi(proposals, roi_path)
-    print(f"  Approval ROI    → {roi_path}")
+    print(f"  Action labels   → {roi_path}")
 
     print("Done.")
 

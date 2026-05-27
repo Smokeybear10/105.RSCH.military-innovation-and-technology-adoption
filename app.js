@@ -80,6 +80,7 @@ function makeStatusColor(c) {
     Investigating: c.amber,
     Rejected:      c.red,
     Other:         c.textSoft,
+    Missing:       c.border,
   };
 }
 
@@ -219,10 +220,10 @@ const PAGE_SIZE = 20;
 let ALL_BUDGET = [];
 let FILTERED_BUDGET = [];
 let BUDGET_FILTERS = {
-  yearMin: 1866,
+  yearMin: 1865,
   yearMax: 1920,
   branch:  '',
-  units:   '2025',  // '2025' or 'nominal'
+  units:   'nominal',  // '2025' or 'nominal'
 };
 let BUDGET_SORT = { key: 'year', dir: 'asc' };
 let BUDGET_PAGE = 1;
@@ -262,6 +263,22 @@ function normalizeYearRange(filters, defaults) {
 function recordText(value) {
   const text = String(value ?? '').trim();
   return /^nan$/i.test(text) ? '' : text;
+}
+
+function parseAmount(value) {
+  const text = recordText(value).replace(/[$,\s]/g, '');
+  if (!text) return null;
+  const amount = Number(text);
+  return Number.isFinite(amount) ? amount : null;
+}
+
+function sumRecordedAmounts(records, value = record => record.amount) {
+  const known = records.map(value).filter(amount => amount != null);
+  return known.length ? known.reduce((sum, amount) => sum + amount, 0) : null;
+}
+
+function decisionLabel(status) {
+  return status === 'Missing' ? 'No action recorded' : status === 'Other' ? 'Other recorded action' : status;
 }
 
 // ── Bucketing ─────────────────────────────────────────────────────────
@@ -332,7 +349,8 @@ async function load() {
       id: i,
       year: Number.isFinite(parseInt(r.year, 10)) ? parseInt(r.year, 10) : null,
       cluster: (r.primary_cluster || 'Other/Unclassified').trim() || 'Other/Unclassified',
-      status: statusBucket(r.status),
+      status: recordText(r.Action || r.action_text) ? statusBucket(r.status) : 'Missing',
+      actionRecorded: Boolean(recordText(r.Action || r.action_text)),
       statusRaw: r.status || '',
       proposer: recordText(r['Proposed By'] || r.proposer_text),
       proposerType: proposerType(r.proposer_type),
@@ -340,6 +358,10 @@ async function load() {
       action: recordText(r.Action || r.action_text),
       reasoning: recordText(r['Recommendation Reasoning'] || r.reasoning_text),
       report: r['BOF Annual Report #'] || '',
+      sourceFile: recordText(r.source_file),
+      sourceSheet: recordText(r.source_sheet),
+      subjectSources: recordText(r['Sources Cited (Subject)']),
+      proposerSources: recordText(r['Sources Cited (Proposer)']),
     }));
 
   // Budget
@@ -349,8 +371,13 @@ async function load() {
       year: parseInt(r.year, 10),
       branch: (r.branch || '').trim(),
       decade: (r.decade || '').trim(),
-      nominal: parseFloat(r.appropriation_usd) || 0,
-      adjusted: parseFloat(r.appropriation_2025_usd) || 0,
+      nominal: parseAmount(r.appropriation_usd),
+      adjusted: parseAmount(r.appropriation_2025_usd),
+      source: recordText(r.source),
+      links: recordText(r.links),
+      sourceFile: recordText(r.source_file),
+      sourceSheet: recordText(r.source_sheet),
+      sourceRow: recordText(r.source_row),
     }))
     .filter(r => Number.isFinite(r.year) && r.branch);
 
@@ -359,7 +386,7 @@ async function load() {
     .map((r, i) => ({
       id: i,
       year: parseInt(r.Year, 10),
-      amount: parseFloat(r.Amount_Numeric || r.Amount) || 0,
+      amount: parseAmount(r.Amount_Numeric),
       remarks: (r.Remarks || '').trim(),
       requested: parseFloat(r['Estimate Originally Requested by BOF (Not from the same source, but from the prior year\'s annual report)']) || null,
       justification: (r['Justification for Estimate/Request'] || '').trim(),
@@ -374,7 +401,7 @@ async function load() {
       id: i,
       year: parseInt(parseFloat(r.Year), 10),
       description: (r['Project/Line Item Description'] || '').trim(),
-      amount: parseFloat(r.Allotted_Numeric || r['Allotted ($)']) || 0,
+      amount: parseAmount(r.Allotted_Numeric),
       dateAllotted: (r['Date Allotted'] || '').trim(),
       revoked: /^y/i.test(r['Revoked Allotment?'] || ''),
       dateRevoked: (r['Date of Revocation'] || '').trim(),
@@ -516,6 +543,7 @@ function apply() {
   document.getElementById('match-n').textContent = FILTERED.length.toLocaleString();
   renderActiveChips();
   syncPresetActive();
+  renderDecisionCoverage();
   renderKPIs();
   renderTimeline();
   renderClusterMix();
@@ -605,11 +633,20 @@ function computePresetCounts() {
 // ── KPIs ──────────────────────────────────────────────────────────────
 let lastKPIs = { total: 0, approved: 0, rate: 0 };
 
+function renderDecisionCoverage() {
+  const known = FILTERED.filter(record => record.actionRecorded).length;
+  const missing = FILTERED.length - known;
+  document.getElementById('proposal-action-coverage').textContent = FILTERED.length
+    ? `${known.toLocaleString()} of ${FILTERED.length.toLocaleString()} matching records contain an action; ${missing.toLocaleString()} have none recorded. Categories describe the action text, not adoption outcomes.`
+    : 'No matching records.';
+}
+
 function renderKPIs() {
   if (!document.querySelector('[data-kpi="total"]')) return;  // KPIs cut from index.html
   const total    = FILTERED.length;
   const approved = FILTERED.filter(r => r.status === 'Approved').length;
-  const rate     = total > 0 ? (approved / total * 100) : 0;
+  const recorded = FILTERED.filter(record => record.actionRecorded).length;
+  const rate = recorded ? approved / recorded * 100 : null;
 
   const clusterCounts = {};
   for (const r of FILTERED) clusterCounts[r.cluster] = (clusterCounts[r.cluster] || 0) + 1;
@@ -629,15 +666,15 @@ function renderKPIs() {
 
   animateNumber(document.querySelector('[data-kpi="total"]'),    lastKPIs.total,    total,    v => Math.round(v).toLocaleString());
   animateNumber(document.querySelector('[data-kpi="approved"]'), lastKPIs.approved, approved, v => Math.round(v).toLocaleString());
-  animateNumber(document.querySelector('[data-kpi="rate"]'),     lastKPIs.rate,     rate,     v => v.toFixed(1) + '<span class="unit">%</span>');
+  document.querySelector('[data-kpi="rate"]').textContent = rate == null ? 'Not available' : `${rate.toFixed(1)}%`;
 
   document.querySelector('[data-kpi="top-cluster"]').textContent = topCluster;
   document.querySelector('[data-kpi="top-proposer"]').textContent = topProp || '—';
 
   const yearsActive = new Set(FILTERED.map(r => r.year)).size;
   document.getElementById('kpi-total-sub').innerHTML = `across <strong>${yearsActive}</strong> active years`;
-  document.getElementById('kpi-approved-sub').innerHTML = approved > 0 ? `<span class="delta-up">▲</span> filter has hits` : '<span class="delta-down">▼</span> no approvals in slice';
-  document.getElementById('kpi-rate-sub').innerHTML = rate >= 5 ? `<span class="delta-up">▲</span> above archive avg` : `vs <strong>2.9%</strong> archive avg`;
+  document.getElementById('kpi-approved-sub').textContent = 'Records carrying an approval label';
+  document.getElementById('kpi-rate-sub').textContent = `Among ${recorded.toLocaleString()} recorded actions`;
   document.getElementById('kpi-cluster-sub').innerHTML = `<strong>${topClusterCount.toLocaleString()}</strong> records`;
   document.getElementById('kpi-proposer-sub').innerHTML = topPropCount > 0 ? `<strong>${topPropCount}</strong> submissions` : '—';
 
@@ -671,9 +708,9 @@ function attachClick(divId, handler) {
 
 function renderTimeline() {
   const byYearStatus = {};
-  const statuses = ['Approved', 'Investigating', 'Rejected', 'Other'];
+  const statuses = ['Approved', 'Investigating', 'Rejected', 'Other', 'Missing'];
   for (let y = FILTERS.yearMin; y <= FILTERS.yearMax; y++) {
-    byYearStatus[y] = { Approved: 0, Investigating: 0, Rejected: 0, Other: 0 };
+    byYearStatus[y] = { Approved: 0, Investigating: 0, Rejected: 0, Other: 0, Missing: 0 };
   }
   for (const r of FILTERED) {
     if (r.year != null) byYearStatus[r.year][r.status]++;
@@ -682,11 +719,11 @@ function renderTimeline() {
   const years = Object.keys(byYearStatus).map(Number).sort((a, b) => a - b);
   const traces = statuses.map(s => ({
     type: 'bar',
-    name: s,
+    name: decisionLabel(s),
     x: years,
     y: years.map(y => byYearStatus[y][s]),
     marker: { color: STATUS_COLOR[s], line: { width: 0 } },
-    hovertemplate: `<b>${s}</b><br>%{x}: %{y} <span style="opacity:.6">(click to drill)</span><extra></extra>`,
+    hovertemplate: `<b>${decisionLabel(s)}</b><br>%{x}: %{y} <span style="opacity:.6">(click to drill)</span><extra></extra>`,
   }));
 
   const eras = eraShapes(years[0], years[years.length - 1]);
@@ -700,10 +737,10 @@ function renderTimeline() {
       bgcolor: 'rgba(0,0,0,0)',
     },
     xaxis: { ...PLOT_AXIS, dtick: 1, title: AXIS_TITLE('Year of report') },
-    yaxis: { ...PLOT_AXIS, title: AXIS_TITLE('Proposals reviewed') },
+    yaxis: { ...PLOT_AXIS, title: AXIS_TITLE('Proposal records') },
     shapes: eras.shapes,
     annotations: eras.annotations,
-    margin: { l: 60, r: 20, t: 44, b: 52 },
+    margin: { l: 60, r: 20, t: 70, b: 52 },
     bargap: 0.18,
   }, PLOT_CONFIG).then(() => attachClick('chart-timeline', e => {
     const yr = e.points[0].x;
@@ -749,19 +786,19 @@ function renderStatusByCluster() {
     .sort((a, b) => a.n - b.n)
     .map(o => o.c);
 
-  const statuses = ['Approved', 'Investigating', 'Rejected', 'Other'];
+  const statuses = ['Approved', 'Investigating', 'Rejected', 'Other', 'Missing'];
   const totals = clusters.map(c => FILTERED.filter(r => r.cluster === c).length);
   const traces = statuses.map(s => {
     const counts = clusters.map(c => FILTERED.filter(r => r.cluster === c && r.status === s).length);
     return {
       type: 'bar',
       orientation: 'h',
-      name: s,
+      name: decisionLabel(s),
       y: clusters,
       x: counts.map((n, i) => totals[i] > 0 ? n / totals[i] * 100 : 0),
       customdata: counts.map((n, i) => [n, totals[i], s]),
       marker: { color: STATUS_COLOR[s], line: { width: 0 } },
-      hovertemplate: `<b>%{y}</b><br>${s}: %{customdata[0]} of %{customdata[1]} (%{x:.1f}%) <span style="opacity:.6">click to filter</span><extra></extra>`,
+      hovertemplate: `<b>%{y}</b><br>${decisionLabel(s)}: %{customdata[0]} of %{customdata[1]} (%{x:.1f}%) <span style="opacity:.6">click to filter</span><extra></extra>`,
     };
   });
 
@@ -914,7 +951,7 @@ function renderTable() {
         <td class="col-subject" title="${escapeHTML(r.subject)}">${highlightMatch(r.subject)}</td>
         <td class="col-proposer" title="${escapeHTML(r.proposer)}">${highlightMatch(r.proposer)}</td>
         <td class="col-cluster">${escapeHTML(r.cluster)}</td>
-        <td class="col-status"><span class="badge b-${r.status.toLowerCase()}">${r.status.toUpperCase()}</span></td>
+        <td class="col-status"><span class="badge b-${r.status.toLowerCase()}">${decisionLabel(r.status)}</span></td>
       </tr>
     `).join('');
     tbody.querySelectorAll('tr').forEach(tr => {
@@ -991,7 +1028,7 @@ function openDetail(id) {
   detailScrollStyle = document.body.style.overflow;
   document.getElementById('m-year').textContent = r.year ?? 'Not dated';
   document.getElementById('m-cluster').textContent = r.cluster;
-  document.getElementById('m-status').textContent = r.status.toUpperCase();
+  document.getElementById('m-status').textContent = decisionLabel(r.status);
   document.getElementById('m-status').style.color = STATUS_COLOR[r.status];
   document.getElementById('m-subject').textContent = r.subject || '(no subject recorded)';
   document.getElementById('m-action').textContent = r.action || '(none recorded)';
@@ -999,7 +1036,10 @@ function openDetail(id) {
   document.getElementById('m-proposer').textContent = r.proposer || '(unattributed)';
   document.getElementById('m-report').textContent = r.report || '—';
   document.getElementById('m-status-raw').textContent = r.statusRaw || '—';
-  document.getElementById('m-action-section').style.display = r.action ? '' : 'none';
+  document.getElementById('m-source-file').textContent = [r.sourceFile, r.sourceSheet].filter(Boolean).join(' · ') || 'Not recorded';
+  document.getElementById('m-source-citations').textContent = [r.subjectSources, r.proposerSources].filter(Boolean).join('\n\n') || 'No citations recorded for this entry';
+  document.getElementById('m-proposer-type').textContent = r.proposerType === 'unknown' ? 'Unknown from proposer identity' : `${r.proposerType} (inferred from identity)`;
+  document.getElementById('m-action-section').style.display = '';
   document.getElementById('m-reasoning-section').style.display = r.reasoning ? '' : 'none';
   document.getElementById('modal-backdrop').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1059,7 +1099,7 @@ function updateHash() {
   } else if (VIEW === 'budget') {
     if (BUDGET_FILTERS.yearMin !== BUDGET_DEFAULT.min || BUDGET_FILTERS.yearMax !== BUDGET_DEFAULT.max) params.set('by', `${BUDGET_FILTERS.yearMin}-${BUDGET_FILTERS.yearMax}`);
     if (BUDGET_FILTERS.branch) params.set('bb', BUDGET_FILTERS.branch);
-    if (BUDGET_FILTERS.units !== '2025') params.set('bu', BUDGET_FILTERS.units);
+    if (BUDGET_FILTERS.units !== 'nominal') params.set('bu', BUDGET_FILTERS.units);
   } else if (VIEW === 'timeline') {
     if (TIMELINE_FILTERS.category) params.set('tc', TIMELINE_FILTERS.category);
     if (TIMELINE_FILTERS.outcome) params.set('to', TIMELINE_FILTERS.outcome);
@@ -1093,7 +1133,7 @@ function stateFromHash() {
   };
   BUDGET_FILTERS = {
     ...years('by', BUDGET_DEFAULT), branch: selectValue('bb', 'b-branch'),
-    units: params.get('bu') === 'nominal' ? 'nominal' : '2025',
+    units: params.get('bu') === '2025' ? '2025' : 'nominal',
   };
   TIMELINE_FILTERS = {
     category: selectValue('tc', 't-category'), outcome: selectValue('to', 't-outcome'),
@@ -1125,9 +1165,9 @@ function syncTimelineControls() {
 // ── CSV export ────────────────────────────────────────────────────────
 function exportCSV() {
   if (FILTERED.length === 0) { toast('Nothing to export'); return; }
-  const headers = ['year', 'subject', 'proposer', 'cluster', 'status', 'status_raw', 'report', 'action', 'reasoning'];
+  const headers = ['year', 'subject', 'proposer', 'proposerType', 'cluster', 'status', 'status_raw', 'actionRecorded', 'report', 'action', 'reasoning', 'sourceFile', 'sourceSheet', 'subjectSources', 'proposerSources'];
   const rows = FILTERED.map(r => headers.map(h => {
-    const map = { status_raw: r.statusRaw };
+    const map = { status_raw: r.statusRaw, status: decisionLabel(r.status), actionRecorded: Number(r.actionRecorded) };
     const v = h in map ? map[h] : r[h];
     const s = String(v == null ? '' : v).replace(/"/g, '""');
     return `"${s}"`;
@@ -1169,7 +1209,7 @@ function buildTicker() {
       <span class="yr">${r.year}</span>
       <span class="subj">${escapeHTML(subj)}</span>
       <span class="by">${escapeHTML(by)}</span>
-      <span class="st-${r.status.toLowerCase()}">${r.status.toUpperCase()}</span>
+      <span class="st-${r.status.toLowerCase()}">${decisionLabel(r.status)}</span>
     </span>`;
   }).join('');
   const ticker = document.getElementById('ticker');
@@ -1201,6 +1241,7 @@ const BRANCH_COLOR = () => ({
 });
 
 function fmtUSD(v) {
+  if (v == null || !Number.isFinite(v)) return 'Not recorded';
   if (Math.abs(v) >= 1e12) return `$${(v / 1e12).toFixed(2)}T`;
   if (Math.abs(v) >= 1e9)  return `$${(v / 1e9).toFixed(1)}B`;
   if (Math.abs(v) >= 1e6)  return `$${(v / 1e6).toFixed(0)}M`;
@@ -1210,6 +1251,14 @@ function fmtUSD(v) {
 
 function budgetVal(r) { return BUDGET_FILTERS.units === '2025' ? r.adjusted : r.nominal; }
 function budgetUnitLabel() { return BUDGET_FILTERS.units === '2025' ? '2025 $' : 'Nominal $'; }
+
+function budgetCoverageComplete() {
+  const branches = BUDGET_FILTERS.branch ? [BUDGET_FILTERS.branch] : ['Army', 'Navy'];
+  const years = Array.from({ length: BUDGET_FILTERS.yearMax - BUDGET_FILTERS.yearMin + 1 }, (_, i) => BUDGET_FILTERS.yearMin + i);
+  return years.every(year => branches.every(branch =>
+    FILTERED_BUDGET.some(record => record.year === year && record.branch === branch && budgetVal(record) != null)
+  ));
+}
 
 function wireBudgetFilters() {
   document.getElementById('b-year-min').addEventListener('change', e => {
@@ -1243,8 +1292,8 @@ function wireBudgetPresets() {
       const cur = JSON.stringify({ yearMin: BUDGET_FILTERS.yearMin, yearMax: BUDGET_FILTERS.yearMax });
       const target = JSON.stringify(p);
       const active = cur === target;
-      BUDGET_FILTERS.yearMin = active ? 1866 : p.yearMin;
-      BUDGET_FILTERS.yearMax = active ? 1920 : p.yearMax;
+      BUDGET_FILTERS.yearMin = active ? BUDGET_DEFAULT.min : p.yearMin;
+      BUDGET_FILTERS.yearMax = active ? BUDGET_DEFAULT.max : p.yearMax;
       BUDGET_FILTERS.branch = '';
       syncBudgetControls();
       BUDGET_PAGE = 1;
@@ -1255,7 +1304,7 @@ function wireBudgetPresets() {
 }
 
 function wireBudgetTable() {
-  document.querySelectorAll('#b-records-table thead th').forEach(th => {
+  document.querySelectorAll('#b-records-table thead th[data-bsort]').forEach(th => {
     makeSortableHeader(th);
     th.addEventListener('click', () => {
       const key = th.dataset.bsort;
@@ -1308,7 +1357,7 @@ function renderBudgetActiveChips() {
     chips.push({ key: 'year', label: 'YEAR', val: range });
   }
   if (BUDGET_FILTERS.branch) chips.push({ key: 'branch', label: 'BRANCH', val: BUDGET_FILTERS.branch });
-  if (BUDGET_FILTERS.units !== '2025') chips.push({ key: 'units', label: 'UNITS', val: 'Nominal' });
+  if (BUDGET_FILTERS.units !== 'nominal') chips.push({ key: 'units', label: 'UNITS', val: '2025 $ (source worksheet)' });
 
   const c = document.getElementById('budget-active-chips');
   c.innerHTML = chips.map(ch =>
@@ -1319,7 +1368,7 @@ function renderBudgetActiveChips() {
 
 function clearBudgetFilter(key) {
   if (key === 'year') { BUDGET_FILTERS.yearMin = BUDGET_DEFAULT.min; BUDGET_FILTERS.yearMax = BUDGET_DEFAULT.max; }
-  else if (key === 'units') BUDGET_FILTERS.units = '2025';
+  else if (key === 'units') BUDGET_FILTERS.units = 'nominal';
   else BUDGET_FILTERS[key] = '';
   syncBudgetControls();
   BUDGET_PAGE = 1;
@@ -1327,8 +1376,9 @@ function clearBudgetFilter(key) {
 }
 
 function renderBudgetKPIs() {
-  const total = FILTERED_BUDGET.reduce((s, r) => s + budgetVal(r), 0);
-  document.getElementById('b-match-sum').textContent = fmtUSD(total);
+  const total = sumRecordedAmounts(FILTERED_BUDGET, budgetVal);
+  const missing = !budgetCoverageComplete();
+  document.getElementById('b-match-sum').textContent = fmtUSD(total) + (missing && total != null ? ' (known amounts)' : '');
   document.getElementById('b-match-n').textContent = FILTERED_BUDGET.length.toLocaleString();
   if (!document.querySelector('[data-bkpi="total"]')) return;
   const years = [...new Set(FILTERED_BUDGET.map(r => r.year))];
@@ -1367,6 +1417,7 @@ function renderBudgetTimeline() {
     : [];
   const branches = BUDGET_FILTERS.branch ? [BUDGET_FILTERS.branch] : ['Army', 'Navy'];
   const colors = BRANCH_COLOR();
+  const singleYear = yearsAll.length === 1;
 
   const traces = branches.map(b => {
     const yvals = yearsAll.map(y => {
@@ -1375,11 +1426,12 @@ function renderBudgetTimeline() {
     });
     return {
       type: 'scatter',
-      mode: 'lines',
+      mode: 'lines+markers',
       name: b,
       x: yearsAll,
       y: yvals,
       connectgaps: false,
+      marker: { size: 4 },
       line: { color: colors[b], width: 1.5 },
       hovertemplate: `<b>${b}</b><br>%{x}: %{y:$,.0f}<extra></extra>`,
     };
@@ -1395,8 +1447,17 @@ function renderBudgetTimeline() {
       font: { color: COLORS.textMid, size: 12 },
       bgcolor: 'rgba(0,0,0,0)',
     },
-    xaxis: { ...PLOT_AXIS, dtick: 5, title: AXIS_TITLE('Fiscal year') },
-    yaxis: { ...PLOT_AXIS, title: AXIS_TITLE(unitLabel), tickformat: '$.2s' },
+    xaxis: {
+      ...PLOT_AXIS,
+      ...(singleYear ? { tickmode: 'array', tickvals: yearsAll, range: [yearsAll[0] - 0.5, yearsAll[0] + 0.5] } : { dtick: 5 }),
+      title: AXIS_TITLE('Fiscal year'),
+    },
+    yaxis: {
+      ...PLOT_AXIS,
+      ...(singleYear ? { rangemode: 'tozero' } : {}),
+      title: AXIS_TITLE(unitLabel),
+      tickformat: singleYear ? '$.3s' : '$.2s',
+    },
     shapes: eras.shapes,
     annotations: eras.annotations,
     margin: { l: 76, r: 20, t: 44, b: 52 },
@@ -1406,19 +1467,20 @@ function renderBudgetTimeline() {
 function renderBudgetBranch() {
   const branchTotals = {};
   for (const r of FILTERED_BUDGET) {
-    branchTotals[r.branch] = (branchTotals[r.branch] || 0) + budgetVal(r);
+    if (budgetVal(r) != null) branchTotals[r.branch] = (branchTotals[r.branch] || 0) + budgetVal(r);
   }
   const labels = Object.keys(branchTotals);
   const values = Object.values(branchTotals);
   const colors = labels.map(b => BRANCH_COLOR()[b] || COLORS.textSoft);
-  const total = values.reduce((s, v) => s + v, 0);
+  const total = values.length ? values.reduce((s, v) => s + v, 0) : null;
+  const complete = budgetCoverageComplete();
 
   Plotly.react('b-chart-branch', [{
     type: 'pie',
     hole: 0.66,
     sort: false,
-    labels,
-    values,
+    labels: complete ? labels : [],
+    values: complete ? values : [],
     marker: { colors, line: { color: COLORS.panel, width: 2 } },
     textinfo: 'none',
     hovertemplate: '<b>%{label}</b><br>%{value:$,.0f} · %{percent}<extra></extra>',
@@ -1433,7 +1495,7 @@ function renderBudgetBranch() {
     },
     margin: { l: 8, r: 4, t: 8, b: 8 },
     annotations: [{
-      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:12px;">Total</span>`,
+      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:12px;">${complete ? 'Recorded amounts' : 'Recorded amounts only<br>Share unavailable: incomplete coverage'}</span>`,
       showarrow: false, font: { color: COLORS.text, family: PLOT_FONT.family },
       x: 0.5, y: 0.5,
     }],
@@ -1449,9 +1511,8 @@ function renderBudgetDecade() {
     type: 'bar',
     name: b,
     x: decades,
-    y: decades.map(d => FILTERED_BUDGET
-      .filter(r => r.decade === d && r.branch === b)
-      .reduce((s, r) => s + budgetVal(r), 0)),
+    y: decades.map(d => sumRecordedAmounts(FILTERED_BUDGET
+      .filter(r => r.decade === d && r.branch === b), budgetVal)),
     marker: { color: colors[b], line: { width: 0 } },
     hovertemplate: `<b>${b}</b><br>%{x}: %{y:$,.0f}<extra></extra>`,
   }));
@@ -1476,7 +1537,7 @@ function renderBudgetYoY() {
   const years = Object.keys(yearTotals).map(Number).sort((a, b) => a - b);
   const changes = [];
   const branches = BUDGET_FILTERS.branch ? [BUDGET_FILTERS.branch] : ['Army', 'Navy'];
-  const hasCompleteYear = year => branches.every(branch => FILTERED_BUDGET.some(record => record.year === year && record.branch === branch));
+  const hasCompleteYear = year => branches.every(branch => FILTERED_BUDGET.some(record => record.year === year && record.branch === branch && budgetVal(record) != null));
   for (let i = 1; i < years.length; i++) {
     if (years[i] !== years[i - 1] + 1 || !hasCompleteYear(years[i]) || !hasCompleteYear(years[i - 1])) continue;
     const prev = yearTotals[years[i - 1]];
@@ -1502,6 +1563,14 @@ function renderBudgetYoY() {
   }, PLOT_CONFIG);
 }
 
+function budgetSource(record) {
+  const citation = escapeHTML(record.source || 'No citation recorded');
+  const location = escapeHTML([record.sourceFile, record.sourceSheet, record.sourceRow ? `row ${record.sourceRow}` : ''].filter(Boolean).join(' · '));
+  const links = (record.links.match(/https?:\/\/[^\s<>"']+/g) || [])
+    .map((url, index) => `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">Recorded link ${index + 1}</a>`).join(' · ');
+  return `<details><summary>Source reference</summary><p>${citation}</p><p>${location}</p>${links ? `<p>${links}</p>` : ''}<p class="source-note">As recorded in the workbook; not independently verified.</p></details>`;
+}
+
 function renderBudgetTable() {
   const sorted = [...FILTERED_BUDGET].sort((a, b) => {
     let av, bv;
@@ -1517,7 +1586,7 @@ function renderBudgetTable() {
   const start = (BUDGET_PAGE - 1) * PAGE_SIZE;
   const slice = sorted.slice(start, start + PAGE_SIZE);
 
-  document.querySelectorAll('#b-records-table thead th').forEach(th => {
+  document.querySelectorAll('#b-records-table thead th[data-bsort]').forEach(th => {
     th.classList.toggle('sorted', th.dataset.bsort === BUDGET_SORT.key);
     th.setAttribute('aria-sort', th.dataset.bsort === BUDGET_SORT.key ? (BUDGET_SORT.dir === 'asc' ? 'ascending' : 'descending') : 'none');
     const ind = th.querySelector('.sort-ind');
@@ -1539,6 +1608,7 @@ function renderBudgetTable() {
         <td class="col-subject">${fmtUSD(r.adjusted)}</td>
         <td class="col-proposer">${fmtUSD(r.nominal)}</td>
         <td class="col-status">${escapeHTML(r.decade)}</td>
+        <td class="budget-source">${budgetSource(r)}</td>
       </tr>
     `).join('');
   }
@@ -1578,9 +1648,9 @@ function renderBudgetPager(totalPages) {
 
 function exportBudgetCSV() {
   if (FILTERED_BUDGET.length === 0) { toast('Nothing to export'); return; }
-  const headers = ['year', 'branch', 'decade', 'appropriation_usd', 'appropriation_2025_usd'];
+  const headers = ['year', 'branch', 'decade', 'appropriation_usd', 'appropriation_2025_usd', 'source', 'links', 'source_file', 'source_sheet', 'source_row'];
   const rows = FILTERED_BUDGET.map(r => [
-    r.year, r.branch, r.decade, r.nominal, r.adjusted
+    r.year, r.branch, r.decade, r.nominal, r.adjusted, r.source, r.links, r.sourceFile, r.sourceSheet, r.sourceRow
   ].map(v => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`).join(','));
   const csv = headers.join(',') + '\n' + rows.join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1597,7 +1667,7 @@ function exportBudgetCSV() {
 // FILTERS defaults stay at the BOF reporting window for the focused first view;
 // inputs allow expanding to the full data span (and a comfortable margin).
 const PROP_DEFAULT = { min: 1897, max: 1908 };
-const BUDGET_DEFAULT = { min: 1866, max: 1920 };
+const BUDGET_DEFAULT = { min: 1865, max: 1920 };
 const SPENDING_DEFAULT = { min: 1888, max: 1920 };
 
 function setupYearBounds() {
@@ -1610,7 +1680,7 @@ function setupYearBounds() {
 
   const propMin = propYears.length ? Math.min(...propYears) : 1897;
   const propMax = propYears.length ? Math.max(...propYears) : 1908;
-  const budgetMin = budgetYears.length ? Math.min(...budgetYears) : 1866;
+  const budgetMin = budgetYears.length ? Math.min(...budgetYears) : 1865;
   const budgetMax = budgetYears.length ? Math.max(...budgetYears) : 1920;
   const spendMin = spendYears.length ? Math.min(...spendYears) : 1888;
   const spendMax = spendYears.length ? Math.max(...spendYears) : 1920;
@@ -1652,7 +1722,7 @@ function setupYearBounds() {
     document.getElementById('f-year-min').value = propMin;
     document.getElementById('f-year-max').value = propMax;
   }
-  if (BUDGET_FILTERS.yearMin === 1866 && BUDGET_FILTERS.yearMax === 1920) {
+  if (BUDGET_FILTERS.yearMin === 1865 && BUDGET_FILTERS.yearMax === 1920) {
     BUDGET_FILTERS.yearMin = budgetMin; BUDGET_FILTERS.yearMax = budgetMax;
     document.getElementById('b-year-min').value = budgetMin;
     document.getElementById('b-year-max').value = budgetMax;
@@ -1989,7 +2059,11 @@ function applySpending() {
 }
 
 function renderSpendingKPIs() {
-  const totalAllot = FILTERED_ALLOTMENTS.reduce((s, r) => s + r.amount, 0);
+  const totalAllot = sumRecordedAmounts(FILTERED_ALLOTMENTS);
+  const missingAmounts = FILTERED_ALLOTMENTS.filter(record => record.amount == null).length;
+  document.getElementById('s-amount-note').textContent = missingAmounts
+    ? `${missingAmounts.toLocaleString()} matching ${missingAmounts === 1 ? 'entry has' : 'entries have'} no recorded amount. Totals and charts use recorded amounts only; exports leave missing amounts blank.`
+    : FILTERED_ALLOTMENTS.length ? 'Totals show recorded allotments, including any marked revoked. Allotments are allocations, not confirmed expenditure.' : 'No matching allotments.';
   document.getElementById('s-match-n').textContent = FILTERED_ALLOTMENTS.length.toLocaleString();
   document.getElementById('s-match-sum').textContent = fmtUSD(totalAllot);
   if (!document.querySelector('[data-skpi="total"]')) return;
@@ -2031,22 +2105,22 @@ function renderSpendingTimeline() {
   for (let y = SPENDING_FILTERS.yearMin; y <= SPENDING_FILTERS.yearMax; y++) yearsAll.push(y);
 
   const allotByYear = yearsAll.map(y =>
-    FILTERED_ALLOTMENTS.filter(r => r.year === y).reduce((s, r) => s + r.amount, 0)
+    sumRecordedAmounts(FILTERED_ALLOTMENTS.filter(r => r.year === y))
   );
   const approByYear = yearsAll.map(y => {
     const a = ALL_APPROPRIATIONS.find(r => r.year === y);
-    return a ? a.amount : 0;
+    return a ? a.amount : null;
   });
 
   const eras = eraShapes(yearsAll[0], yearsAll[yearsAll.length - 1]);
   Plotly.react('s-chart-timeline', [
     {
       type: 'bar',
-      name: 'BOF allotments (line items)',
+      name: 'Recorded allotment amounts',
       x: yearsAll,
       y: allotByYear,
       marker: { color: COLORS.accent, line: { width: 0 } },
-      hovertemplate: '<b>%{x}</b><br>Allotted: <b>%{y:$,.0f}</b><extra></extra>',
+      hovertemplate: '<b>%{x}</b><br>Known allotments: <b>%{y:$,.0f}</b><extra></extra>',
     },
     {
       type: 'scatter',
@@ -2076,16 +2150,17 @@ function renderSpendingTimeline() {
 }
 
 function renderSpendingRevoked() {
-  const active = FILTERED_ALLOTMENTS.filter(r => !r.revoked).reduce((s, r) => s + r.amount, 0);
-  const revoked = FILTERED_ALLOTMENTS.filter(r => r.revoked).reduce((s, r) => s + r.amount, 0);
-  const total = active + revoked;
+  const known = FILTERED_ALLOTMENTS.filter(record => record.amount != null);
+  const active = known.filter(r => !r.revoked).reduce((s, r) => s + r.amount, 0);
+  const revoked = known.filter(r => r.revoked).reduce((s, r) => s + r.amount, 0);
+  const total = sumRecordedAmounts(known);
 
   Plotly.react('s-chart-revoked', [{
     type: 'pie',
     hole: 0.66,
     sort: false,
-    labels: ['Active', 'Revoked'],
-    values: [active, revoked],
+    labels: known.length ? ['Not marked revoked', 'Revoked'] : [],
+    values: known.length ? [active, revoked] : [],
     marker: { colors: [COLORS.accent, COLORS.red], line: { color: COLORS.panel, width: 2 } },
     textinfo: 'none',
     hovertemplate: '<b>%{label}</b><br>%{value:$,.0f} · %{percent}<extra></extra>',
@@ -2100,7 +2175,7 @@ function renderSpendingRevoked() {
     },
     margin: { l: 8, r: 4, t: 8, b: 8 },
     annotations: [{
-      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:12px;">Allotted</span>`,
+      text: `<b style="font-size:20px">${fmtUSD(total)}</b><br><span style="color:${COLORS.textSoft};font-size:12px;">Recorded amounts</span>`,
       showarrow: false, font: { color: COLORS.text, family: PLOT_FONT.family },
       x: 0.5, y: 0.5,
     }],
@@ -2108,7 +2183,7 @@ function renderSpendingRevoked() {
 }
 
 function renderSpendingTop() {
-  const top = [...FILTERED_ALLOTMENTS].sort((a, b) => b.amount - a.amount).slice(0, 15).reverse();
+  const top = FILTERED_ALLOTMENTS.filter(record => record.amount != null).sort((a, b) => b.amount - a.amount).slice(0, 15).reverse();
   const labels = top.map(r => {
     const desc = r.description.length > 60 ? r.description.slice(0, 60) + '…' : r.description;
     return `${r.year} · ${desc}`;
@@ -2138,6 +2213,7 @@ function renderSpendingTop() {
 function renderSpendingTable() {
   const sorted = [...FILTERED_ALLOTMENTS].sort((a, b) => {
     let av = a[SPENDING_SORT.key], bv = b[SPENDING_SORT.key];
+    if (av == null || bv == null) return av == null ? (bv == null ? 0 : 1) : -1;
     if (SPENDING_SORT.key === 'revoked') { av = a.revoked ? 1 : 0; bv = b.revoked ? 1 : 0; }
     if (typeof av === 'number') return SPENDING_SORT.dir === 'asc' ? av - bv : bv - av;
     return SPENDING_SORT.dir === 'asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
@@ -2172,7 +2248,7 @@ function renderSpendingTable() {
             <div class="allotment-detail-body">
               <p>${escapeHTML(r.description)}</p>
               <dl>${[
-                ['Amount allotted', r.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 20 })],
+                ['Amount allotted', r.amount == null ? 'Not recorded' : r.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 20 })],
                 ['Date allotted', r.dateAllotted],
                 ['Notes', r.notes],
                 ['Date revoked', r.dateRevoked],
@@ -2185,7 +2261,7 @@ function renderSpendingTable() {
         <td class="col-cluster">${escapeHTML(r.dateAllotted)}</td>
         <td class="col-status">${r.revoked
           ? `<span class="badge b-rejected">REVOKED</span>`
-          : `<span class="badge b-approved">ACTIVE</span>`}</td>
+          : `<span class="badge b-approved">NOT MARKED REVOKED</span>`}</td>
       </tr>
     `).join('');
   }

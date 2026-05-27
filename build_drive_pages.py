@@ -21,14 +21,14 @@ ROOT = Path(__file__).parent
 DATA = ROOT / "Data"
 
 # ── Brand tokens (mirror the rest of the dashboard) ─────────────────────────
-PAPER       = "#F6F7F5"
+PAPER       = "#FFFFFF"
 PAPER_SOFT  = "#FFFFFF"
-BORDER      = "#D7DDDC"
-TEXT        = "#263239"
-TEXT_MID    = "#5D6A70"
-TEXT_SOFT   = "#657177"
-BRASS       = "#294C5B"
-ACCENT      = "#294C5B"
+BORDER      = "#DADDD8"
+TEXT        = "#242824"
+TEXT_MID    = "#626862"
+TEXT_SOFT   = "#626862"
+BRASS       = "#364F40"
+ACCENT      = "#364F40"
 
 
 # ── Page shell ──────────────────────────────────────────────────────────────
@@ -38,22 +38,22 @@ _SHELL = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
+<title>{title} | Fortify</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%23242824'/%3E%3Ctext x='12' y='29' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='white'%3EF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root {{
-    --bg: #F6F7F5;
+    --bg: #FFFFFF;
     --panel: #FFFFFF;
-    --panel-2: #F8F9F7;
-    --border: #D7DDDC;
-    --text: #263239;
-    --text-mid: #5D6A70;
-    --text-soft: #657177;
-    --brass: #294C5B;
-    --accent: #294C5B;
+    --panel-2: #F7F7F5;
+    --border: #DADDD8;
+    --text: #242824;
+    --text-mid: #626862;
+    --text-soft: #626862;
+    --brass: #364F40;
+    --accent: #364F40;
     --serif: 'Source Serif 4', Georgia, serif;
     --sans: 'Public Sans', -apple-system, sans-serif;
     --mono: 'Public Sans', -apple-system, sans-serif;
@@ -85,12 +85,6 @@ _SHELL = """<!DOCTYPE html>
     display: flex; align-items: center; gap: 10px;
     color: inherit; text-decoration: none; cursor: pointer;
   }}
-  .tb-l svg {{
-    flex-shrink: 0;
-    width: 18px; height: 18px; color: var(--brass);
-    transition: none;
-  }}
-  .tb-l:hover svg {{ transform: none; }}
   .tb-l strong {{ line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 0; }}
   .tb-r a {{ color: var(--text-mid); letter-spacing: 0; }}
   .tb-r a:hover {{ color: var(--brass); text-decoration: none; }}
@@ -138,35 +132,49 @@ _SHELL = """<!DOCTYPE html>
   {extra_css}
 
   :focus-visible {{ outline: 2px solid var(--accent); outline-offset: 3px; }}
-  .topbar {{ padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }}
-  .tb-l {{ max-width: 680px; align-items: flex-start; }}
-  .tb-l svg {{ margin-top: 5px; transition: none; }}
-  .tb-l:hover svg {{ transform: none; }}
-  .tb-l strong {{ font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }}
+  .topbar {{ padding: 16px 36px; font-size: 14px; line-height: 1.5; gap: 12px 28px; }}
+  .tb-l {{ max-width: 680px; align-items: center; }}
+  .tb-l strong {{ font: 600 20px/1.3 'Public Sans', -apple-system, sans-serif; letter-spacing: -.3px; }}
+  .tb-l:hover {{ text-decoration: none; }}
   .tb-r {{ display: flex; flex-wrap: wrap; gap: 8px 24px; }}
   .tb-r a {{ display: inline-block; padding: 8px 0; }}
+  .tb-r a[aria-current=page] {{ color: var(--text); font-weight: 600; }}
   .wrap {{ min-width: 0; }}
+  h1, h1.page-title, .title, .page-head h1 {{ font: 600 30px/1.25 'Public Sans', -apple-system, sans-serif; letter-spacing: -.6px; }}
   .page-head {{ gap: 20px; }}
-  .page-head .sub {{ margin-bottom: 8px; font-weight: 400; }}
-  .page-head h1 {{ font-size: 36px; font-weight: 600; line-height: 1.2; }}
-  .head-right {{ line-height: 1.7; overflow-wrap: anywhere; }}
-  .filters {{ padding: 16px; gap: 12px; align-items: flex-end; }}
+  .page-head .sub {{ margin-bottom: 8px; font-size: 14px; font-weight: 400; }}
+  .head-right {{ font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }}
+  .lede {{ font: 400 17px/1.65 'Public Sans', -apple-system, sans-serif; max-width: 900px; }}
+  .stats {{ background: none; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; gap: 20px; }}
+  .stat {{ background: none; border: 0; padding: 0 0 20px; }}
+  .stat .n {{ font: 600 22px/1.3 'Public Sans', -apple-system, sans-serif; }}
+  .stat .l {{ font-size: 14px; font-weight: 400; }}
+  .stat.green .n, .stat.amber .n, .stat.brass .n {{ color: var(--text); }}
+  .filters {{ padding: 0 0 18px; gap: 12px; align-items: flex-end; background: none; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; }}
   .filter-field {{ display: grid; gap: 6px; min-width: 140px; }}
   .filter-field select {{ width: 100%; }}
-  .filters select, .filters input[type=text] {{ height: 42px; min-height: 42px; font-size: 14px; }}
+  .filters label, .result-count {{ font-size: 14px; font-weight: 400; }}
+  .filters select, .filters input[type=text] {{ height: 42px; min-height: 42px; font-size: 14px; border-radius: 3px; }}
   .filters .clear {{ min-height: 42px; font-size: 14px; padding: 8px 12px; }}
-  .inv thead th {{ font-size: 12px; font-weight: 500; }}
+  .inv {{ border-radius: 0; }}
+  .inv thead th {{ font-size: 13px; font-weight: 500; }}
   .inv td {{ font-size: 14px; line-height: 1.6; }}
-  .chip {{ font-weight: 500; }}
+  .inv td.mono, .inv td.detail {{ font-size: 14px; }}
+  .chip, .chip.crozier, .chip.lewis, .chip.brass, .chip.green, .chip.amber, .chip.red, .chip.steel {{ background: none; border: 0; border-radius: 0; padding: 0; color: var(--text-mid); font-size: 13px; font-weight: 500; }}
+  .eyebrow {{ font-size: 14px; font-weight: 400; margin-bottom: 12px; }}
   .eyebrow::before {{ display: none; }}
   .rr-card:hover, .reading-card:hover, .memo:hover {{ box-shadow: none; background: var(--panel-2); }}
+  .modal h2 {{ font-family: 'Public Sans', -apple-system, sans-serif; font-size: 26px; font-weight: 600; line-height: 1.3; }}
+  .modal .modal-meta, .modal-source {{ font-size: 14px; }}
   .modal-close {{ min-height: 44px; min-width: 44px; font-size: 14px; }}
-  footer, .pg-foot {{ font-size: 13px; line-height: 1.6; }}
+  footer, .pg-foot {{ font-size: 14px; line-height: 1.6; }}
   @media (max-width: 720px) {{
-    .topbar {{ padding: 18px 20px; }}
-    .tb-l strong {{ font-size: 21px; }}
+    .topbar {{ padding: 12px 20px; }}
+    .tb-r {{ gap: 8px 18px; }}
     .wrap {{ padding: 28px 20px 56px; }}
-    .page-head h1 {{ font-size: 30px; }}
+    h1, h1.page-title, .title, .page-head h1 {{ font-size: 28px; }}
+    .stats {{ gap: 18px; }}
+    .stat {{ border: 0; padding-bottom: 16px; }}
     .filters {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }}
     .filter-field {{ min-width: 0; }}
     .filters .clear {{ justify-self: start; }}
@@ -176,21 +184,21 @@ _SHELL = """<!DOCTYPE html>
     .inv {{ display: block; overflow-x: auto; max-width: 100%; }}
     .modal-bg {{ padding: 16px 12px; }}
     .modal {{ padding: 60px 22px 28px; }}
-    .modal h2 {{ font-size: 26px; }}
+    .modal h2 {{ font-size: 24px; }}
     footer {{ padding: 22px 20px; margin-top: 48px; }}
   }}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <a class="tb-l" href="./" title="Back to archive">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
-      <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
-    </svg>
-    <strong>Military Innovation and Technology Adoption</strong>
+  <a class="tb-l" href="./" title="Fortify archive">
+    <strong>Fortify</strong>
   </a>
-  <div class="tb-r"><a href="./">Back to archive</a></div>
+  <nav class="tb-r" aria-label="Main navigation">
+    <a href="./">Archive</a>
+    <a href="./reading-room.html">Reading room</a>
+    <a href="./about.html">About</a>
+  </nav>
 </div>
 <div class="wrap">
 {body}
@@ -275,132 +283,25 @@ def _parse_biography(path: Path) -> list[dict]:
 
 
 _CHIEFS_CSS = """
-  .chief-tabs {
-    display: flex; gap: 4px; margin: 32px 0 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .chief-tab {
-    padding: 12px 22px;
-    font-family: var(--mono);
-    font-size: 11px; letter-spacing: 1.3px;
-    text-transform: uppercase; font-weight: 700;
-    background: transparent; border: 0; cursor: pointer;
-    color: var(--text-mid);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: color .15s, border-color .15s;
-  }
-  .chief-tab.active { color: var(--text); border-bottom-color: var(--brass); }
+  .chief-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin: 32px 0 20px; border-bottom: 1px solid var(--border); }
+  .chief-tab { padding: 12px 18px; font: 500 14px/1.4 var(--sans); background: none; border: 0; border-bottom: 2px solid transparent; color: var(--text-mid); cursor: pointer; margin-bottom: -1px; }
+  .chief-tab.active { color: var(--text); border-bottom-color: var(--accent); }
   .chief-tab:hover { color: var(--text); }
   .chief-panel { display: none; }
   .chief-panel.active { display: block; }
-
-  .chief-card {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 32px;
-    padding: 24px 0;
-    border-top: 1px solid var(--border);
-  }
-  .chief-card:first-of-type { border-top: 0; }
-  .chief-avatar {
-    width: 220px; height: 220px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #1D3461 0%, #2D5A8F 100%);
-    display: flex; align-items: center; justify-content: center;
-    color: white;
-    font-family: var(--serif);
-    font-size: 64px;
-    font-weight: 700;
-  }
-  .chief-avatar.lewis { background: linear-gradient(135deg, #5D4037 0%, #8C6E5A 100%); }
-  .chief-bio h2 {
-    font-family: var(--serif);
-    font-size: 32px; font-weight: 700; letter-spacing: -0.6px;
-    margin-bottom: 4px;
-  }
-  .chief-bio .rank {
-    font-family: var(--mono); font-size: 11px;
-    letter-spacing: 1.3px; text-transform: uppercase;
-    color: var(--brass); font-weight: 700; margin-bottom: 14px;
-  }
+  .chief-card { padding: 24px 0; }
+  .chief-bio { max-width: 920px; }
+  .chief-bio h2 { font: 600 24px/1.3 var(--sans); margin-bottom: 6px; }
+  .chief-bio .rank { font-size: 14px; color: var(--text-mid); margin-bottom: 14px; }
   .chief-bio p { color: var(--text-mid); margin-bottom: 10px; }
-  .chief-bio .stats { display: flex; gap: 18px; margin-top: 12px; flex-wrap: wrap; }
-  .chief-bio .stat {
-    background: var(--panel); border: 1px solid var(--border);
-    padding: 10px 16px; border-radius: 6px; min-width: 110px;
-  }
-  .chief-bio .stat .n {
-    font-family: var(--serif); font-size: 20px; font-weight: 700;
-  }
-  .chief-bio .stat .l {
-    font-family: var(--mono); font-size: 9.5px;
-    letter-spacing: 1.4px; text-transform: uppercase;
-    color: var(--text-soft); margin-top: 4px; font-weight: 600;
-  }
-
-  .timeline {
-    margin-top: 36px;
-    padding-left: 0;
-    position: relative;
-  }
-  .timeline::before {
-    content: ""; position: absolute;
-    top: 0; bottom: 0; left: 110px;
-    width: 2px; background: var(--border);
-  }
-  .event {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 28px;
-    position: relative;
-    padding: 16px 0;
-  }
-  .event::before {
-    content: ""; position: absolute;
-    left: 105px; top: 24px;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--brass);
-    border: 3px solid var(--bg);
-    z-index: 1;
-  }
-  .event .year {
-    font-family: var(--mono);
-    font-size: 13px; font-weight: 700; letter-spacing: 0.6px;
-    color: var(--text);
-    text-align: right;
-    padding-top: 18px;
-  }
-  .event .body {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 18px;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .event:hover .body {
-    border-color: var(--brass);
-    box-shadow: 0 4px 12px rgba(60, 40, 10, .08);
-  }
-  .event .headline {
-    font-family: var(--serif);
-    font-size: 15.5px; font-weight: 700; line-height: 1.35;
-    color: var(--text); margin-bottom: 4px;
-  }
-  .event .detail {
-    font-size: 14px; line-height: 1.55;
-    color: var(--text-mid);
-  }
-  .event .detail p { margin-bottom: 4px; }
-  @media (max-width: 720px) {
-    .chief-card { grid-template-columns: 1fr; }
-    .chief-avatar { width: 100%; height: 160px; }
-    .timeline::before { left: 60px; }
-    .event { grid-template-columns: 60px 1fr; gap: 14px; }
-    .event::before { left: 55px; }
-    .event .year { font-size: 11px; }
-  }
+  .chief-bio .stats { display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+  .timeline { margin-top: 24px; }
+  .event { display: grid; grid-template-columns: 80px 1fr; gap: 28px; padding: 20px 0; border-top: 1px solid var(--border); }
+  .event .year { font-size: 15px; font-weight: 600; color: var(--text); }
+  .event .headline { font-size: 16px; font-weight: 600; line-height: 1.5; margin-bottom: 6px; }
+  .event .detail { font: 400 16px/1.65 var(--serif); color: var(--text-mid); }
+  .event .detail p { margin-bottom: 6px; }
+  @media (max-width: 720px) { .event { grid-template-columns: 55px 1fr; gap: 16px; } }
 """
 
 
@@ -455,7 +356,6 @@ def build_chiefs() -> None:
 
   <div class="chief-panel active" id="panel-crozier">
     <div class="chief-card">
-      <div class="chief-avatar">WC</div>
       <div class="chief-bio">
         <h2>William Crozier</h2>
         <div class="rank">Brig. Gen. · Chief of Ordnance 1901–1918</div>
@@ -475,7 +375,6 @@ def build_chiefs() -> None:
 
   <div class="chief-panel" id="panel-lewis">
     <div class="chief-card">
-      <div class="chief-avatar lewis">IL</div>
       <div class="chief-bio">
         <h2>Isaac Newton Lewis</h2>
         <div class="rank">Col. · BOF recorder · Inventor</div>
@@ -575,89 +474,23 @@ def _parse_reports(path: Path) -> list[dict]:
 
 
 _REPORTS_CSS = """
-  .ar-grid {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 48px;
-    margin-top: 36px;
-  }
-  .ar-nav {
-    position: sticky; top: 24px;
-    align-self: start;
-    max-height: calc(100vh - 48px);
-    overflow-y: auto;
-  }
-  .ar-nav button {
-    display: block; width: 100%;
-    padding: 12px 14px;
-    background: transparent; border: 0; cursor: pointer;
-    text-align: left;
-    font-family: var(--sans);
-    font-size: 13.5px; line-height: 1.35;
-    color: var(--text-mid);
-    border-left: 3px solid transparent;
-    transition: background .12s, color .12s, border-color .12s;
-  }
-  .ar-nav button:hover { background: var(--panel); color: var(--text); }
-  .ar-nav button.active {
-    color: var(--text); border-left-color: var(--brass);
-    background: var(--panel);
-    font-weight: 600;
-  }
-  .ar-nav button .num {
-    font-family: var(--mono); font-size: 10.5px;
-    color: var(--brass); letter-spacing: 1px;
-    font-weight: 700;
-    display: block; margin-bottom: 2px;
-  }
-
+  .ar-grid { display: grid; grid-template-columns: 240px 1fr; gap: 40px; margin-top: 36px; }
+  .ar-nav { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto; }
+  .ar-nav button { display: block; width: 100%; padding: 12px 14px; background: none; border: 0; border-left: 2px solid transparent; text-align: left; font: 400 15px/1.5 var(--sans); color: var(--text-mid); cursor: pointer; }
+  .ar-nav button:hover { background: var(--panel-2); color: var(--text); }
+  .ar-nav button.active { color: var(--text); border-left-color: var(--accent); background: var(--panel-2); font-weight: 600; }
+  .ar-nav button .num { display: block; margin-bottom: 2px; font-size: 14px; color: var(--text-mid); }
   .ar-panel { display: none; }
   .ar-panel.active { display: block; }
-  .ar-header {
-    margin-bottom: 18px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .ar-header h2 {
-    font-family: var(--serif);
-    font-size: 36px; font-weight: 700; letter-spacing: -0.8px;
-  }
-  .ar-header .range {
-    font-family: var(--mono);
-    font-size: 11px; letter-spacing: 1.4px;
-    text-transform: uppercase; color: var(--brass);
-    font-weight: 700; margin-top: 6px;
-  }
-  .topic {
-    margin-bottom: 28px;
-    padding: 22px 26px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    border-left: 4px solid var(--brass);
-  }
-  .topic h3 {
-    font-family: var(--serif);
-    font-size: 20px; font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .topic .page-ref {
-    font-family: var(--mono); font-size: 10.5px;
-    letter-spacing: 1px; text-transform: uppercase;
-    color: var(--text-soft); margin-bottom: 14px;
-    font-weight: 600;
-  }
-  .topic p {
-    font-family: var(--serif);
-    font-size: 16px; line-height: 1.65;
-    color: var(--text); margin-bottom: 12px;
-  }
+  .ar-header { padding-bottom: 24px; }
+  .ar-header h2 { font: 600 26px/1.3 var(--sans); }
+  .ar-header .range { font-size: 14px; color: var(--text-mid); margin-top: 6px; }
+  .topic { padding: 24px 0; border-top: 1px solid var(--border); }
+  .topic h3 { font: 600 20px/1.4 var(--sans); margin-bottom: 6px; }
+  .topic .page-ref { font-size: 14px; color: var(--text-soft); margin-bottom: 14px; }
+  .topic p { font: 400 17px/1.7 var(--serif); color: var(--text); margin-bottom: 14px; }
   .topic p:last-child { margin-bottom: 0; }
-
-  @media (max-width: 980px) {
-    .ar-grid { grid-template-columns: 1fr; }
-    .ar-nav { position: relative; max-height: none; }
-  }
+  @media (max-width: 980px) { .ar-grid { grid-template-columns: 1fr; gap: 24px; } .ar-nav { position: relative; max-height: none; } }
 """
 
 
@@ -779,59 +612,14 @@ def _parse_tech_mapping(path: Path) -> list[dict]:
 
 
 _TECH_CSS = """
-  .tech-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 18px;
-    margin-top: 36px;
-  }
-  .tech-period {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 22px 24px;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .tech-period:hover {
-    border-color: var(--brass);
-    box-shadow: 0 4px 14px rgba(60, 40, 10, .08);
-  }
-  .tech-period .label {
-    font-family: var(--mono);
-    font-size: 11px; font-weight: 700; letter-spacing: 1.4px;
-    text-transform: uppercase; color: var(--brass);
-    margin-bottom: 4px;
-  }
-  .tech-period h3 {
-    font-family: var(--serif);
-    font-size: 22px; font-weight: 700; letter-spacing: -0.4px;
-    margin-bottom: 14px;
-  }
-  .tech-period .count {
-    font-family: var(--mono);
-    font-size: 10.5px; letter-spacing: 0.8px;
-    color: var(--text-soft); font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .tech-period ul {
-    list-style: none;
-    padding: 0; margin: 0;
-  }
-  .tech-period li {
-    padding: 6px 0;
-    font-size: 14px;
-    color: var(--text);
-    border-bottom: 1px solid var(--border);
-    line-height: 1.4;
-  }
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 24px 36px; margin-top: 32px; }
+  .tech-period { border-top: 1px solid var(--border); padding: 20px 0; }
+  .tech-period .label { font-size: 14px; color: var(--text-mid); margin-bottom: 6px; }
+  .tech-period h3 { font: 600 21px/1.4 var(--sans); margin-bottom: 6px; }
+  .tech-period .count { font-size: 14px; color: var(--text-soft); margin-bottom: 14px; }
+  .tech-period ul { list-style: none; padding: 0; margin: 0; }
+  .tech-period li { padding: 8px 0; font-size: 15px; color: var(--text); border-bottom: 1px solid var(--border); line-height: 1.5; }
   .tech-period li:last-child { border-bottom: 0; }
-  .tech-period li::before {
-    content: "▸";
-    color: var(--brass);
-    margin-right: 8px;
-    font-size: 10px;
-  }
 """
 
 
@@ -861,7 +649,7 @@ def build_tech_master() -> None:
     A technology may appear in more than one period; the entry count is not a count
     of distinct inventions. Coverage differs from the proposal export.
   </p>
-  <p style="font-family: var(--mono); font-size: 11.5px; color: var(--text-soft); letter-spacing: 0.4px;">
+  <p style="font-family: var(--mono); font-size: 14px; color: var(--text-soft);">
     <strong style="color: var(--text-mid);">{len(periods)} report periods</strong>
     &nbsp;·&nbsp;
     <strong style="color: var(--text-mid);">{total_techs} total subject entries</strong>
@@ -877,131 +665,90 @@ def build_tech_master() -> None:
 # ── 4. READING ROOM — index page linking all parsed docs ─────────────────────
 
 _READING_CSS = """
-  .reading-grid {
-    border-top: 1px solid var(--border);
-    margin-top: 24px;
-  }
-  .reading-card {
-    display: grid;
-    grid-template-columns: minmax(220px, .95fr) minmax(0, 1.5fr) 220px;
-    grid-template-areas: "tag scope count" "title scope count";
-    align-items: center;
-    gap: 4px 32px;
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border);
-    text-decoration: none;
-    color: inherit;
-    transition: background-color .15s;
-  }
-  .reading-card:hover {
-    background: var(--panel-2);
-    text-decoration: none;
-  }
-  .reading-card .tag {
-    grid-area: tag;
-    align-self: end;
-    font-size: 12px;
-    color: var(--text-mid);
-  }
-  .reading-card h2 {
-    grid-area: title;
-    align-self: start;
-    font-family: var(--serif);
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -.3px;
-    line-height: 1.25;
-    margin: 0;
-  }
-  .reading-card p {
-    grid-area: scope;
-    color: var(--text-mid);
-    font-size: 15px;
-    line-height: 1.65;
-    margin: 0;
-  }
-  .reading-card .meta {
-    grid-area: count;
-    text-align: right;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-mid);
-  }
-  @media (max-width: 900px) {
-    .reading-card {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: "tag" "title" "scope" "count";
-      gap: 8px;
-      padding: 22px 0;
-    }
-    .reading-card .meta { text-align: left; margin-top: 4px; }
+  html, body { background: #fff; }
+  .wrap h1 { margin: 0 0 12px; }
+  .wrap .reading-card, .wrap .reference a, .wrap .scope-note a { color: var(--text); }
+  .wrap .reading-card:hover { background: transparent; text-decoration: none; }
+  .wrap { max-width: 1120px; margin: auto; padding: 48px 32px 64px; }
+  .page-head { margin-bottom: 32px; }
+  h1 { font-size: 30px; line-height: 1.25; letter-spacing: -.7px; font-weight: 600; margin: 0 0 12px; }
+  .intro { margin: 0; max-width: 65ch; color: var(--text-mid); }
+  .collection-label { display: flex; justify-content: space-between; gap: 24px; padding: 0 0 10px; border-bottom: 1px solid var(--border); color: var(--text-mid); font-size: 12px; }
+  .reading-list { list-style: none; padding: 0; margin: 0; }
+  .reading-list li { border-bottom: 1px solid var(--border); }
+  .reading-card { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 6px 40px; padding: 22px 0; text-decoration: none; }
+  .reading-card:hover h2 { text-decoration: underline; text-underline-offset: 4px; }
+  .reading-card h2 { margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600; }
+  .reading-card p { grid-column: 1; margin: 0; color: var(--text-mid); font-size: 14px; max-width: 68ch; }
+  .reading-card .meta { grid-column: 2; grid-row: 1 / 3; text-align: right; align-self: center; color: var(--text-mid); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .reference { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px; }
+  .reference h2 { font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+  .reference p { font-size: 13px; color: var(--text-mid); margin: 0; max-width: 48ch; }
+  .scope-note { margin: 36px 0 0; font-size: 12px; color: var(--text-mid); }
+  @media (max-width: 640px) {
+    .topbar { padding: 12px 20px; flex-wrap: wrap; gap: 4px 24px; }
+    .tb-r { gap: 22px; font-size: 13px; }
+    .tb-r a { padding: 12px 0; }
+    .wrap { padding: 32px 20px 48px; }
+    h1 { font-size: 28px; }
+    .page-head { margin-bottom: 28px; }
+    .collection-label span:last-child { display: none; }
+    .reading-card { grid-template-columns: minmax(0, 1fr); gap: 7px; padding: 20px 0; }
+    .reading-card .meta { grid-column: 1; grid-row: auto; text-align: left; font-size: 12px; }
+    .reference { grid-template-columns: 1fr; gap: 24px; }
   }
 """
 
 
 def build_reading_room() -> None:
     body = '''
-  <div class="eyebrow">Reading room</div>
-  <h1 class="page-title">Research records</h1>
-  <p class="lede">
-    Selected report excerpts, biographical timelines, technology records, and research
-    notes. These collections use different source documents and reporting periods.
-  </p>
-  <div class="reading-grid">
-
-    <a class="reading-card" href="./chiefs.html">
-      <div class="tag">People</div>
-      <h2>Crozier and Lewis</h2>
-      <p>Biographical research records for William Crozier and Isaac N. Lewis, organized by person and year.</p>
-      <div class="meta">Crozier and Lewis docs · biographical</div>
-    </a>
-
-    <a class="reading-card" href="./reports.html">
-      <div class="tag">Report notes</div>
-      <h2>Report notes and excerpts</h2>
-      <p>Research summaries and report excerpts grouped by topic, including submarine mines,
-         fire control, powders, fuses, and communications.</p>
-      <div class="meta">BOF non-gun research notes · selected annual reports</div>
-    </a>
-
-    <a class="reading-card" href="./tech-master.html">
-      <div class="tag">Reference</div>
-      <h2>Technology Mapping</h2>
-      <p>Technology entries grouped by the annual-report periods recorded in the source roster.
-         Its coverage extends further back than the proposal export.</p>
-      <div class="meta">Technology Mapping document · source roster</div>
-    </a>
-
-    <a class="reading-card" href="./tech-memos.html">
-      <div class="tag">Research notes</div>
-      <h2>Technology Memos</h2>
-      <p>Research memos and unfilled templates, organized by technology. Open a record
-         to read the available notes and chronology.</p>
-      <div class="meta">Technology Memos folder · completed notes and templates</div>
-    </a>
-
-    <a class="reading-card" href="./data-quality.html">
-      <div class="tag">Source review</div>
-      <h2>Data Quality</h2>
-      <p>Earlier review notes on missing fields, source gaps, and coverage limits.
-         Includes clarifications for the current public exports.</p>
-      <div class="meta">Original review notes: May 12, 2026</div>
-    </a>
-
-    <a class="reading-card" href="./about.html">
-      <div class="tag">Project</div>
-      <h2>About</h2>
-      <p>What the Board of Ordnance & Fortification was, who built this dashboard, and where
-         the source material came from.</p>
-      <div class="meta">Background · team · methodology</div>
-    </a>
-
+  <div class="page-head">
+    <h1>Reading room</h1>
+    <p class="intro">Source excerpts and research notes from the Board of Ordnance and Fortification study.</p>
   </div>
+  <div class="collection-label" aria-hidden="true"><span>Collection</span><span>Contents</span></div>
+  <ul class="reading-list">
+    <li><a class="reading-card" href="./chiefs.html">
+      <h2>Crozier and Lewis</h2>
+      <p>Biographical notes on William Crozier and Isaac N. Lewis. Browse by person, decade, or keyword.</p>
+      <span class="meta">335 records</span>
+    </a></li>
+    <li><a class="reading-card" href="./reports.html">
+      <h2>Report notes and excerpts</h2>
+      <p>Research summaries and excerpts grouped by topic, with recorded page citations.</p>
+      <span class="meta">18 topics · 7 annual reports</span>
+    </a></li>
+    <li><a class="reading-card" href="./tech-master.html">
+      <h2>Technology roster</h2>
+      <p>Technology entries organized by the reporting periods recorded in the source roster.</p>
+      <span class="meta">1,297 entries · 30 periods</span>
+    </a></li>
+    <li><a class="reading-card" href="./tech-memos.html">
+      <h2>Technology memos</h2>
+      <p>Research notes and unfilled templates, organized by technology.</p>
+      <span class="meta">6 filled · 10 templates</span>
+    </a></li>
+  </ul>
+  <div class="reference">
+    <section>
+      <h2><a href="./data-quality.html">Data quality inventory</a></h2>
+      <p>May 2026 review notes on missing fields and source gaps, with clarifications for the public exports.</p>
+    </section>
+    <section>
+      <h2><a href="./about.html">About the archive</a></h2>
+      <p>Historical background, the research team, and where the source material came from.</p>
+    </section>
+  </div>
+  <p class="scope-note">These collections use different source documents and reporting periods. <a href="./explainer.html">Read the archive guide</a>.</p>
 '''
-    page = render("Reading Room", body, _READING_CSS,
-                  "Index · long-form content from the research drive")
+    page = render("Reading room", body, _READING_CSS,
+                  "Board of Ordnance and Fortification study")
+    page = page.replace(
+        'href="./reading-room.html">Reading room</a>',
+        'href="./reading-room.html" aria-current="page">Reading room</a>',
+    )
     (ROOT / "reading-room.html").write_text(page, encoding="utf-8")
-    print(f"  ✓ reading-room.html")
+    print("  ✓ reading-room.html")
 
 
 # ── Main ────────────────────────────────────────────────────────────────────

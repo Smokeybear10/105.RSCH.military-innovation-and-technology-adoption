@@ -12,6 +12,7 @@ import argparse
 from pathlib import Path
 
 from bof_pipeline.budget import load_budget_master
+from style_charts import patch_one
 from bof_pipeline.budget_visualize import (
     save_budget_area_chart,
     save_budget_share_chart,
@@ -48,7 +49,11 @@ def main() -> None:
 
     # Export master ledger CSV
     csv_path = args.output_dir / "budget_master_ledger.csv"
-    df.to_csv(csv_path, index=False)
+    public = df.drop(columns="notes").copy()
+    public["source"] = public["source"].fillna("").astype(str).str.strip()
+    links = public["links"].fillna("").astype(str).str.strip()
+    public["links"] = links.where(links.str.fullmatch(r"https?://[^\s]+"), "")
+    public.to_csv(csv_path, index=False)
     print(f"  Master ledger → {csv_path}")
 
     # Generate visualizations
@@ -56,14 +61,17 @@ def main() -> None:
 
     path = out / "budget_area_chart.html"
     save_budget_area_chart(df, path)
+    patch_one(path)
     print(f"  Stacked area chart → {path}")
 
     path = out / "budget_treemap.html"
     save_budget_treemap(df, path)
+    patch_one(path)
     print(f"  Treemap            → {path}")
 
     path = out / "budget_share_chart.html"
     save_budget_share_chart(df, path)
+    patch_one(path)
     print(f"  Share area chart   → {path}")
 
     print("Done.")

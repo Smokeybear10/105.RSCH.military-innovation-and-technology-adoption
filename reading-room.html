@@ -3,475 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reading Room · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
+<meta name="description" content="Biographical records, annual-report notes, and technology research from the Board of Ordnance and Fortification archive.">
+<title>Reading room | Fortify</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='4' fill='%23242824'/%3E%3Ctext x='12' y='29' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='white'%3EF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #F6F7F5;
-    --panel: #FFFFFF;
-    --panel-2: #F8F9F7;
-    --border: #D7DDDC;
-    --border-2: #B7C2C3;
-    --text: #263239;
-    --text-mid: #5D6A70;
-    --text-soft: #657177;
-    --brass: #294C5B;
-    --accent: #294C5B;
-    --green: #2D6A4F;
-    --amber: #956B32;
-    --red: #A64D43;
-    --serif: 'Source Serif 4', Georgia, serif;
-    --sans: 'Public Sans', -apple-system, sans-serif;
-    --mono: 'Public Sans', -apple-system, sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 15px; line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* Topbar */
-  .topbar {
-    flex-wrap: wrap;
-    gap: 10px 24px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 28px;
-    background: var(--panel);
-    border-bottom: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 12px; letter-spacing: 0; color: var(--text-mid);
-  }
-  .tb-l {
-    min-width: 0;
-    display: flex; align-items: center; gap: 10px;
-    color: inherit; text-decoration: none;
-  }
-  .tb-l svg {
-    flex-shrink: 0;
-    width: 18px; height: 18px; color: var(--brass);
-    transition: none;
-  }
-  .tb-l:hover svg { transform: none; }
-  .tb-l strong { line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 0; }
-  .tb-r { display: flex; gap: 18px; }
-  .tb-r a { color: var(--text-mid); text-decoration: none; letter-spacing: 0; }
-  .tb-r a:hover { color: var(--brass); }
-
-  /* Wrap */
-  .wrap { max-width: 1480px; margin: 0 auto; padding: 32px 36px 80px; }
-
-  /* Page head */
-  .page-head {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 32px; margin-bottom: 24px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
-  }
-  .page-head h1 {
-    font-family: var(--serif);
-    font-size: 32px; font-weight: 700; letter-spacing: -0.6px;
-    line-height: 1.1;
-  }
-  .page-head .sub {
-    font-family: var(--mono);
-    font-size: 12px; letter-spacing: 0;
-    color: var(--text-soft); text-transform: none;
-    font-weight: 600; margin-top: 4px;
-  }
-  .head-right {
-    font-family: var(--mono);
-    font-size: 12px; letter-spacing: 0;
-    color: var(--text-soft); text-align: right;
-  }
-  .head-right b { color: var(--text-mid); font-weight: 700; }
-
-  /* Stat row */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin-bottom: 24px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .stat { padding: 14px 18px; border-right: 1px solid var(--border); }
-  .stat:last-child { border-right: 0; }
-  .stat .n {
-    font-family: var(--serif);
-    font-size: 22px; font-weight: 700;
-    letter-spacing: -0.4px; line-height: 1;
-  }
-  .stat .l {
-    font-family: var(--mono);
-    font-size: 12px; letter-spacing: 0;
-    text-transform: none; color: var(--text-soft);
-    margin-top: 6px; font-weight: 600;
-  }
-  .stat.green .n { color: var(--green); }
-  .stat.amber .n { color: var(--amber); }
-  .stat.brass .n { color: var(--brass); }
-
-  /* Filter bar */
-  .filters {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 10px 12px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-  }
-  .filters label {
-    font-family: var(--mono);
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0; text-transform: none;
-    color: var(--text-mid);
-  }
-  .filters select, .filters input[type=text] {
-    font-family: var(--sans);
-    font-size: 12.5px;
-    padding: 6px 10px;
-    border: 1px solid var(--border-2);
-    background: var(--panel);
-    color: var(--text);
-    border-radius: 4px;
-    height: 30px;
-    min-width: 130px;
-  }
-  .filters input[type=text] { min-width: 240px; flex: 1; }
-  .filters select:focus, .filters input:focus {
-    outline: 2px solid var(--accent); outline-offset: 1px;
-    border-color: var(--accent);
-  }
-  .filters .clear {
-    font-family: var(--mono);
-    font-size: 12px; letter-spacing: 0;
-    background: transparent; border: 0;
-    color: var(--text-soft); cursor: pointer;
-    padding: 6px 8px;
-  }
-  .filters .clear:hover { color: var(--brass); }
-  .result-count {
-    font-family: var(--mono);
-    font-size: 12px; letter-spacing: 0;
-    color: var(--text-soft);
-    margin-left: auto; font-weight: 600;
-  }
-
-  /* Inventory table */
-  .inv {
-    width: 100%;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    border-collapse: separate;
-    border-spacing: 0;
-    overflow: hidden;
-  }
-  .inv thead th {
-    background: var(--panel-2);
-    font-family: var(--mono);
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0; text-transform: none;
-    color: var(--text-soft);
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .inv tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background .1s;
-  }
-  .inv tbody tr:last-child { border-bottom: 0; }
-  .inv tbody tr:hover { background: var(--panel-2); }
-  .inv tbody tr.clickable { cursor: pointer; }
-  .inv td {
-    padding: 12px 14px;
-    vertical-align: top;
-    font-size: 13px;
-  }
-  .inv td.tight { white-space: nowrap; width: 1%; }
-  .inv td.summary { color: var(--text); line-height: 1.45; font-weight: 500; }
-  .inv td.detail { color: var(--text-mid); font-size: 12.5px; line-height: 1.5; }
-  .inv td.detail.serif { font-family: var(--serif); font-size: 14.5px; line-height: 1.6; color: var(--text); }
-  .inv td.mono { font-family: var(--mono); font-size: 12px; color: var(--text-mid); }
-
-  /* Chips */
-  .chip {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 12px; font-weight: 700;
-    letter-spacing: 0;
-    padding: 3px 7px;
-    border-radius: 3px;
-    text-transform: none;
-    white-space: nowrap;
-  }
-  .chip.crozier  { background: rgba(29,52,97,.12);  color: #1D3461; }
-  .chip.lewis    { background: rgba(93,64,55,.14);  color: #5D4037; }
-  .chip.brass    { background: rgba(41,76,91,.09); color: var(--accent); }
-  .chip.green    { background: rgba(45,106,79,.12); color: var(--green); }
-  .chip.amber    { background: rgba(184,134,11,.14); color: var(--amber); }
-  .chip.red      { background: rgba(176,65,62,.12); color: var(--red); }
-  .chip.steel    { background: var(--panel-2); color: var(--text-soft); border: 1px solid var(--border); }
-
-  /* Page-foot */
-  .pg-foot {
-    margin-top: 28px;
-    padding-top: 18px;
-    border-top: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 12px; color: var(--text-soft);
-    letter-spacing: 0;
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  }
-  .pg-foot a { color: var(--text-mid); text-decoration: none; }
-  .pg-foot a:hover { color: var(--brass); }
-
-  /* Modal */
-  .modal-bg {
-    position: fixed; inset: 0;
-    background: rgba(15,23,42,.55);
-    display: none;
-    align-items: flex-start; justify-content: center;
-    padding: 56px 24px;
-    z-index: 1000;
-    overflow-y: auto;
-  }
-  .modal-bg.open { display: flex; }
-  .modal {
-    background: var(--panel);
-    border-radius: 3px;
-    max-width: 920px; width: 100%;
-    padding: 36px 44px 44px;
-    box-shadow: 0 16px 60px rgba(0,0,0,.22);
-    position: relative;
-  }
-  .modal-close {
-    position: absolute; top: 14px; right: 16px;
-    background: transparent; border: 0; cursor: pointer;
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0;
-    color: var(--text-mid); padding: 6px 10px; border-radius: 4px;
-  }
-  .modal-close:hover { color: var(--brass); background: var(--panel-2); }
-  .modal h2 {
-    font-family: var(--serif);
-    font-size: 28px; font-weight: 700; letter-spacing: -0.5px;
-    line-height: 1.1; margin-bottom: 6px;
-  }
-  .modal .modal-meta {
-    font-family: var(--mono);
-    font-size: 12px; letter-spacing: 0;
-    text-transform: none; color: var(--text-soft);
-    margin-bottom: 22px; padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .modal h3 {
-    font-family: var(--serif);
-    font-size: 16px; font-weight: 700;
-    margin: 22px 0 8px;
-  }
-  .modal p {
-    font-family: var(--serif);
-    font-size: 15px; line-height: 1.65;
-    margin-bottom: 10px;
-  }
-  .modal-source {
-    margin-top: 24px; padding-top: 16px;
-    border-top: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 12px; color: var(--text-soft);
-  }
-
-  @media (max-width: 720px) {
-    .wrap { padding: 20px 14px 56px; }
-    .page-head { flex-direction: column; align-items: flex-start; }
-    .head-right { text-align: left; }
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .stat { border-bottom: 1px solid var(--border); }
-    .stat:nth-child(2n) { border-right: 0; }
-    .inv td.detail, .inv td.mono { display: none; }
-  }
-
-  .hidden { display: none !important; }
-  
-  .rr-grid {
-    border-top: 1px solid var(--border);
-    margin-top: 24px;
-  }
-  .rr-card {
-    display: grid;
-    grid-template-columns: minmax(220px, .95fr) minmax(0, 1.5fr) 220px;
-    grid-template-areas: "tag scope count" "title scope count";
-    align-items: center;
-    gap: 4px 32px;
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border);
-    text-decoration: none;
-    color: inherit;
-    transition: background-color .15s;
-  }
-  .rr-card:hover {
-    background: var(--panel-2);
-    text-decoration: none;
-  }
-  .rr-tag {
-    grid-area: tag;
-    align-self: end;
-    font-size: 12px;
-    color: var(--text-mid);
-  }
-  .rr-title {
-    grid-area: title;
-    align-self: start;
-    font-family: var(--serif);
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -.3px;
-    line-height: 1.25;
-    margin: 0;
-  }
-  .rr-blurb {
-    grid-area: scope;
-    color: var(--text-mid);
-    font-size: 15px;
-    line-height: 1.65;
-    margin: 0;
-  }
-  .rr-stat {
-    grid-area: count;
-    text-align: right;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-mid);
-  }
-  @media (max-width: 900px) {
-    .rr-card {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: "tag" "title" "scope" "count";
-      gap: 8px;
-      padding: 22px 0;
-    }
-    .rr-stat { text-align: left; margin-top: 4px; }
-  }
-
-
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .topbar { padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }
-  .tb-l { max-width: 680px; align-items: flex-start; }
-  .tb-l svg { margin-top: 5px; transition: none; }
-  .tb-l:hover svg { transform: none; }
-  .tb-l strong { font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }
-  .tb-r { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-  .tb-r a { display: inline-block; padding: 8px 0; }
-  .wrap { min-width: 0; }
-  .page-head { gap: 20px; }
-  .page-head .sub { margin-bottom: 8px; font-weight: 400; }
-  .page-head h1 { font-size: 36px; font-weight: 600; line-height: 1.2; }
-  .head-right { line-height: 1.7; overflow-wrap: anywhere; }
-  .filters { padding: 16px; gap: 12px; }
-  .filters select, .filters input[type=text] { height: 42px; min-height: 42px; font-size: 14px; }
-  .filters .clear { min-height: 42px; font-size: 14px; padding: 8px 12px; }
-  .inv thead th { font-size: 12px; font-weight: 500; }
-  .inv td { font-size: 14px; line-height: 1.6; }
-  .chip { font-weight: 500; }
-  .eyebrow::before { display: none; }
-  .rr-card:hover, .reading-card:hover, .memo:hover { box-shadow: none; background: var(--panel-2); }
-  .modal-close { min-height: 44px; min-width: 44px; font-size: 14px; }
-  footer, .pg-foot { font-size: 13px; line-height: 1.6; }
-  @media (max-width: 720px) {
-    .topbar { padding: 18px 20px; }
-    .tb-l strong { font-size: 21px; }
-    .wrap { padding: 28px 20px 56px; }
-    .page-head h1 { font-size: 30px; }
-    .filters { gap: 10px; }
-    .filters select, .filters input[type=text] { max-width: 100%; min-width: 0; font-size: 16px; flex: 1 1 160px; }
-    .filters input[type=text] { flex-basis: 100%; }
-    .inv { display: block; overflow-x: auto; max-width: 100%; }
-    .modal-bg { padding: 16px 12px; }
-    .modal { padding: 60px 22px 28px; }
-    .modal h2 { font-size: 26px; }
-    footer { padding: 22px 20px; margin-top: 48px; }
+  :root { color-scheme: light; --ink: #242824; --muted: #626862; --line: #daddd8; --surface: #f7f7f5; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 15px/1.6 'Public Sans', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-underline-offset: 4px; }
+  a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .skip { position: absolute; top: -80px; left: 20px; padding: 10px 16px; background: #fff; z-index: 2; }
+  .skip:focus { top: 10px; }
+  .topbar { min-height: 68px; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 12px 32px; border-bottom: 1px solid var(--line); }
+  .tb-l { font-size: 20px; font-weight: 600; letter-spacing: -.4px; text-decoration: none; }
+  .tb-r { display: flex; gap: 24px; align-items: center; font-size: 14px; }
+  .tb-r a { padding: 8px 0; text-decoration: none; color: var(--muted); }
+  .tb-r a:hover { color: var(--ink); text-decoration: underline; }
+  .tb-r a[aria-current] { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 7px; }
+  .wrap { max-width: 1120px; margin: auto; padding: 48px 32px 64px; }
+  .page-head { margin-bottom: 32px; }
+  h1 { font-size: 30px; line-height: 1.25; letter-spacing: -.7px; font-weight: 600; margin: 0 0 12px; }
+  .intro { margin: 0; max-width: 65ch; color: var(--muted); }
+  .collection-label { display: flex; justify-content: space-between; gap: 24px; padding: 0 0 10px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+  .reading-list { list-style: none; padding: 0; margin: 0; }
+  .reading-list li { border-bottom: 1px solid var(--line); }
+  .reading-card { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 6px 40px; padding: 22px 0; text-decoration: none; }
+  .reading-card:hover h2 { text-decoration: underline; text-underline-offset: 4px; }
+  .reading-card h2 { margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600; }
+  .reading-card p { grid-column: 1; margin: 0; color: var(--muted); font-size: 14px; max-width: 68ch; }
+  .reading-card .meta { grid-column: 2; grid-row: 1 / 3; text-align: right; align-self: center; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .reference { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px; }
+  .reference h2 { font-size: 14px; font-weight: 600; margin: 0 0 6px; }
+  .reference p { font-size: 13px; color: var(--muted); margin: 0; max-width: 48ch; }
+  .scope-note { margin: 36px 0 0; font-size: 12px; color: var(--muted); }
+  @media (max-width: 640px) {
+    .topbar { padding: 12px 20px; flex-wrap: wrap; gap: 4px 24px; }
+    .tb-r { gap: 22px; font-size: 13px; }
+    .tb-r a { padding: 12px 0; }
+    .wrap { padding: 32px 20px 48px; }
+    h1 { font-size: 28px; }
+    .page-head { margin-bottom: 28px; }
+    .collection-label span:last-child { display: none; }
+    .reading-card { grid-template-columns: minmax(0, 1fr); gap: 7px; padding: 20px 0; }
+    .reading-card .meta { grid-column: 1; grid-row: auto; text-align: left; font-size: 12px; }
+    .reference { grid-template-columns: 1fr; gap: 24px; }
   }
 </style>
 </head>
 <body>
-<div class="topbar">
-  <a class="tb-l" href="./" title="Back to archive">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
-      <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
-    </svg>
-    <strong>Military Innovation and Technology Adoption</strong>
-  </a>
-  <div class="tb-r">
-    <a href="./reading-room.html">Reading room</a>
-    <a href="./">Back to archive</a>
-  </div>
-</div>
-<div class="wrap">
-
+<a class="skip" href="#content">Skip to content</a>
+<header class="topbar">
+  <a class="tb-l" href="./">Fortify</a>
+  <nav class="tb-r" aria-label="Main navigation">
+    <a href="./">Archive</a>
+    <a href="./reading-room.html" aria-current="page">Reading room</a>
+    <a href="./about.html">About</a>
+  </nav>
+</header>
+<main class="wrap" id="content">
   <div class="page-head">
-    <div>
-      <div class="sub">Reading Room</div>
-      <h1>Research records</h1>
-    </div>
-    <div class="head-right">
-      Report excerpts, biographical timelines,<br>
-      technology records, and research notes.
-    </div>
+    <h1>Reading room</h1>
+    <p class="intro">Source excerpts and research notes from the Board of Ordnance and Fortification study.</p>
   </div>
-  <div class="rr-grid">
-    <a class="rr-card" href="./chiefs.html">
-  <div class="rr-tag">People</div>
-  <div class="rr-title">Crozier and Lewis</div>
-  <div class="rr-blurb">Biographical research records, with filters for person, decade, and keyword.</div>
-  <div class="rr-stat">335 records →</div>
-</a>
-<a class="rr-card" href="./reports.html">
-  <div class="rr-tag">Report notes</div>
-  <div class="rr-title">Report notes and excerpts</div>
-  <div class="rr-blurb">Research summaries and report excerpts grouped by topic, with recorded page citations.</div>
-  <div class="rr-stat">18 topics · 7 annual reports →</div>
-</a>
-<a class="rr-card" href="./tech-master.html">
-  <div class="rr-tag">Reference</div>
-  <div class="rr-title">Technology roster</div>
-  <div class="rr-blurb">Technology entries grouped by the annual-report periods recorded in the source roster.</div>
-  <div class="rr-stat">1,297 entries · 30 periods →</div>
-</a>
-<a class="rr-card" href="./tech-memos.html">
-  <div class="rr-tag">Research notes</div>
-  <div class="rr-title">Technology memos</div>
-  <div class="rr-blurb">Research memos and unfilled templates, organized by technology.</div>
-  <div class="rr-stat">6 filled · 10 templates →</div>
-</a>
-<a class="rr-card" href="./data-quality.html">
-  <div class="rr-tag">Project</div>
-  <div class="rr-title">Data quality inventory</div>
-  <div class="rr-blurb">Earlier review notes on missing fields, source gaps, and coverage limits.</div>
-  <div class="rr-stat">Review notes · May 2026 →</div>
-</a>
-<a class="rr-card" href="./about.html">
-  <div class="rr-tag">Project</div>
-  <div class="rr-title">About</div>
-  <div class="rr-blurb">What the Board was, who built the dashboard, and where the source material came from.</div>
-  <div class="rr-stat">Team · methodology →</div>
-</a>
+  <div class="collection-label" aria-hidden="true"><span>Collection</span><span>Contents</span></div>
+  <ul class="reading-list">
+    <li><a class="reading-card" href="./chiefs.html">
+      <h2>Crozier and Lewis</h2>
+      <p>Biographical notes on William Crozier and Isaac N. Lewis. Browse by person, decade, or keyword.</p>
+      <span class="meta">335 records</span>
+    </a></li>
+    <li><a class="reading-card" href="./reports.html">
+      <h2>Report notes and excerpts</h2>
+      <p>Research summaries and excerpts grouped by topic, with recorded page citations.</p>
+      <span class="meta">18 topics · 7 annual reports</span>
+    </a></li>
+    <li><a class="reading-card" href="./tech-master.html">
+      <h2>Technology roster</h2>
+      <p>Technology entries organized by the reporting periods recorded in the source roster.</p>
+      <span class="meta">1,297 entries · 30 periods</span>
+    </a></li>
+    <li><a class="reading-card" href="./tech-memos.html">
+      <h2>Technology memos</h2>
+      <p>Research notes and unfilled templates, organized by technology.</p>
+      <span class="meta">6 filled · 10 templates</span>
+    </a></li>
+  </ul>
+  <div class="reference">
+    <section>
+      <h2><a href="./data-quality.html">Data quality inventory</a></h2>
+      <p>May 2026 review notes on missing fields and source gaps, with clarifications for the public exports.</p>
+    </section>
+    <section>
+      <h2><a href="./about.html">About the archive</a></h2>
+      <p>Historical background, the research team, and where the source material came from.</p>
+    </section>
   </div>
-
-</div>
-
-<script>
-
-</script>
+  <p class="scope-note">These collections use different source documents and reporting periods. <a href="./explainer.html">Read the archive guide</a>.</p>
+</main>
 </body>
 </html>
