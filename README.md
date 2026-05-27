@@ -1,6 +1,6 @@
 # Military Innovation and Technology Adoption
 
-**Live archive: [Browse the records](https://smokeybear10.github.io/military-innovation-and-technology-adoption/)**
+**Live archive: [Browse the records](https://smokeybear10.github.io/105.RSCH.military-innovation-and-technology-adoption/)**
 
 Research on how new technologies are evaluated, funded, and adopted in national security.
 
