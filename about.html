@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About · Fortify the Ordnance</title>
+<title>About · Military Innovation and Technology Adoption</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,6 +44,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 24px;
     padding: 12px 28px;
     background: var(--panel);
     border-bottom: 1px solid var(--border);
@@ -63,6 +65,7 @@
   .tb-l svg {
     width: 18px;
     height: 18px;
+    flex-shrink: 0;
     color: var(--brass);
     transition: transform .5s cubic-bezier(.2,.8,.2,1);
   }
@@ -70,7 +73,7 @@
   .tb-l strong {
     color: var(--text);
     font-weight: 700;
-    letter-spacing: 1.4px;
+    letter-spacing: 0;
     transition: color .15s;
   }
   .tb-l:hover strong { color: var(--brass); }
@@ -282,23 +285,24 @@
 <body>
 
 <div class="topbar">
-  <a class="tb-l" href="/" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to dashboard">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
     </svg>
-    <strong>FORTIFY THE ORDNANCE</strong>
+    <strong>Military Innovation and Technology Adoption</strong>
   </a>
-  <div class="tb-r"><a href="/">← back to dashboard</a></div>
+  <div class="tb-r"><a href="./">← back to dashboard</a></div>
 </div>
 
 <div class="wrap">
 
   <div class="eyebrow">About</div>
-  <h1 class="title">Fortify <em>the</em> Ordnance</h1>
+  <h1 class="title">Military Innovation and Technology Adoption</h1>
   <p class="lede">
-    A working archive of every weapon proposal and research dollar that passed
-    through the U.S. Board of Ordnance &amp; Fortification, 1888 to 1920.
+    Research on how new technologies are evaluated, funded, and adopted in national security.
+    The current study examines selected records from the U.S. Board of Ordnance
+    &amp; Fortification, which operated from 1888 to 1920.
   </p>
 
   <section>
@@ -317,9 +321,9 @@
       Then in 1920 it was quietly dissolved, and the records went into archive boxes.
     </p>
     <p>
-      This site pulls those records back out and makes them readable. The dashboard
-      lets you filter, drill into, and export every proposal, every dollar, and
-      every reviewed technology.
+      The dashboard makes selected transcriptions searchable and connects proposals
+      with recorded decisions, appropriations, and technology reviews. Coverage differs
+      by dataset; the <a href="explainer.html">archive guide</a> lists the sources and limits.
     </p>
 
     <div class="scope">
@@ -359,7 +363,7 @@
     <p>
       The four data views cover the proposals submitted to the Board, the broader
       U.S. military budget those proposals lived inside of, a hand-classified review
-      timeline of every technology the Board considered, and the BOF's own spending
+      timeline of recorded technology reviews, and the BOF's own spending
       down to individual line items.
     </p>
     <p>
@@ -466,7 +470,7 @@
       <p>
         Every number on the dashboard was audited against its source CSV. Known gaps,
         transcription quirks, and the residual data limitations are documented on the
-        <a href="/data-quality.html">data quality page</a>.
+        <a href="data-quality.html">data quality page</a>.
       </p>
     </div>
   </section>
@@ -475,7 +479,7 @@
 
 <footer>
   <span>Built by Thomas Ou with Yunha, Paul B, and Tanisha</span>
-  <a href="https://github.com/Smokeybear10/104-RSCH.BOFARCHIVES" target="_blank" rel="noopener">github ↗</a>
+  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">github ↗</a>
 </footer>
 
 </body>
