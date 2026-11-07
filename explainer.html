@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Data coverage, sources, and classification methods for the Fortify historical research archive.">
-  <title>About the archive | Fortify</title>
+  <meta name="description" content="Data coverage, sources, and classification methods for the Board of Ordnance and Fortification study in Military Innovation and Technology Adoption.">
+  <title>About the archive | Military Innovation and Technology Adoption</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
     .skip { position: absolute; top: -80px; left: 16px; padding: 10px 16px; background: #fff; z-index: 2; }
     .skip:focus { top: 12px; }
     header { border-bottom: 1px solid var(--line); background: #fff; }
-    .masthead { max-width: 1160px; margin: auto; padding: 19px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .brand { color: var(--ink); font: 600 25px/1.2 'Source Serif 4', Georgia, serif; text-decoration: none; }
+    .masthead { max-width: 1160px; margin: auto; padding: 19px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 24px; }
+    .brand { color: var(--ink); font: 600 25px/1.2 'Source Serif 4', Georgia, serif; text-decoration: none; max-width: 650px; }
     .brand:visited { color: var(--ink); }
     .back { font-size: 14px; padding: 9px 0; }
     main { max-width: 1160px; margin: auto; padding: 52px 32px 72px; display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 64px; }
@@ -70,7 +70,7 @@
   <a class="skip" href="#about">Skip to content</a>
   <header>
     <div class="masthead">
-      <a class="brand" href="./">Fortify</a>
+      <a class="brand" href="./">Military Innovation and Technology Adoption</a>
       <a class="back" href="./">Back to the archive</a>
     </div>
   </header>
@@ -87,7 +87,7 @@
     <article id="about">
       <p class="eyebrow">Board of Ordnance &amp; Fortification</p>
       <h1>About the archive</h1>
-      <p class="intro">Fortify brings selected proposal transcriptions, military budgets, and research allotments into one searchable archive. The records cover different years and answer different questions.</p>
+      <p class="intro">The Board of Ordnance and Fortification study brings selected proposal transcriptions, military budgets, and research allotments into one searchable archive. The records cover different years and answer different questions.</p>
       <p>Use the dashboard to find a subject, compare a period, or follow a recorded decision. Open the original action text before drawing conclusions from a category or chart.</p>
 
       <section id="coverage">
@@ -130,8 +130,8 @@
           <li><a href="output/budget_master_ledger.csv">Army and Navy appropriations · CSV</a><span>Annual nominal and source-provided adjusted values.</span></li>
           <li><a href="output/bof_appropriations.csv">Board appropriations · CSV</a><span>Annual amounts, remarks, legislation, and source links where recorded.</span></li>
           <li><a href="output/bof_allotments.csv">Research allotments · CSV</a><span>Project descriptions, amounts, dates, revocations, and page references.</span></li>
-          <li><a href="https://github.com/Smokeybear10/104.RSCH.fortify/blob/main/timeline-data.js">Technology timeline records</a><span>Curated subjects-considered and financial entries grouped by technology and period.</span></li>
-          <li><a href="https://github.com/Smokeybear10/104.RSCH.fortify/blob/main/bof_pipeline/config.py">Classification rules</a><span>Keyword dictionaries used for proposal categories, technology clusters, and proposer types.</span></li>
+          <li><a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption/blob/main/timeline-data.js">Technology timeline records</a><span>Curated subjects-considered and financial entries grouped by technology and period.</span></li>
+          <li><a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption/blob/main/bof_pipeline/config.py">Classification rules</a><span>Keyword dictionaries used for proposal categories, technology clusters, and proposer types.</span></li>
         </ul>
       </section>
 
@@ -141,10 +141,10 @@
           <dt>Thomas Ou</dt><dd>Data pipeline, dashboard, master ledger, and historical events timeline.</dd>
           <dt>Yunha</dt><dd>Allotment analysis by technology, annual funding patterns, and proposal comparisons. <a href="https://paull0318.github.io/BOF-Visuals-20260511/">Source research site</a>.</dd>
           <dt>Paul B</dt><dd>Technology review records and classification.</dd>
-          <dt>Tanisha</dt><dd>Technology prevalence analysis. <a href="https://github.com/Smokeybear10/104.RSCH.fortify/blob/main/team/tanisha/technology_prevalence.R">Original R script</a>.</dd>
+          <dt>Tanisha</dt><dd>Technology prevalence analysis. <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption/blob/main/team/tanisha/technology_prevalence.R">Original R script</a>.</dd>
         </dl>
       </section>
-      <footer><a href="./">Browse the archive</a> · <a href="https://github.com/Smokeybear10/104.RSCH.fortify">View the repository</a></footer>
+      <footer><a href="./">Browse the archive</a> · <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption">View the repository</a></footer>
     </article>
   </main>
 </body>

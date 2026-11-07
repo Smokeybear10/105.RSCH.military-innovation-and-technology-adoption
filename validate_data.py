@@ -1,4 +1,4 @@
-"""Data validation pass for the FORTIFY project.
+"""Data validation pass for the Board of Ordnance and Fortification study.
 
 Run from repo root: `python validate_data.py`
 """
