@@ -1,16 +1,16 @@
 # Military Innovation and Technology Adoption
 
-**Live demo: [smokeybear10.github.io/military-innovation-and-technology-adoption](https://smokeybear10.github.io/military-innovation-and-technology-adoption/)**
+**Live archive: [Browse the records](https://smokeybear10.github.io/military-innovation-and-technology-adoption/)**
 
 Research on how new technologies are evaluated, funded, and adopted in national security.
 
-The current study examines the U.S. Board of Ordnance and Fortification through selected proposal transcriptions, military appropriations, research allotments, and technology reviews.
+The current study examines the U.S. Board of Ordnance and Fortification: which proposals received support, how funds were allocated, and how recorded decisions changed over time. The repository contains a searchable archive, public data exports, and the code used to process the records.
 
 ![Proposal records and filters](assets/screenshots/proposals.jpg)
 
 ## Quick Start
 
-The [archive](https://smokeybear10.github.io/military-innovation-and-technology-adoption/) and [archive guide](explainer.html) use saved data and can be read without running the Python pipeline. To run the dashboard locally, use Python 3; no account, private data access, or Python packages are needed.
+The archive runs from the included files. Python 3 is enough to serve it locally; no account or package installation is needed.
 
 ```bash
 git clone https://github.com/Smokeybear10/military-innovation-and-technology-adoption.git
@@ -22,29 +22,37 @@ Open http://localhost:2104
 
 ## What It Does
 
-The Board of Ordnance and Fortification study examines how proposed technologies moved through review and funding. The dashboard searches and filters proposals, displays recorded actions, and exports matching records. Technology timelines follow each recorded action across reporting periods.
+Search proposals by subject, proposer, year, and recorded decision; inspect the transcribed action; and export matching records. The technology timeline groups review and financial entries by technology and reporting period.
 
 Budget views compare Army and Navy appropriations in nominal or source-provided 2025 dollars. Board appropriations and individual research allotments are shown separately, including revocations.
 
-![Technology review timeline](assets/screenshots/timeline.jpg)
+![Research records and source notes](assets/screenshots/reading-room.png)
 
 ## Data and Methods
 
-| Dataset | Coverage |
-| --- | --- |
-| Proposals | 1,691 records; 1,558 dated 1897–1907 and 133 without a year |
-| Military appropriations | 109 Army/Navy entries, 1866–1920; Army 1879 is missing |
-| Board appropriations | 33 annual entries, 1888–1920 |
-| Research allotments | 1,144 entries, 1888–1918 |
-| Technology timeline | 202 technologies across 28 reporting periods, 1888–1916 |
+| Dataset | Coverage | Public file |
+| --- | --- | --- |
+| Proposals | 1,691 records; 1,558 dated 1897–1907 and 133 without a year | [CSV](output/all_structured_records.csv) |
+| Military appropriations | 109 Army/Navy entries, 1866–1920; Army 1879 is missing | [CSV](output/budget_master_ledger.csv) |
+| Board appropriations | 33 annual entries, 1888–1920 | [CSV](output/bof_appropriations.csv) |
+| Research allotments | 1,144 entries, 1888–1918 | [CSV](output/bof_allotments.csv) |
+| Technology timeline | 202 technologies across 28 reporting periods, 1888–1916 | [JavaScript data](timeline-data.js) |
 
-Proposal categories are assigned by keyword rules; the recorded action remains the evidence. Negative phrases such as “not approved” take precedence over positive keywords. Missing or unmatched actions are left unclassified. Proposer types are also inferred and should not be treated as verified affiliations.
+The [proposal classifier](bof_pipeline/config.py) uses keyword rules. Rejection phrases take precedence over approval phrases; missing or unmatched actions are grouped as Other. An approval label can mean funding or authorization rather than adoption. Proposer types and technology clusters are also inferred from text. The recorded subject, proposer, and action remain the evidence.
 
-The [archive guide](explainer.html) describes the source sets, coverage, classification rules, and source files.
+The [archive guide](explainer.html) explains the source sets and how to read the records. Separate researcher charts may use different periods or category definitions.
+
+To check the public files without installing dependencies:
+
+```bash
+python3 validate_data.py
+```
+
+This checks the saved exports for consistency. It does not verify transcription against the original reports.
 
 ## Reproduce the Proposal Processing
 
-Rebuilding requires access to the private research workbooks. It is separate from running the dashboard.
+To regenerate the proposal exports, install the Python dependencies and connect the private research workbooks. The bootstrap step requires GitHub CLI access to that private repository.
 
 ```bash
 python3 -m venv .venv
@@ -56,11 +64,11 @@ python run_bof_analysis.py \
   --output-dir work/proposals
 ```
 
-The bootstrap script requires authenticated GitHub CLI access to the private data repository. Compare the regenerated `work/proposals/all_structured_records.csv` with the [saved proposal export](output/all_structured_records.csv). This command leaves the saved export unchanged. Other `run_*.py` entry points rebuild the budget, allotment, and researcher charts; they use different inputs.
+Compare `work/proposals/all_structured_records.csv` with the [saved proposal export](output/all_structured_records.csv). This command writes to a separate directory. The other `run_*.py` scripts rebuild budget, allotment, and researcher charts from their respective inputs.
 
 ## Limits
 
-These are selected transcriptions, not a complete inventory of the Board’s work. Comparisons within the records do not establish the Board’s overall approval rate or the effectiveness of its spending.
+The current outputs are descriptive. Selected transcriptions do not establish the Board’s overall approval rate, explain why a proposal succeeded, or measure the effectiveness of its spending.
 
 Allotments are allocations, not confirmed expenditure or investment returns. Year and allotment date are shown as transcribed and may differ; dates have not been reconciled against the original reports. The budget worksheet supplies the 2025-dollar values; the adjustment method is not documented here.
 

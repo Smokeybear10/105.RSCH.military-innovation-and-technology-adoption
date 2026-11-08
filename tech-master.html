@@ -4,35 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Technology Roster · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F6F6F7;
+    --bg: #F6F7F5;
     --panel: #FFFFFF;
-    --panel-2: #FAFAFB;
-    --border: #E1E3E6;
-    --border-2: #C7CAD0;
-    --text: #1A1F36;
-    --text-mid: #5A6075;
-    --text-soft: #8C92A4;
-    --brass: #C9A24C;
-    --accent: #635BFF;
+    --panel-2: #F8F9F7;
+    --border: #D7DDDC;
+    --border-2: #B7C2C3;
+    --text: #263239;
+    --text-mid: #5D6A70;
+    --text-soft: #657177;
+    --brass: #294C5B;
+    --accent: #294C5B;
     --green: #2D6A4F;
-    --amber: #B8860B;
-    --red: #B0413E;
+    --amber: #956B32;
+    --red: #A64D43;
     --serif: 'Source Serif 4', Georgia, serif;
-    --sans: 'Inter', -apple-system, sans-serif;
-    --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+    --sans: 'Public Sans', -apple-system, sans-serif;
+    --mono: 'Public Sans', -apple-system, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     background: var(--bg);
     color: var(--text);
     font-family: var(--sans);
-    font-size: 14px; line-height: 1.55;
+    font-size: 15px; line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -45,7 +45,7 @@
     background: var(--panel);
     border-bottom: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px; letter-spacing: 1.2px; color: var(--text-mid);
+    font-size: 12px; letter-spacing: 0; color: var(--text-mid);
   }
   .tb-l {
     min-width: 0;
@@ -55,12 +55,12 @@
   .tb-l svg {
     flex-shrink: 0;
     width: 18px; height: 18px; color: var(--brass);
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+    transition: none;
   }
-  .tb-l:hover svg { transform: rotate(45deg); }
-  .tb-l strong { line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 1.4px; }
+  .tb-l:hover svg { transform: none; }
+  .tb-l strong { line-height: 1.5; color: var(--text); font-weight: 700; letter-spacing: 0; }
   .tb-r { display: flex; gap: 18px; }
-  .tb-r a { color: var(--text-mid); text-decoration: none; letter-spacing: 1.2px; }
+  .tb-r a { color: var(--text-mid); text-decoration: none; letter-spacing: 0; }
   .tb-r a:hover { color: var(--brass); }
 
   /* Wrap */
@@ -80,13 +80,13 @@
   }
   .page-head .sub {
     font-family: var(--mono);
-    font-size: 11px; letter-spacing: 1.2px;
-    color: var(--text-soft); text-transform: uppercase;
+    font-size: 12px; letter-spacing: 0;
+    color: var(--text-soft); text-transform: none;
     font-weight: 600; margin-top: 4px;
   }
   .head-right {
     font-family: var(--mono);
-    font-size: 11px; letter-spacing: 0.8px;
+    font-size: 12px; letter-spacing: 0;
     color: var(--text-soft); text-align: right;
   }
   .head-right b { color: var(--text-mid); font-weight: 700; }
@@ -99,7 +99,7 @@
     margin-bottom: 24px;
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
     overflow: hidden;
   }
   .stat { padding: 14px 18px; border-right: 1px solid var(--border); }
@@ -111,8 +111,8 @@
   }
   .stat .l {
     font-family: var(--mono);
-    font-size: 9.5px; letter-spacing: 1.3px;
-    text-transform: uppercase; color: var(--text-soft);
+    font-size: 12px; letter-spacing: 0;
+    text-transform: none; color: var(--text-soft);
     margin-top: 6px; font-weight: 600;
   }
   .stat.green .n { color: var(--green); }
@@ -124,15 +124,15 @@
     display: flex; align-items: center; gap: 8px;
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
     padding: 10px 12px;
     margin-bottom: 16px;
     flex-wrap: wrap;
   }
   .filters label {
     font-family: var(--mono);
-    font-size: 9.5px; font-weight: 700;
-    letter-spacing: 1.2px; text-transform: uppercase;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0; text-transform: none;
     color: var(--text-mid);
   }
   .filters select, .filters input[type=text] {
@@ -153,7 +153,7 @@
   }
   .filters .clear {
     font-family: var(--mono);
-    font-size: 10px; letter-spacing: 1px;
+    font-size: 12px; letter-spacing: 0;
     background: transparent; border: 0;
     color: var(--text-soft); cursor: pointer;
     padding: 6px 8px;
@@ -161,7 +161,7 @@
   .filters .clear:hover { color: var(--brass); }
   .result-count {
     font-family: var(--mono);
-    font-size: 10px; letter-spacing: 1px;
+    font-size: 12px; letter-spacing: 0;
     color: var(--text-soft);
     margin-left: auto; font-weight: 600;
   }
@@ -171,7 +171,7 @@
     width: 100%;
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
     border-collapse: separate;
     border-spacing: 0;
     overflow: hidden;
@@ -179,8 +179,8 @@
   .inv thead th {
     background: var(--panel-2);
     font-family: var(--mono);
-    font-size: 9.5px; font-weight: 700;
-    letter-spacing: 1.3px; text-transform: uppercase;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0; text-transform: none;
     color: var(--text-soft);
     padding: 10px 14px;
     text-align: left;
@@ -202,22 +202,22 @@
   .inv td.summary { color: var(--text); line-height: 1.45; font-weight: 500; }
   .inv td.detail { color: var(--text-mid); font-size: 12.5px; line-height: 1.5; }
   .inv td.detail.serif { font-family: var(--serif); font-size: 14.5px; line-height: 1.6; color: var(--text); }
-  .inv td.mono { font-family: var(--mono); font-size: 11.5px; color: var(--text-mid); }
+  .inv td.mono { font-family: var(--mono); font-size: 12px; color: var(--text-mid); }
 
   /* Chips */
   .chip {
     display: inline-block;
     font-family: var(--mono);
-    font-size: 9.5px; font-weight: 700;
-    letter-spacing: 1px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0;
     padding: 3px 7px;
     border-radius: 3px;
-    text-transform: uppercase;
+    text-transform: none;
     white-space: nowrap;
   }
   .chip.crozier  { background: rgba(29,52,97,.12);  color: #1D3461; }
   .chip.lewis    { background: rgba(93,64,55,.14);  color: #5D4037; }
-  .chip.brass    { background: rgba(201,162,76,.16); color: #8c6610; }
+  .chip.brass    { background: rgba(41,76,91,.09); color: var(--accent); }
   .chip.green    { background: rgba(45,106,79,.12); color: var(--green); }
   .chip.amber    { background: rgba(184,134,11,.14); color: var(--amber); }
   .chip.red      { background: rgba(176,65,62,.12); color: var(--red); }
@@ -229,8 +229,8 @@
     padding-top: 18px;
     border-top: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px; color: var(--text-soft);
-    letter-spacing: 0.8px;
+    font-size: 12px; color: var(--text-soft);
+    letter-spacing: 0;
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   }
   .pg-foot a { color: var(--text-mid); text-decoration: none; }
@@ -249,7 +249,7 @@
   .modal-bg.open { display: flex; }
   .modal {
     background: var(--panel);
-    border-radius: 10px;
+    border-radius: 3px;
     max-width: 920px; width: 100%;
     padding: 36px 44px 44px;
     box-shadow: 0 16px 60px rgba(0,0,0,.22);
@@ -258,7 +258,7 @@
   .modal-close {
     position: absolute; top: 14px; right: 16px;
     background: transparent; border: 0; cursor: pointer;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0;
     color: var(--text-mid); padding: 6px 10px; border-radius: 4px;
   }
   .modal-close:hover { color: var(--brass); background: var(--panel-2); }
@@ -269,8 +269,8 @@
   }
   .modal .modal-meta {
     font-family: var(--mono);
-    font-size: 10.5px; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--text-soft);
+    font-size: 12px; letter-spacing: 0;
+    text-transform: none; color: var(--text-soft);
     margin-bottom: 22px; padding-bottom: 16px;
     border-bottom: 1px solid var(--border);
   }
@@ -288,7 +288,7 @@
     margin-top: 24px; padding-top: 16px;
     border-top: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px; color: var(--text-soft);
+    font-size: 12px; color: var(--text-soft);
   }
 
   @media (max-width: 720px) {
@@ -303,11 +303,54 @@
 
   .hidden { display: none !important; }
   
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .topbar { padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }
+  .tb-l { max-width: 680px; align-items: flex-start; }
+  .tb-l svg { margin-top: 5px; transition: none; }
+  .tb-l:hover svg { transform: none; }
+  .tb-l strong { font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }
+  .tb-r { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .tb-r a { display: inline-block; padding: 8px 0; }
+  .wrap { min-width: 0; }
+  .page-head { gap: 20px; }
+  .page-head .sub { margin-bottom: 8px; font-weight: 400; }
+  .page-head h1 { font-size: 36px; font-weight: 600; line-height: 1.2; }
+  .head-right { line-height: 1.7; overflow-wrap: anywhere; }
+  .filters { padding: 16px; gap: 12px; align-items: flex-end; }
+  .filter-field { display: grid; gap: 6px; min-width: 140px; }
+  .filter-field select { width: 100%; }
+  .filters select, .filters input[type=text] { height: 42px; min-height: 42px; font-size: 14px; }
+  .filters .clear { min-height: 42px; font-size: 14px; padding: 8px 12px; }
+  .inv thead th { font-size: 12px; font-weight: 500; }
+  .inv td { font-size: 14px; line-height: 1.6; }
+  .chip { font-weight: 500; }
+  .eyebrow::before { display: none; }
+  .rr-card:hover, .reading-card:hover, .memo:hover { box-shadow: none; background: var(--panel-2); }
+  .modal-close { min-height: 44px; min-width: 44px; font-size: 14px; }
+  footer, .pg-foot { font-size: 13px; line-height: 1.6; }
+  @media (max-width: 720px) {
+    .topbar { padding: 18px 20px; }
+    .tb-l strong { font-size: 21px; }
+    .wrap { padding: 28px 20px 56px; }
+    .page-head h1 { font-size: 30px; }
+    .filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 12px; }
+    .filter-field { min-width: 0; }
+    .filters .clear { justify-self: start; }
+    .result-count { margin-left: 0; justify-self: end; align-self: center; }
+    .filters select, .filters input[type=text] { max-width: 100%; min-width: 0; font-size: 16px; flex: 1 1 160px; }
+    .filters input[type=text] { width: 100%; grid-column: 1 / -1; }
+    .inv { display: block; overflow-x: auto; max-width: 100%; }
+    .modal-bg { padding: 16px 12px; }
+    .modal { padding: 60px 22px 28px; }
+    .modal h2 { font-size: 26px; }
+    footer { padding: 22px 20px; margin-top: 48px; }
+  }
 </style>
 </head>
 <body>
 <div class="topbar">
-  <a class="tb-l" href="./" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to archive">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
@@ -315,8 +358,8 @@
     <strong>Military Innovation and Technology Adoption</strong>
   </a>
   <div class="tb-r">
-    <a href="./reading-room.html">reading room</a>
-    <a href="./">← dashboard</a>
+    <a href="./reading-room.html">Reading room</a>
+    <a href="./">Back to archive</a>
   </div>
 </div>
 <div class="wrap">
@@ -324,11 +367,11 @@
   <div class="page-head">
     <div>
       <div class="sub">Reading Room · Technology roster</div>
-      <h1>Every technology the BOF ever logged</h1>
+      <h1>Technology roster</h1>
     </div>
     <div class="head-right">
-      Parsed from <b>Data/Technologies/Technology Mapping (BOF Annual Reports).docx</b><br>
-      Broader than the 1897–1908 proposals — extends back to 1888
+      Annual-report technology mapping<br>
+      Source roster covers periods from 1888 to 1920
     </div>
   </div>
   <div class="stats">
@@ -338,11 +381,13 @@
     <div class="stat brass"><div class="n">1920</div><div class="l">Latest year</div></div>
   </div>
   <div class="filters">
-    <label>Period</label>
-    <select id="f-period">
+    <div class="filter-field">
+      <label for="f-period">Period</label>
+      <select id="f-period">
       <option value="">All</option>
     </select>
-    <input type="text" id="f-q" placeholder="Search technologies, weapon names…">
+    </div>
+    <input type="text" id="f-q" aria-label="Search technology records" placeholder="Search technologies, weapon names…">
     <button class="clear" id="f-clear">Clear</button>
     <span class="result-count" id="f-count">— entries</span>
   </div>
@@ -356,7 +401,7 @@
     <tbody id="tbody"></tbody>
   </table>
   <div class="pg-foot">
-    <span>This roster is broader than the proposals XLSXs because it includes pre-1897 ARs.</span>
+    <span>Source: Technology Mapping (BOF Annual Reports). Entries may repeat a technology across periods; this is not a count of distinct inventions.</span>
     <a href="./data-quality.html">data quality →</a>
   </div>
 

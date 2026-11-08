@@ -4,28 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Quality · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23294C5B'/><circle cx='32' cy='32' r='2.2' fill='%23294C5B'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
-    --sans: 'Inter', -apple-system, system-ui, sans-serif;
+    --mono: 'Public Sans', -apple-system, sans-serif;
+    --sans: 'Public Sans', -apple-system, system-ui, sans-serif;
     --serif: 'Source Serif 4', Georgia, serif;
-    --bg: #F6F6F7;
+    --bg: #F6F7F5;
     --panel: #FFFFFF;
-    --panel-2: #FAFAFB;
-    --border: #E1E3E6;
-    --border-2: #C7CAD0;
-    --text: #1A1F36;
-    --text-mid: #5A6075;
-    --text-soft: #8C92A4;
-    --accent: #635BFF;
-    --brass: #C9A24C;
+    --panel-2: #F8F9F7;
+    --border: #D7DDDC;
+    --border-2: #B7C2C3;
+    --text: #263239;
+    --text-mid: #5D6A70;
+    --text-soft: #657177;
+    --accent: #294C5B;
+    --brass: #294C5B;
     --green: #2D6A4F;
-    --amber: #B8860B;
-    --red:   #B0413E;
+    --amber: #956B32;
+    --red:   #A64D43;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -52,8 +52,8 @@
     background: var(--panel);
     border-bottom: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 1.2px;
+    font-size: 12px;
+    letter-spacing: 0;
     color: var(--text-mid);
   }
   .tb-l {
@@ -70,19 +70,19 @@
     width: 18px;
     height: 18px;
     color: var(--brass);
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
+    transition: none;
   }
-  .tb-l:hover svg { transform: rotate(45deg); }
+  .tb-l:hover svg { transform: none; }
   .tb-l strong {
     line-height: 1.5;
     color: var(--text);
     font-weight: 700;
-    letter-spacing: 1.4px;
+    letter-spacing: 0;
     transition: color .15s;
   }
   .tb-l:hover strong { color: var(--brass); }
   .tb-r { display: flex; gap: 22px; }
-  .tb-r a { color: var(--text-mid); border-bottom: 0; letter-spacing: 1.2px; }
+  .tb-r a { color: var(--text-mid); border-bottom: 0; letter-spacing: 0; }
   .tb-r a:hover { color: var(--brass); border-bottom: 0; }
 
   .wrap {
@@ -93,10 +93,10 @@
 
   .eyebrow {
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 2.4px;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--brass);
     margin-bottom: 18px;
     display: flex;
@@ -111,7 +111,7 @@
   }
   .title {
     font-family: var(--serif);
-    font-size: 60px;
+    font-size: 48px;
     font-weight: 700;
     letter-spacing: -1.8px;
     line-height: 1.02;
@@ -154,7 +154,7 @@
     border-collapse: separate;
     border-spacing: 0;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
     overflow: hidden;
     background: var(--panel);
     font-size: 14px;
@@ -168,10 +168,10 @@
   .audit thead th {
     background: var(--panel-2);
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--text-soft);
   }
   .audit tbody tr:last-child td { border-bottom: 0; }
@@ -190,12 +190,12 @@
   .pill {
     display: inline-block;
     font-family: var(--mono);
-    font-size: 9.5px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1.2px;
+    letter-spacing: 0;
     padding: 3px 8px;
     border-radius: 3px;
-    text-transform: uppercase;
+    text-transform: none;
   }
   .pill-fixed { background: rgba(45,106,79,.12); color: var(--green); }
   .pill-known { background: rgba(184,134,11,.14); color: var(--amber); }
@@ -205,7 +205,7 @@
   .finding {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
     padding: 20px 24px;
     margin-bottom: 14px;
     max-width: 1100px;
@@ -220,8 +220,8 @@
   }
   .finding .meta {
     font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 1px;
+    font-size: 12px;
+    letter-spacing: 0;
     color: var(--text-soft);
     margin-bottom: 12px;
   }
@@ -248,10 +248,10 @@
   }
   .files-label {
     font-family: var(--mono);
-    font-size: 9.5px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--brass);
     display: block;
     margin-bottom: 6px;
@@ -270,7 +270,7 @@
   }
   .files li .note {
     color: var(--text-soft);
-    font-size: 11px;
+    font-size: 12px;
     margin-left: 8px;
   }
   .files li.miss {
@@ -285,7 +285,7 @@
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 3px;
     overflow: hidden;
     margin: 28px 0;
   }
@@ -301,9 +301,9 @@
   }
   .scope-l {
     font-family: var(--mono);
-    font-size: 9.5px;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--text-soft);
     margin-top: 8px;
     font-weight: 600;
@@ -314,9 +314,9 @@
     padding-top: 22px;
     border-top: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-soft);
-    letter-spacing: 1px;
+    letter-spacing: 0;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -339,12 +339,50 @@
     .title { font-size: 38px; letter-spacing: -1px; }
     .lede { font-size: 17px; }
   }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .topbar { padding: 20px 32px; font-size: 14px; line-height: 1.5; gap: 14px 28px; }
+  .tb-l { max-width: 680px; align-items: flex-start; }
+  .tb-l svg { margin-top: 5px; transition: none; }
+  .tb-l:hover svg { transform: none; }
+  .tb-l strong { font: 600 23px/1.2 'Source Serif 4', Georgia, serif; letter-spacing: -.3px; }
+  .tb-r { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .tb-r a { display: inline-block; padding: 8px 0; }
+  .wrap { min-width: 0; }
+  .page-head { gap: 20px; }
+  .page-head .sub { margin-bottom: 8px; font-weight: 400; }
+  .page-head h1 { font-size: 36px; font-weight: 600; line-height: 1.2; }
+  .head-right { line-height: 1.7; overflow-wrap: anywhere; }
+  .filters { padding: 16px; gap: 12px; }
+  .filters select, .filters input[type=text] { height: 42px; min-height: 42px; font-size: 14px; }
+  .filters .clear { min-height: 42px; font-size: 14px; padding: 8px 12px; }
+  .inv thead th { font-size: 12px; font-weight: 500; }
+  .inv td { font-size: 14px; line-height: 1.6; }
+  .chip { font-weight: 500; }
+  .eyebrow::before { display: none; }
+  .rr-card:hover, .reading-card:hover, .memo:hover { box-shadow: none; background: var(--panel-2); }
+  .modal-close { min-height: 44px; min-width: 44px; font-size: 14px; }
+  footer, .pg-foot { font-size: 13px; line-height: 1.6; }
+  @media (max-width: 720px) {
+    .topbar { padding: 18px 20px; }
+    .tb-l strong { font-size: 21px; }
+    .wrap { padding: 28px 20px 56px; }
+    .page-head h1 { font-size: 30px; }
+    .filters { gap: 10px; }
+    .filters select, .filters input[type=text] { max-width: 100%; min-width: 0; font-size: 16px; flex: 1 1 160px; }
+    .filters input[type=text] { flex-basis: 100%; }
+    .inv { display: block; overflow-x: auto; max-width: 100%; }
+    .modal-bg { padding: 16px 12px; }
+    .modal { padding: 60px 22px 28px; }
+    .modal h2 { font-size: 26px; }
+    footer { padding: 22px 20px; margin-top: 48px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <a class="tb-l" href="./" title="Back to dashboard">
+  <a class="tb-l" href="./" title="Back to archive">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
       <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
@@ -352,41 +390,51 @@
     <strong>Military Innovation and Technology Adoption</strong>
   </a>
   <div class="tb-r">
-    <a href="./about.html">about</a>
-    <a href="./">← back to dashboard</a>
+    <a href="./about.html">About</a>
+    <a href="./">Back to archive</a>
   </div>
 </div>
 
 <div class="wrap">
 
   <div class="eyebrow">Data quality</div>
-  <h1 class="title">What's <em>missing</em>, and why</h1>
+  <h1 class="title">Data quality and review notes</h1>
   <p class="lede">
-    Every dataset on this site is a transcription of nineteenth-century paper records.
-    Some of those records were incomplete to start with, some were lost, and some have
-    transcription gaps. This page is the honest map of what's solid and what isn't.
+    The archive contains selected transcriptions and derived categories. This page
+    preserves review notes from May 12, 2026, with clarifications for the current
+    public exports. References to private workbooks and older generated files remain
+    for context; they do not imply that those files are included here.
+  </p>
+  <p>
+    Reading-room dates are parsed from research documents. Report ranges can be
+    inconsistent, and biographical records can include dates extracted from citations
+    or headings. Check the cited sources before treating these as verified chronologies.
+    Report text includes both research summaries and excerpts.
   </p>
 
   <section>
-    <h2>Headline numbers, audited</h2>
+    <h2>Public file coverage</h2>
     <p>
-      Headline figures reconciled against the underlying CSVs. Numbers below are what
-      the data actually contains.
+      Counts below describe the saved public exports. See the
+      <a href="explainer.html#coverage">archive guide</a> for dates and source files.
+      Run <code>python3 validate_data.py</code> in the repository to check their
+      consistency; this does not validate transcription against the original reports.
     </p>
 
     <div class="scope">
-      <div class="scope-cell"><div class="scope-n">1,691</div><div class="scope-l">Proposals (verified)</div></div>
-      <div class="scope-cell"><div class="scope-n">1,144</div><div class="scope-l">Allotments (verified)</div></div>
-      <div class="scope-cell"><div class="scope-n">202</div><div class="scope-l">Technologies (verified)</div></div>
+      <div class="scope-cell"><div class="scope-n">1,691</div><div class="scope-l">Proposals</div></div>
+      <div class="scope-cell"><div class="scope-n">1,144</div><div class="scope-l">Allotments</div></div>
+      <div class="scope-cell"><div class="scope-n">202</div><div class="scope-l">Technologies</div></div>
       <div class="scope-cell"><div class="scope-n">33</div><div class="scope-l">Appropriation years</div></div>
     </div>
 
     <table class="audit">
+      <caption style="text-align:left;margin-bottom:12px">Comparison recorded in the May 2026 review</caption>
       <thead>
         <tr>
           <th>Claim</th>
-          <th class="num">Said</th>
-          <th class="num">Actual</th>
+          <th class="num">Earlier claim</th>
+          <th class="num">Review value</th>
           <th>Result</th>
         </tr>
       </thead>
@@ -419,13 +467,13 @@
           <td>Total Board appropriations (sum)</td>
           <td class="num">—</td>
           <td class="num">$3,731,000</td>
-          <td class="tag"><span class="pill pill-fixed">verified</span></td>
+          <td class="tag"><span class="pill pill-fixed">recorded</span></td>
         </tr>
         <tr>
           <td>Total allotted to projects (sum)</td>
           <td class="num">—</td>
           <td class="num">$4,398,440</td>
-          <td class="tag"><span class="pill pill-fixed">verified</span></td>
+          <td class="tag"><span class="pill pill-fixed">recorded</span></td>
         </tr>
       </tbody>
     </table>
@@ -440,18 +488,17 @@
     </p>
 
     <div class="finding">
-      <h3>FY1903 through FY1908 are missing the Action column</h3>
-      <div class="meta">781 of 1,691 rows · 46% of corpus · status reads "Unknown"</div>
+      <h3>Missing recorded actions</h3>
+      <div class="meta">781 of 1,691 rows · 46% of corpus · grouped as Other</div>
       <p>
-        For fiscal years 1903–04 through 1907–08, the source spreadsheets contain the
-        Subject, Proposer, and a researcher's commentary, but the <code>Action</code>
-        column — the Board's actual verdict text — is entirely blank.
+        The public export has no recorded action for 780 rows from the 1903–04
+        through 1907–08 source files, plus one row from 1897–98. These records do
+        not establish the Board's decision.
       </p>
       <p>
-        Previously these rows defaulted to "Investigating" because the keyword classifier
-        matched nothing. They're now correctly labelled <strong>Unknown</strong> in the
-        dashboard's status filter (bucketed as "Other"). Approval-rate and
-        rejection-rate charts for those years should be read as having no signal.
+        Missing actions are grouped as <strong>Other</strong> in the current export
+        and dashboard. Other also includes non-empty actions that did not match a
+        rule. Neither group should be interpreted as a rejection or an approval.
       </p>
       <div class="files">
         <span class="files-label">Files to fix · re-transcribe Action column from original PDFs</span>
@@ -501,14 +548,13 @@
     </div>
 
     <div class="finding">
-      <h3>AR# column missing year suffix in FY1905–06</h3>
-      <div class="meta">column reads "BOF.AR.16 " with no year — broke year extraction</div>
+      <h3>Undated records from the 1905–06 source file</h3>
+      <div class="meta">133 records without a year in the public export</div>
       <p>
-        Every other year's source file has the form <code>BOF.AR.N.YYYY-YYYY</code>.
-        The 1905–06 file has only <code>BOF.AR.16</code> with a trailing space and no year.
-        The pipeline previously left all 133 rows with <code>year = NaN</code>; it now
-        falls back to extracting the year from the filename. Worth normalizing in the
-        source file for consistency.
+        The 1905–06 source rows have <code>BOF.AR.16</code> without a year suffix.
+        All 133 remain undated in the current public export. They are available in
+        the record list when undated records are included, but are excluded from the
+        year chart. Assigning dates would require checking the source reports.
       </p>
       <div class="files">
         <span class="files-label">File to normalize · set column to "BOF.AR.16.1905-1906"</span>
@@ -522,9 +568,9 @@
       <h3>Three proposals have no Subject text</h3>
       <div class="meta">1 row in FY1897–98 · 2 rows in FY1907–08</div>
       <p>
-        Their action and reasoning columns are also blank — they appear to be empty
-        rows the transcriber left in. They remain in the corpus for row-count
-        consistency with the source files but are inert in every chart.
+        Three rows have no subject text in the public export. They remain in its
+        record count. Their presence does not establish three identifiable proposals;
+        the source rows need review before they can be interpreted or removed.
       </p>
       <div class="files">
         <span class="files-label">Files to clean · delete blank rows from the source XLSX</span>
@@ -593,8 +639,8 @@
 </div>
 
 <footer>
-  <span>Last audited 2026-05-12</span>
-  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">github ↗</a>
+  <span>Original review notes: May 12, 2026</span>
+  <a href="https://github.com/Smokeybear10/military-innovation-and-technology-adoption" target="_blank" rel="noopener">GitHub</a>
 </footer>
 
 </body>
