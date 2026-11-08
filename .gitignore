@@ -1,5 +1,5 @@
 # Raw research data — lives outside the repo (private)
-# Symlinked from ~/Github/DATA/FortifyData via `Data/`
+# Linked by bootstrap-data.sh as Data/
 /Data
 
 # Python
@@ -16,6 +16,7 @@ __pycache__/
 .idea/
 
 # Scratch
+/work/
 qa_file.txt
 *.duplicate
 .gstack/
