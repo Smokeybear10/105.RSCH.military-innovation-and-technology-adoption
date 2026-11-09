@@ -47,14 +47,23 @@ ACTION_STATUS_PATTERNS = {
 
 
 TECHNOLOGY_CLUSTER_PATTERNS = {
+    "Small Arms": [
+        r"\brifles?\b",
+        r"\bpistols?\b",
+        r"\bmuskets?\b",
+        r"\bcarbines?\b",
+        r"\bsmall[- ]arms?\b",
+        r"\bmachine[- ]guns?\b",
+    ],
     "Artillery": [
-        r"\bgun\b",
-        r"\bcannon\b",
-        r"\bhowitzer\b",
-        r"\bfield piece\b",
+        r"\bguns?\b",
+        r"\bcannons?\b",
+        r"\bhowitzers?\b",
+        r"\bfield pieces?\b",
         r"\bvickers\b",
         r"\bordnance\b",
-        r"\bcarriage\b",
+        r"\bcarriages?\b",
+        r"\b(?:[2-9]|\d{2,})(?:\.\d+)?[- ]inch\s+rifles?\b",
     ],
     "Explosives": [
         r"\bshell\b",
@@ -65,14 +74,6 @@ TECHNOLOGY_CLUSTER_PATTERNS = {
         r"\btorpedo\b",
         r"\bmine\b",
         r"\bisham\b",
-    ],
-    "Small Arms": [
-        r"\brifle\b",
-        r"\bpistol\b",
-        r"\bmusket\b",
-        r"\bcarbine\b",
-        r"\bsmall arm\b",
-        r"\bmachine gun\b",
     ],
     "Armor and Protection": [
         r"\barmor\b",
@@ -113,14 +114,24 @@ TECHNOLOGY_CLUSTER_PATTERNS = {
 
 GOVERNMENT_PROPOSER_PATTERNS = [
     r"\bwar department\b",
+    r"\bnavy department\b",
     r"\bordnance department\b",
     r"\bchief of ordnance\b",
-    r"\bu\.?s\.? army\b",
+    r"\b(?:u\.?\s*s\.?|united states)\s*(?:army|navy|marine corps)\b",
+    r"\bu\.?\s*s\.?\s*a\.(?:\s|$)",
+    r"\bu\.?\s*s\.?\s*n\.(?:\s|$)",
     r"\bsecretary of war\b",
     r"\bboard of ordnance\b",
-    r"\bdepartment\b",
-    r"\barsenal\b",
+    r"\barsenals?\b",
     r"\bcommanding officer\b",
+    r"\b(?:lieutenant|lieut\.?|lt\.?|colonel|col\.?|major|maj\.?|admiral|brigadier|gen\.)(?=\s|$)",
+]
+
+
+PRIVATE_PROPOSER_PATTERNS = [
+    r"\b(?:company|corporation|incorporated|limited)\b",
+    r"\b(?:co|corp|inc|ltd)\.(?:\s|$|,)",
+    r"\b(?:co|corp|inc|ltd)\s*$",
 ]
 
 

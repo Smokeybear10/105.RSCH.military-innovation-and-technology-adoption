@@ -1,7 +1,7 @@
 """Check the public archive snapshot without private sources or dependencies.
 
 Run from any directory: python3 /path/to/repository/validate_data.py
-These checks establish file consistency, not transcription accuracy.
+These checks establish snapshot consistency and missing-data invariants, not transcription accuracy.
 """
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ import csv
 import json
 import math
 import re
+from collections import defaultdict
 from collections.abc import Callable
 from pathlib import Path
 
@@ -63,21 +64,23 @@ def main(root: Path = ROOT) -> int:
     def check_rows(
         rows: list[dict[str, str]], label: str, predicate: Callable[[dict[str, str]], bool]
     ) -> None:
-        bad = [i + 2 for i, row in enumerate(rows) if not predicate(row)]
-        detail = f"; CSV lines {', '.join(map(str, bad[:8]))}" if bad else ""
+        bad = [i + 1 for i, row in enumerate(rows) if not predicate(row)]
+        detail = f"; data rows {', '.join(map(str, bad[:8]))}" if bad else ""
         check(not bad, f"{label}{detail}")
 
     datasets = {
         "all_structured_records.csv": (1691, {
             "Subject", "Proposed By", "Action", "year", "source_file", "status",
-            "is_approved", "is_rejected", "is_investigating",
+            "is_approved", "is_rejected", "is_investigating", "action_recorded",
+            "proposer_type", "proposer_classification_basis", "primary_cluster",
         }),
-        "budget_master_ledger.csv": (109, {
+        "budget_master_ledger.csv": (111, {
             "branch", "year", "appropriation_usd", "appropriation_2025_usd",
+            "source", "links", "source_file", "source_sheet", "source_row",
         }),
         "bof_appropriations.csv": (33, {"Year", "Amount_Numeric"}),
         "bof_allotments.csv": (1144, {
-            "Year", "Project/Line Item Description", "Allotted_Numeric",
+            "Year", "Project/Line Item Description", "Allotted_Numeric", "Allotted ($)",
             "Date Allotted", "Revoked Allotment?",
         }),
     }
@@ -102,6 +105,37 @@ def main(root: Path = ROOT) -> int:
         check_rows(proposals, "proposal status and flags disagree", lambda row:
                    flags.get(row["status"]) == tuple(row[col] for col in
                    ("is_approved", "is_rejected", "is_investigating")))
+        check_rows(proposals, "action_recorded disagrees with the recorded action", lambda row:
+                   row["action_recorded"] == str(int(bool(row["Action"].strip()))))
+        check_rows(proposals, "missing action has a classified decision", lambda row:
+                   bool(row["Action"].strip()) or row["status"] == "Other")
+        proposer_bases = {
+            "Government": {"government identity cue"},
+            "Private": {"company identity cue"},
+            "Unknown": {"conflicting identity cues", "insufficient identity evidence",
+                        "narrative in identity field"},
+        }
+        check_rows(proposals, "proposer label and classification basis disagree", lambda row:
+                   row["proposer_classification_basis"] in
+                   proposer_bases.get(row["proposer_type"], set()))
+        check_rows(proposals, "missing proposer was assigned an identity", lambda row:
+                   bool(row["Proposed By"].strip()) or row["proposer_type"] == "Unknown")
+        classification_cases = {
+            ("Copy of Subjects Considered 1897-1898.xlsx", "Converting repeating rifles into rapid-fire guns."):
+                ("Small Arms", "Unknown"),
+            ("Copy of Subjects Considered 1901-1902_.xlsx", "Automatic rifle-caliber gun"):
+                ("Small Arms", "Private"),
+            ("Copy of Subjects Considered 1898-1899.xlsx", "Conversion of Rodman guns into 8-inch rifles"):
+                ("Artillery", "Unknown"),
+            ("Copy of Subjects Considered 1898-1899.xlsx", "Squior Crehore range finder"):
+                ("Fortification and Engineering", "Unknown"),
+        }
+        for (source, subject), expected in classification_cases.items():
+            matching = [row for row in proposals
+                        if row["source_file"] == source and row["Subject"] == subject]
+            check(len(matching) == 1 and
+                  (matching[0]["primary_cluster"], matching[0]["proposer_type"]) == expected,
+                  f"reviewed classification changed: {subject}")
         check_rows(proposals, "invalid proposal year", lambda row:
                    not row["year"] or row["year"] in {str(y) for y in range(1897, 1908)})
         check_rows(proposals, "proposal is missing its source file", lambda row:
@@ -112,18 +146,87 @@ def main(root: Path = ROOT) -> int:
             missing = sum(not row[column].strip() for row in proposals)
             print(f"[NOTE] proposals: {missing:,} missing {column} values")
         print(f"[NOTE] proposals: {missing_years:,} missing years; none inferred")
+        coverage = defaultdict(lambda: [0, 0])
+        for row in proposals:
+            coverage[row["year"]][0] += 1
+            coverage[row["year"]][1] += bool(row["Action"].strip())
+        for year, (total, recorded) in sorted(coverage.items(), key=lambda item: item[0] or "9999"):
+            missing = total - recorded
+            unavailable = "; approval-label share unavailable" if not recorded else ""
+            print(f"[COVERAGE] {year or 'undated'}: {recorded:,}/{total:,} actions recorded; "
+                  f"{missing:,} missing{unavailable}")
+        unknown = sum(row["proposer_type"] == "Unknown" for row in proposals)
+        print(f"[NOTE] proposals: {unknown:,} proposer identities remain unclassified")
+
+        summaries = (
+            ("proposal_actions_by_proposer_year.csv", ("year", "proposer_type"), proposals),
+            ("proposal_actions_by_cluster_1901.csv", ("primary_cluster",),
+             [row for row in proposals if row["year"] == "1901"]),
+        )
+        count_fields = ("submissions", "recorded_actions", "approved", "missing_actions")
+        for filename, group_fields, source_rows in summaries:
+            try:
+                summary = read_csv(root / "output" / filename,
+                                   set(group_fields) | set(count_fields) | {"approval_share_recorded"})
+            except (OSError, UnicodeError, csv.Error, ValueError) as error:
+                check(False, f"{filename}: {error}")
+                continue
+            expected_groups = defaultdict(lambda: [0, 0, 0, 0])
+            for row in source_rows:
+                counts = expected_groups[tuple(row[field] for field in group_fields)]
+                recorded = bool(row["Action"].strip())
+                counts[0] += 1
+                counts[1] += recorded
+                counts[2] += row["status"] == "Approved"
+                counts[3] += not recorded
+            actual_groups = [tuple(row[field] for field in group_fields) for row in summary]
+            check(set(actual_groups) == set(expected_groups), f"{filename}: groups differ from proposal records")
+            check(len(actual_groups) == len(set(actual_groups)), f"{filename}: duplicate groups")
+
+            def correct_summary(row: dict[str, str]) -> bool:
+                expected = expected_groups.get(tuple(row[field] for field in group_fields))
+                if expected is None or any(number(row[field]) != count
+                                           for field, count in zip(count_fields, expected)):
+                    return False
+                _, recorded, approved, _ = expected
+                if not recorded:
+                    return row["approval_share_recorded"] == ""
+                share = number(row["approval_share_recorded"])
+                return share is not None and math.isclose(share, approved / recorded, abs_tol=1e-12)
+
+            check_rows(summary, f"{filename}: counts or recorded-action share disagree", correct_summary)
+            print(f"[READ] {filename}: {len(summary):,} groups checked against proposal records")
 
     budget = tables.get("budget_master_ledger.csv")
     if budget is not None:
         actual = [(row["branch"], row["year"]) for row in budget]
         expected = {(branch, str(year)) for branch in ("Army", "Navy")
-                    for year in range(1866, 1921)} - {("Army", "1879")}
+                    for year in range(1865, 1921)} - {("Army", "1879")}
         check(set(actual) == expected, "budget branch/year coverage differs from the published snapshot")
         check(len(actual) == len(set(actual)), "duplicate budget branch/year entries")
         for column in ("appropriation_usd", "appropriation_2025_usd"):
             check_rows(budget, f"budget: invalid {column}", lambda row, key=column:
                        (amount := number(row[key])) is not None and amount >= 0)
+        check_rows(budget, "budget: source file must be a workbook basename", lambda row:
+                   bool(row["source_file"].strip()) and "\\" not in row["source_file"]
+                   and Path(row["source_file"]).name == row["source_file"]
+                   and Path(row["source_file"]).suffix.lower() in {".xlsx", ".xls"})
+        check_rows(budget, "budget: source sheet must match the branch", lambda row:
+                   row["source_sheet"] == row["branch"])
+        check_rows(budget, "budget: invalid source row", lambda row:
+                   bool(re.fullmatch(r"[0-9]+", row["source_row"])) and int(row["source_row"]) >= 2)
+        check_rows(budget, "budget: source row differs from the saved workbook coordinates", lambda row:
+                   (year := number(row["year"])) is not None
+                   and number(row["source_row"]) == year - 1863)
+        check_rows(budget, "budget: source link must be blank or a public web URL", lambda row:
+                   not row["links"] or bool(re.fullmatch(
+                       r"https?://[A-Za-z0-9.-]+(?::[0-9]+)?(?:[/?#][^\s]*)?", row["links"])))
+        provenance = [(row["source_file"], row["source_sheet"], row["source_row"]) for row in budget]
+        check(len(provenance) == len(set(provenance)), "duplicate budget source coordinates")
+        cited = sum(bool(row["source"].strip() or row["links"].strip()) for row in budget)
+        print(f"[NOTE] budget: {cited:,}/{len(budget):,} rows retain a source citation or link")
         print("[NOTE] Army 1879 is missing; adjusted values use the source worksheet's 2025 dollars")
+        print("[NOTE] workbook coordinates identify the supplied rows, not verified historical sources")
 
     appropriations = tables.get("bof_appropriations.csv")
     if appropriations is not None:
@@ -141,6 +244,8 @@ def main(root: Path = ROOT) -> int:
         check_rows(allotments, "invalid allotment amount", lambda row:
                    not row["Allotted_Numeric"] or
                    ((amount := number(row["Allotted_Numeric"])) is not None and amount >= 0))
+        check_rows(allotments, "missing source amount was filled in the numeric column", lambda row:
+                   bool(row["Allotted ($)"].strip()) or not row["Allotted_Numeric"].strip())
         check_rows(allotments, "invalid revocation label", lambda row:
                    row["Revoked Allotment?"] in {"Yes", "No"})
         for column in ("Allotted_Numeric", "Date Allotted"):
@@ -185,7 +290,7 @@ def main(root: Path = ROOT) -> int:
         check(False, f"timeline-data.js: {error}")
 
     print(f"\n{checks - len(failures)} checks passed; {len(failures)} failed.")
-    print("Scope: public files only. Original-source transcription and historical outcomes are not verified.")
+    print("Scope: public files only. Transcription, classification accuracy, and historical outcomes are not verified.")
     return 1 if failures else 0
 
 

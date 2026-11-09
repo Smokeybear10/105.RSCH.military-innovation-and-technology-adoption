@@ -13,7 +13,7 @@ from pathlib import Path
 
 from bof_pipeline import run_batch_analysis
 from bof_pipeline.visualize import (
-    save_proposer_success_by_year,
+    save_proposer_actions_by_year,
     save_ratio_dashboard_1901,
     save_status_cluster_sankey,
 )
@@ -59,7 +59,7 @@ def main() -> None:
     all_data = run_batch_analysis(input_files=input_files, output_dir=args.output_dir)
 
     save_status_cluster_sankey(all_data, args.output_dir / "flow_cluster_to_status.html")
-    save_proposer_success_by_year(all_data, args.output_dir / "network_proposer_cluster.html")
+    save_proposer_actions_by_year(all_data, args.output_dir / "network_proposer_cluster.html")
     save_ratio_dashboard_1901(all_data, args.output_dir / "dashboard_1901_ratio.html")
 
     print(f"Processed {len(input_files)} files.")

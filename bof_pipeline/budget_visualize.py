@@ -1,4 +1,4 @@
-"""Budget visualizations for BOF Military Budgets, 1866-1920."""
+"""Budget visualizations for BOF Military Budgets, 1865-1920."""
 
 from __future__ import annotations
 
@@ -9,10 +9,10 @@ import plotly.graph_objects as go
 
 # ── Design tokens (mirrors visualize.py) ─────────────────────────────────────
 
-_PLOT_BG  = "#EAE3D8"
-_GRID     = "#D6CEBF"
-_TEXT_DARK = "#1A1A2E"
-_TEXT_MID  = "#55556A"
+_PLOT_BG  = "#F7F7F5"
+_GRID     = "#DADDD8"
+_TEXT_DARK = "#242824"
+_TEXT_MID  = "#626862"
 _SERIF = "Georgia, 'Times New Roman', serif"
 _SANS  = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif"
 
@@ -43,8 +43,8 @@ def _rgba(hex_color: str, alpha: float) -> str:
 
 
 _BUDGET_SOURCE_NOTE = (
-    "Source: public Army and Navy budget ledger, 1866–1920 &nbsp;·&nbsp; "
-    "Nominal and 2025-adjusted values from the source worksheet &nbsp;·&nbsp; "
+    "Source: public Army and Navy budget ledger, 1865–1920 &nbsp;·&nbsp; "
+    "2025-dollar values are supplied by the worksheet; adjustment method is undocumented &nbsp;·&nbsp; "
     "Army appropriations for 1879 are not recorded"
 )
 
@@ -61,20 +61,19 @@ def _card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
   *{{box-sizing:border-box;margin:0;padding:0}}
   body{{
     font-family:{_SANS};
-    background:#E8E2D8;
+    background:#F7F7F5;
     min-height:100vh;
     display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:40px 20px 56px;
+    align-items:stretch;
+    justify-content:flex-start;
+    padding:0;
   }}
   .card{{
     width:100%;
     max-width:1060px;
-    background:#FDFBF8;
-    border-radius:5px;
-    box-shadow:0 2px 20px rgba(0,0,0,0.11),0 1px 4px rgba(0,0,0,0.06);
-    border-top:4px solid {_TEXT_DARK};
+    background:#FFFFFF;
+    margin:0 auto;
+    border:1px solid #DADDD8;
     padding:36px 42px 22px;
   }}
   .eyebrow{{
@@ -86,7 +85,7 @@ def _card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
     margin-bottom:10px;
   }}
   h1{{
-    font-family:{_SERIF};
+    font-family:{_SANS};
     font-size:22px;
     font-weight:700;
     color:{_TEXT_DARK};
@@ -102,7 +101,7 @@ def _card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
   }}
   .rule{{
     height:1px;
-    background:linear-gradient(to right,#C9B99A 35%,transparent);
+    background:#DADDD8;
     margin:0 0 16px;
   }}
   .footer{{
@@ -125,14 +124,12 @@ def _card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
 </head>
 <body>
 <div class="card">
-  <div class="eyebrow">U.S. Military Budget &nbsp;·&nbsp; Historical Analysis</div>
   <h1>{title}</h1>
   <p class="sub">{subtitle}</p>
   <div class="rule"></div>
   {plot_div}
   <div class="footer">
     <div class="src">{footer_note}</div>
-    <div class="badge">Interactive</div>
   </div>
 </div>
 </body>
@@ -154,7 +151,7 @@ def _complete_segments(pivot: pd.DataFrame) -> list[pd.DataFrame]:
 
 
 def save_budget_area_chart(df: pd.DataFrame, output_html: Path) -> None:
-    """Stacked area: Army + Navy appropriations 1866–1920, nominal vs. adjusted toggle."""
+    """Stacked area: Army + Navy appropriations 1865–1920, nominal vs. adjusted toggle."""
     branches = ["Navy", "Army"]  # Navy on bottom, Army stacks on top
 
     traces_nominal:  list[go.Scatter] = []
@@ -229,7 +226,7 @@ def save_budget_area_chart(df: pd.DataFrame, output_html: Path) -> None:
                           {"yaxis.title.text": "Appropriation (Nominal $)"}],
                 ),
                 dict(
-                    label="2025 Inflation-Adjusted",
+                    label="2025 $ (source worksheet)",
                     method="update",
                     args=[{"visible": vis_adjusted},
                           {"yaxis.title.text": "Appropriation (2025 $)"}],
@@ -273,9 +270,9 @@ def save_budget_area_chart(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="U.S. Military Appropriations, 1866–1920",
+        title="U.S. Military Appropriations, 1865–1920",
         subtitle=(
-            "Army and Navy appropriations in nominal or 2025-adjusted dollars. "
+            "Army and Navy appropriations in nominal dollars, with optional worksheet-supplied 2025-dollar values. "
             "The stacked area breaks where either branch is missing; isolated markers "
             "retain the recorded branch without implying a complete total."
         ),
@@ -287,7 +284,7 @@ def save_budget_area_chart(df: pd.DataFrame, output_html: Path) -> None:
 # ── 2. Treemap ────────────────────────────────────────────────────────────────
 
 def save_budget_treemap(df: pd.DataFrame, output_html: Path) -> None:
-    """Treemap: total 2025-adjusted spending per decade × branch."""
+    """Treemap: recorded worksheet-supplied 2025-dollar amounts by decade and branch."""
     agg = (
         df.groupby(["decade", "branch"])
         .agg(total_2025=("appropriation_2025_usd", "sum"))
@@ -300,7 +297,7 @@ def save_budget_treemap(df: pd.DataFrame, output_html: Path) -> None:
     ids, labels, parents, values, custom, colors = [], [], [], [], [], []
 
     grand_total = agg["total_2025"].sum()
-    ids.append("all");       labels.append("Total Military Spending")
+    ids.append("all");       labels.append("Recorded appropriations")
     parents.append("");      values.append(grand_total)
     custom.append(_fmt_billions(grand_total))
     colors.append("#D6CEBF")
@@ -333,7 +330,7 @@ def save_budget_treemap(df: pd.DataFrame, output_html: Path) -> None:
             textfont=dict(size=13, family=_SANS),
             hovertemplate=(
                 "<b>%{label}</b><br>"
-                "Total (2025 $): %{customdata}<br>"
+                "Recorded total (source 2025 $): %{customdata}<br>"
                 "<extra></extra>"
             ),
             marker=dict(
@@ -359,9 +356,9 @@ def save_budget_treemap(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Military Budget by Decade, 1866–1920",
+        title="Military Budget by Decade, 1865–1920",
         subtitle=(
-            "Recorded 2025-adjusted appropriations by decade and branch. "
+            "Recorded appropriations by decade and branch, using the worksheet’s 2025-dollar values. "
             "Rectangle area reflects recorded amounts; the 1870s Army subtotal is incomplete. Click a decade to drill down; "
             "use the breadcrumb bar to navigate back."
         ),
@@ -373,7 +370,7 @@ def save_budget_treemap(df: pd.DataFrame, output_html: Path) -> None:
 # ── 3. Army vs Navy share ─────────────────────────────────────────────────────
 
 def save_budget_share_chart(df: pd.DataFrame, output_html: Path) -> None:
-    """100% stacked area: Army vs Navy share of total military spending, 1866–1920."""
+    """Army and Navy shares of their recorded appropriations, with gaps for incomplete years."""
     pivot = _budget_pivot(df, "appropriation_usd")
     total = pivot.sum(axis=1, min_count=2).replace(0, float("nan"))
     shares = pivot.div(total, axis=0) * 100
@@ -428,7 +425,7 @@ def save_budget_share_chart(df: pd.DataFrame, output_html: Path) -> None:
             dtick=5, tickfont=dict(size=11),
         ),
         yaxis=dict(
-            title="Share of Total Budget (%)",
+            title="Share of Army + Navy Appropriations (%)",
             title_font=dict(size=11, family=_SANS),
             range=[0, 112],
             gridcolor=_GRID, linecolor=_GRID,
@@ -451,10 +448,10 @@ def save_budget_share_chart(df: pd.DataFrame, output_html: Path) -> None:
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Army vs. Navy Share of Military Budget, 1866–1920",
+        title="Army and Navy Appropriation Shares, 1865–1920",
         subtitle=(
             "Shares are shown only where both branches have recorded appropriations. "
-            "The gap at 1879 reflects a missing Army entry, not zero Army spending "
+            "The gap at 1879 reflects a missing Army entry, not zero Army appropriations "
             "or a 100% Navy share."
         ),
         note=_BUDGET_SOURCE_NOTE,

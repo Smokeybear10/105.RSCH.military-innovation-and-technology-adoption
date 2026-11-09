@@ -40,7 +40,9 @@ def _save_png_for_last_fig(out_html: Path, width: int = 1200, height: int = 720)
         return None
     png = out_html.with_suffix(".png")
     try:
-        _last_fig.write_image(str(png), width=width, height=height, scale=2)
+        figure = go.Figure(_last_fig)
+        figure.update_layout(paper_bgcolor="#FFFFFF")
+        figure.write_image(str(png), width=width, height=height, scale=2)
         return png
     except Exception as e:
         print(f"  PNG export skipped for {out_html.name}: {e}")
@@ -74,18 +76,6 @@ P_CLUSTERS = {
     "Other/Unclassified":             "#697386",
 }
 
-P_STATUS = {
-    "Approved":      P_GREEN,
-    "Rejected":      P_RED,
-    "Investigating": P_AMBER,
-    "Other":         P_TEXT_SOFT,
-}
-
-P_PROPOSER = {
-    "Government": P_ACCENT,
-    "Private":    "#C2410C",
-}
-
 P_BRANCH = {
     "Army": {"fill": "rgba(99,91,255,0.18)",   "line": P_ACCENT},
     "Navy": {"fill": "rgba(14,124,102,0.20)",  "line": P_GREEN},
@@ -96,7 +86,7 @@ P_BRANCH = {
 def _paper_card_html(plot_div: str, title: str, subtitle: str, note: str = "") -> str:
     footer_note = note or (
         "Source: BOF Annual Reports, 1897–1908 &nbsp;·&nbsp; "
-        "Automated labels from transcribed actions; missing or unmatched actions are Other"
+        "Automated action labels; missing actions are counted separately from unmatched text"
     )
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -172,7 +162,7 @@ def _paper_card_html(plot_div: str, title: str, subtitle: str, note: str = "") -
 # ── Patch modules ─────────────────────────────────────────────────────
 def patch_modules():
     """Override the design tokens on each visualize module in-place."""
-    for module in (v, bv, cv):
+    for module in (bv, cv):
         module._PLOT_BG = P_BG
         module._GRID = P_GRID
         module._TEXT_DARK = P_TEXT
@@ -182,9 +172,9 @@ def patch_modules():
         module._card_html = _paper_card_html
 
     # Module-specific tables
-    v._STATUS_COLORS = P_STATUS
-    v._CLUSTER_PALETTE = P_CLUSTERS
-    v._PROPOSER_COLORS = P_PROPOSER
+    bv._card_html = lambda plot, title, subtitle, note="": _paper_card_html(
+        plot, title, subtitle, note or bv._BUDGET_SOURCE_NOTE
+    )
     cv._CLUSTER_PALETTE = P_CLUSTERS
     bv._BRANCH_COLORS = P_BRANCH
 
@@ -216,7 +206,7 @@ def main():
 
     # ── Proposal charts ──
     _gen(v.save_status_cluster_sankey, "proposal_sankey", proposals, w=1200, h=620)
-    _gen(v.save_proposer_success_by_year, "proposal_success", proposals, w=1200, h=720)
+    _gen(v.save_proposer_actions_by_year, "proposal_success", proposals, w=1200, h=720)
     _gen(v.save_ratio_dashboard_1901, "proposal_1901", proposals, w=1200, h=560)
 
     # ── Combined charts (these support thumbnail_png) ──
@@ -241,17 +231,9 @@ def save_decision_per_cluster(df: pd.DataFrame, out_path: Path) -> None:
     """Stacked horizontal bars: decision-status share within each cluster."""
     work = df.dropna(subset=["primary_cluster"]).copy()
 
-    def bucket(s):
-        if not isinstance(s, str): return "Other"
-        x = s.lower()
-        if "approv" in x or "adopt" in x: return "Approved"
-        if "reject" in x or "not recommend" in x: return "Rejected"
-        if "investigat" in x or "test" in x or "allotment" in x: return "Investigating"
-        return "Other"
-
-    work["bucket"] = work["status"].apply(bucket)
+    work["bucket"] = work["status"].where(work["action_recorded"].eq(1), "No action recorded")
     pivot = work.groupby(["primary_cluster", "bucket"]).size().unstack(fill_value=0)
-    statuses = ["Approved", "Investigating", "Rejected", "Other"]
+    statuses = ["Approved", "Investigating", "Rejected", "Other", "No action recorded"]
     for s in statuses:
         if s not in pivot.columns:
             pivot[s] = 0
@@ -265,6 +247,7 @@ def save_decision_per_cluster(df: pd.DataFrame, out_path: Path) -> None:
         "Investigating": P_AMBER,
         "Rejected":      P_RED,
         "Other":         P_TEXT_SOFT,
+        "No action recorded": "#c5cbc6",
     }
 
     fig = go.Figure()
@@ -295,8 +278,8 @@ def save_decision_per_cluster(df: pd.DataFrame, out_path: Path) -> None:
 
     plot_div = fig.to_html(include_plotlyjs="cdn", full_html=False, config={"displayModeBar": False})
     title = "Action Labels by Technology Cluster"
-    subtitle = ("Share of records in each automated action category. Missing or unmatched "
-                "actions remain Other. The labels do not establish a final historical outcome.")
+    subtitle = ("Share of records in each automated action category. Missing actions are shown "
+                "separately; recorded but unmatched text remains Other. The labels do not establish a final historical outcome.")
     out_path.write_text(_paper_card_html(plot_div, title, subtitle))
     try:
         fig.write_image(str(out_path.with_suffix(".png")), width=1200, height=560, scale=2)

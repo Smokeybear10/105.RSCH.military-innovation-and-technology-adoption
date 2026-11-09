@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dollars by Technology Cluster · Military Innovation and Technology Adoption</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill-rule='evenodd' clip-rule='evenodd' d='M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z' fill='%23C9A24C'/><circle cx='32' cy='32' r='2.2' fill='%23C9A24C'/></svg>">
+<title>Dollars by Technology Cluster · Fortify</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%23242824'/><text x='17' y='47' font-family='Arial,sans-serif' font-size='44' font-weight='600' fill='white'>F</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
   html, body {
     margin: 0;
     padding: 0;
-    background: #EAE3D8;
+    background: #f7f7f5;
+    overflow-x: hidden;
     font-family: 'Inter', -apple-system, sans-serif;
     color: #1A1A2E;
   }
@@ -22,56 +23,78 @@
     flex-direction: column;
   }
   .bof-bar {
-    flex-wrap: wrap;
-    gap: 10px 24px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 28px;
-    background: #FBF6E6;
-    border-bottom: 1px solid #D6CEBF;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1.2px;
-    color: #55556A;
+    gap: 8px 24px;
+    min-height: 68px;
+    padding: 10px 28px;
+    box-sizing: border-box;
+    background: #fff;
+    border-bottom: 1px solid #daddd8;
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    color: #626862;
     flex-shrink: 0;
   }
   .bof-bar .bof-brand {
-    min-width: 0;
-    display: flex; align-items: center; gap: 10px;
-    color: inherit; text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #242824;
+    text-decoration: none;
   }
-  .bof-bar .bof-brand svg {
-    flex-shrink: 0;
-    width: 18px; height: 18px;
-    color: #C9A24C;
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
-  }
-  .bof-bar .bof-brand:hover svg { transform: rotate(45deg); }
   .bof-bar .bof-brand strong {
-    line-height: 1.5;
-    color: #1A1A2E; font-weight: 700; letter-spacing: 1.4px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
   }
   .bof-bar a.bof-back {
-    color: #55556A; text-decoration: none; letter-spacing: 1.2px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #626862;
+    text-decoration: none;
+    white-space: nowrap;
   }
-  .bof-bar a.bof-back:hover { color: #C9A24C; }
+  .bof-bar a.bof-back:hover {
+    color: #242824;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .bof-bar a:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: 4px;
+  }
 
   .chart-frame {
-    flex: 1;
     width: 100%;
+    min-width: 0;
     padding: 18px 32px 28px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
   }
   .chart-frame svg {
     width: 100%;
+    min-width: 1600px;
     height: auto;
     display: block;
-    max-height: 100%;
-    flex: 1;
+  }
+  .chart-frame:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: -2px;
+  }
+  @media (max-width: 1664px) {
+    .chart-frame::before {
+      content: "Scroll horizontally to see the full chart.";
+      display: block;
+      margin-bottom: 12px;
+      font: 13px/1.5 'Public Sans', sans-serif;
+      color: #626862;
+    }
   }
 
   /* Shared SVG element styling */
@@ -232,108 +255,290 @@
   .hm-cell:hover .hm-num { opacity: 1 !important; }
   .hm-cell:hover .hm-badge { opacity: 1; }
   @media (max-width: 720px) {
-    .bof-bar { padding: 10px 14px; font-size: 10px; }
+    .bof-bar { padding: 8px 16px; }
     .chart-frame { padding: 10px 12px 18px; }
   }
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style id="bof-chart-frame">
+  /* ── Base ─────────────────────────────────────────────────────────── */
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f7f7f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1A1A2E;
+    overflow-x: hidden;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header strip ─────────────────────────────────────────────────── */
+  .bof-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    min-height: 68px;
+    padding: 10px 28px;
+    box-sizing: border-box;
+    background: #fff;
+    border-bottom: 1px solid #daddd8;
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    color: #626862;
+    flex-shrink: 0;
+  }
+  .bof-bar .bof-brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #242824;
+    text-decoration: none;
+  }
+  .bof-bar .bof-brand strong {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+  }
+  .bof-bar a.bof-back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #626862;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .bof-bar a.bof-back:hover {
+    color: #242824;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .bof-bar a:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: 4px;
+  }
+
+  /* ── Chart container ──────────────────────────────────────────────── */
+  .bof-chart-wrap {
+    width: 100%;
+    min-width: 0;
+    padding: 16px 24px 20px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+  .bof-chart-wrap:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: -2px;
+  }
+  .plotly-graph-div {
+    margin: 0 !important;
+    width: 100% !important;
+    height: 560px !important;
+    min-width: 960px;
+  }
+  .plotly-graph-div .gtitle { font-family: 'Source Serif 4', Georgia, serif !important; }
+  .modebar-container, .modebar { display: none !important; }
+  .plotly-graph-div .bartext { font-family: 'Inter', sans-serif !important; }
+
+  /* Subtle scroll hint on narrow screens */
+  .bof-chart-wrap::-webkit-scrollbar { height: 10px; }
+  .bof-chart-wrap::-webkit-scrollbar-track { background: transparent; }
+  .bof-chart-wrap::-webkit-scrollbar-thumb {
+    background: #c4c9c4;
+    border-radius: 5px;
+  }
+  .bof-chart-wrap::-webkit-scrollbar-thumb:hover {
+    background: #939b93;
+  }
+
+  /* ── Responsive breakpoints ───────────────────────────────────────── */
+
+  /* Ultra-wide (1920+) */
+  @media (min-width: 1920px) {
+    .bof-chart-wrap { padding: 20px 40px 28px; }
+    .bof-bar { padding: 10px 40px; }
+  }
+
+  /* Large desktop (1280-1919) */
+  @media (min-width: 1280px) and (max-width: 1919px) {
+    .bof-chart-wrap { padding: 18px 32px 22px; }
+  }
+
+  /* Small laptop / tablet landscape (900-1279) */
+  @media (min-width: 900px) and (max-width: 1279px) {
+    .bof-chart-wrap { padding: 14px 18px 18px; }
+    .bof-bar { padding: 10px 22px; }
+  }
+
+  /* Tablet portrait (600-899) */
+  @media (min-width: 600px) and (max-width: 899px) {
+    .bof-bar { padding: 10px 18px; }
+    .bof-chart-wrap { padding: 10px 12px 14px; }
+  }
+
+  @media (max-width: 1456px) {
+    .bof-chart-wrap::before {
+      content: "Scroll horizontally to see the full chart.";
+      display: block;
+      margin-bottom: 12px;
+      font: 13px/1.5 'Public Sans', sans-serif;
+      color: #626862;
+    }
+  }
+  @media (max-width: 599px) {
+    .bof-bar { padding: 8px 16px; }
+    .bof-chart-wrap { padding: 12px 16px 20px; }
+  }
+
+</style>
+<script id="bof-chart-resize">
+  // Every Plotly chart hard-codes its own height/width on the div inline.
+  // Strip those, set its own layout to autosize, then resize from the
+  // CSS-driven container dimensions. This is what makes every chart fill
+  // its frame identically regardless of what the Python writer set.
+  (function() {
+    function fitAllCharts() {
+      if (typeof Plotly === 'undefined') return;
+      document.querySelectorAll('.plotly-graph-div').forEach(function(div) {
+        try {
+          // Strip Plotly's inline width/height so the CSS wins
+          div.style.removeProperty('height');
+          div.style.removeProperty('width');
+          // Tell Plotly the chart is autosizing — this disables any
+          // Python-side fixed height/width baked into the layout.
+          Plotly.relayout(div, {
+            autosize: true,
+            width: null,
+            height: null,
+          });
+          Plotly.Plots.resize(div);
+        } catch (e) { /* ignore */ }
+      });
+    }
+    var t;
+    window.addEventListener('resize', function() {
+      clearTimeout(t);
+      t = setTimeout(fitAllCharts, 80);
+    });
+    window.addEventListener('orientationchange', function() {
+      setTimeout(fitAllCharts, 200);
+    });
+    // First paint: do it as soon as the document is ready, and again after
+    // load to catch lazy-init charts.
+    if (document.readyState === 'complete') {
+      setTimeout(fitAllCharts, 30);
+    } else {
+      window.addEventListener('load', function() { setTimeout(fitAllCharts, 30); });
+      document.addEventListener('DOMContentLoaded', function() { setTimeout(fitAllCharts, 60); });
+    }
+  })();
+</script>
 </head>
 <body>
 <div class="bof-bar">
-  <a class="bof-brand" href="../" title="Back to dashboard">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
-      <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
-    </svg>
-    <strong>Military Innovation and Technology Adoption</strong>
-  </a>
-  <a class="bof-back" href="../">← back to dashboard</a>
+  <a class="bof-brand" href="../" title="Fortify archive"><strong>Fortify</strong></a>
+  <a class="bof-back" href="../">Back to archive</a>
 </div>
-<div class="chart-frame">
+<div class="bof-chart-wrap" role="region" aria-label="Scrollable chart" tabindex="0">
+
+<div class="bof-bar">
+  <a class="bof-brand" href="../" title="Fortify archive"><strong>Fortify</strong></a>
+  <a class="bof-back" href="../">Back to archive</a>
+</div>
+<div class="chart-frame" role="region" aria-label="Scrollable chart" tabindex="0">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
 <text class="chart-title" x="60" y="58">Investment Dollars by Technology Cluster</text><foreignObject x="60" y="78" width="1480" height="64"><div xmlns="http://www.w3.org/1999/xhtml" class="chart-subtitle">BOF allotments classified by primary technology cluster · 1888–1918 · <b>$4,398,440</b> total across <b>1,144</b> line items. Hover any tile (including the thin ones) for details.</div></foreignObject>
 <g class="tm-tile">
 <title>Artillery
-Total: $1,898,193
-373 line items · 103 revoked
-43.2% of grand total</title>
-<rect class="tm-rect" fill="#1D3461" x="60.0" y="150.0" width="1340.3" height="295.5" stroke="#EAE3D8" stroke-width="3"/>
+Total: $2,353,950
+397 line items · 113 revoked
+53.5% of grand total</title>
+<rect class="tm-rect" fill="#1D3461" x="60.0" y="150.0" width="1323.4" height="371.1" stroke="#EAE3D8" stroke-width="3"/>
 <text class="tm-label" x="74.0" y="176.0" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="16" fill="white">Artillery</text>
-<text class="tm-label" x="74.0" y="198.0" font-family="Inter, sans-serif" font-size="13" fill="white" opacity="0.85">$1,898k · 43.2%</text>
-<g class="tm-card" pointer-events="none"><rect x="610.2" y="254.7" width="240.0" height="86" rx="4" fill="#FBF6E6" stroke="#1D3461" stroke-width="1.5"/><text x="730.2" y="276.7" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="13" fill="#1A1A2E">Artillery</text><text x="730.2" y="298.7" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#1D3461">$1,898k</text><text x="730.2" y="318.7" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#55556A">373 line items · 103 revoked · 43.2%</text></g>
+<text class="tm-label" x="74.0" y="198.0" font-family="Inter, sans-serif" font-size="13" fill="white" opacity="0.85">$2,354k · 53.5%</text>
+<g class="tm-card" pointer-events="none"><rect x="601.7" y="292.5" width="240.0" height="86" rx="4" fill="#FBF6E6" stroke="#1D3461" stroke-width="1.5"/><text x="721.7" y="314.5" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="13" fill="#1A1A2E">Artillery</text><text x="721.7" y="336.5" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#1D3461">$2,354k</text><text x="721.7" y="356.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#55556A">397 line items · 113 revoked · 53.5%</text></g>
 </g>
 <g class="tm-tile">
 <title>Other/Unclassified
-Total: $1,698,529
-539 line items · 162 revoked
-38.6% of grand total</title>
-<rect class="tm-rect" fill="#546E7A" x="60.0" y="445.5" width="1340.3" height="264.4" stroke="#EAE3D8" stroke-width="3"/>
-<text class="tm-label" x="74.0" y="471.5" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="16" fill="white">Other/Unclassified</text>
-<text class="tm-label" x="74.0" y="493.5" font-family="Inter, sans-serif" font-size="13" fill="white" opacity="0.85">$1,699k · 38.6%</text>
-<g class="tm-card" pointer-events="none"><rect x="610.2" y="534.6" width="240.0" height="86" rx="4" fill="#FBF6E6" stroke="#546E7A" stroke-width="1.5"/><text x="730.2" y="556.6" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="13" fill="#1A1A2E">Other/Unclassified</text><text x="730.2" y="578.6" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#546E7A">$1,699k</text><text x="730.2" y="598.6" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#55556A">539 line items · 162 revoked · 38.6%</text></g>
-</g>
-<g class="tm-tile">
-<title>Fortification and Engineering
-Total: $386,570
-107 line items · 32 revoked
-8.8% of grand total</title>
-<rect class="tm-rect" fill="#2D6A4F" x="60.0" y="709.8" width="1340.3" height="60.2" stroke="#EAE3D8" stroke-width="3"/>
-<text class="tm-label" x="74.0" y="735.8" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="16" fill="white">Fortification and Engineering</text>
-<text class="tm-label" x="74.0" y="757.8" font-family="Inter, sans-serif" font-size="13" fill="white" opacity="0.85">$387k · 8.8%</text>
-<g class="tm-card" pointer-events="none"><rect x="610.2" y="696.9" width="240.0" height="86" rx="4" fill="#FBF6E6" stroke="#2D6A4F" stroke-width="1.5"/><text x="730.2" y="718.9" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="13" fill="#1A1A2E">Fortification and Engineering</text><text x="730.2" y="740.9" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#2D6A4F">$387k</text><text x="730.2" y="760.9" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#55556A">107 line items · 32 revoked · 8.8%</text></g>
+Total: $1,367,869
+486 line items · 143 revoked
+31.1% of grand total</title>
+<rect class="tm-rect" fill="#546E7A" x="60.0" y="521.1" width="1323.4" height="215.6" stroke="#EAE3D8" stroke-width="3"/>
+<text class="tm-label" x="74.0" y="547.1" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="16" fill="white">Other/Unclassified</text>
+<text class="tm-label" x="74.0" y="569.1" font-family="Inter, sans-serif" font-size="13" fill="white" opacity="0.85">$1,368k · 31.1%</text>
+<g class="tm-card" pointer-events="none"><rect x="601.7" y="585.9" width="240.0" height="86" rx="4" fill="#FBF6E6" stroke="#546E7A" stroke-width="1.5"/><text x="721.7" y="607.9" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="13" fill="#1A1A2E">Other/Unclassified</text><text x="721.7" y="629.9" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#546E7A">$1,368k</text><text x="721.7" y="649.9" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#55556A">486 line items · 143 revoked · 31.1%</text></g>
 </g>
 <g class="tm-tile">
 <title>Explosives
-Total: $250,641
-57 line items · 19 revoked
-5.7% of grand total</title>
-<rect class="tm-rect" fill="#6B2D8B" x="1400.3" y="150.0" width="87.7" height="596.2" stroke="#EAE3D8" stroke-width="3"/>
+Total: $211,141
+53 line items · 19 revoked
+4.8% of grand total</title>
+<rect class="tm-rect" fill="#6B2D8B" x="60.0" y="736.7" width="1323.4" height="33.3" stroke="#EAE3D8" stroke-width="3"/>
+<g class="tm-card" pointer-events="none"><rect x="601.7" y="710.4" width="240.0" height="86" rx="4" fill="#FBF6E6" stroke="#6B2D8B" stroke-width="1.5"/><text x="721.7" y="732.4" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-weight="700" font-size="13" fill="#1A1A2E">Explosives</text><text x="721.7" y="754.4" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="#6B2D8B">$211k</text><text x="721.7" y="774.4" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#55556A">53 line items · 19 revoked · 4.8%</text></g>
+</g>
+<g class="tm-tile">
+<title>Small Arms
+Total: $196,400
+59 line items · 16 revoked
+4.5% of grand total</title>
+<rect class="tm-rect" fill="#0A6E5D" x="1383.4" y="150.0" width="68.4" height="598.8" stroke="#EAE3D8" stroke-width="3"/>
+</g>
+<g class="tm-tile">
+<title>Fortification and Engineering
+Total: $152,350
+103 line items · 32 revoked
+3.5% of grand total</title>
+<rect class="tm-rect" fill="#2D6A4F" x="1451.8" y="150.0" width="53.1" height="598.8" stroke="#EAE3D8" stroke-width="3"/>
 </g>
 <g class="tm-tile">
 <title>Armor and Protection
 Total: $100,809
 14 line items · 4 revoked
 2.3% of grand total</title>
-<rect class="tm-rect" fill="#7C4318" x="1488.0" y="150.0" width="35.3" height="596.2" stroke="#EAE3D8" stroke-width="3"/>
-</g>
-<g class="tm-tile">
-<title>Small Arms
-Total: $47,778
-22 line items · 7 revoked
-1.1% of grand total</title>
-<rect class="tm-rect" fill="#0A6E5D" x="1523.3" y="150.0" width="16.7" height="596.2" stroke="#EAE3D8" stroke-width="3"/>
+<rect class="tm-rect" fill="#7C4318" x="1504.9" y="150.0" width="35.1" height="598.8" stroke="#EAE3D8" stroke-width="3"/>
 </g>
 <g class="tm-tile">
 <title>Communications and Observation
 Total: $15,614
 22 line items · 7 revoked
 0.4% of grand total</title>
-<rect class="tm-rect" fill="#1B4F72" x="1400.3" y="746.2" width="139.7" height="23.3" stroke="#EAE3D8" stroke-width="3"/>
+<rect class="tm-rect" fill="#1B4F72" x="1383.4" y="748.8" width="156.6" height="20.8" stroke="#EAE3D8" stroke-width="3"/>
 </g>
 <g class="tm-tile">
 <title>Logistics and Support
 Total: $307
 10 line items · 0 revoked
 0.0% of grand total</title>
-<rect class="tm-rect" fill="#5D4037" x="1400.3" y="769.5" width="139.7" height="0.5" stroke="#EAE3D8" stroke-width="3"/>
+<rect class="tm-rect" fill="#5D4037" x="1383.4" y="769.6" width="156.6" height="0.4" stroke="#EAE3D8" stroke-width="3"/>
 </g>
 <rect fill="#1D3461" x="60.0" y="800" width="16" height="16" rx="2"/>
 <text class="legend-text" x="84.0" y="812" font-weight="600">Artillery</text>
-<text x="84.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$1,898k · 43.2% · 373 items</text>
+<text x="84.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$2,354k · 53.5% · 397 items</text>
 <rect fill="#546E7A" x="430.0" y="800" width="16" height="16" rx="2"/>
 <text class="legend-text" x="454.0" y="812" font-weight="600">Other/Unclassified</text>
-<text x="454.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$1,699k · 38.6% · 539 items</text>
-<rect fill="#2D6A4F" x="800.0" y="800" width="16" height="16" rx="2"/>
-<text class="legend-text" x="824.0" y="812" font-weight="600">Fortification and Engineering</text>
-<text x="824.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$387k · 8.8% · 107 items</text>
-<rect fill="#6B2D8B" x="1170.0" y="800" width="16" height="16" rx="2"/>
-<text class="legend-text" x="1194.0" y="812" font-weight="600">Explosives</text>
-<text x="1194.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$251k · 5.7% · 57 items</text>
-<rect fill="#7C4318" x="60.0" y="838" width="16" height="16" rx="2"/>
-<text class="legend-text" x="84.0" y="850" font-weight="600">Armor and Protection</text>
-<text x="84.0" y="866" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$101k · 2.3% · 14 items</text>
-<rect fill="#0A6E5D" x="430.0" y="838" width="16" height="16" rx="2"/>
-<text class="legend-text" x="454.0" y="850" font-weight="600">Small Arms</text>
-<text x="454.0" y="866" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$48k · 1.1% · 22 items</text>
+<text x="454.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$1,368k · 31.1% · 486 items</text>
+<rect fill="#6B2D8B" x="800.0" y="800" width="16" height="16" rx="2"/>
+<text class="legend-text" x="824.0" y="812" font-weight="600">Explosives</text>
+<text x="824.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$211k · 4.8% · 53 items</text>
+<rect fill="#0A6E5D" x="1170.0" y="800" width="16" height="16" rx="2"/>
+<text class="legend-text" x="1194.0" y="812" font-weight="600">Small Arms</text>
+<text x="1194.0" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$196k · 4.5% · 59 items</text>
+<rect fill="#2D6A4F" x="60.0" y="838" width="16" height="16" rx="2"/>
+<text class="legend-text" x="84.0" y="850" font-weight="600">Fortification and Engineering</text>
+<text x="84.0" y="866" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$152k · 3.5% · 103 items</text>
+<rect fill="#7C4318" x="430.0" y="838" width="16" height="16" rx="2"/>
+<text class="legend-text" x="454.0" y="850" font-weight="600">Armor and Protection</text>
+<text x="454.0" y="866" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$101k · 2.3% · 14 items</text>
 <rect fill="#1B4F72" x="800.0" y="838" width="16" height="16" rx="2"/>
 <text class="legend-text" x="824.0" y="850" font-weight="600">Communications and Observation</text>
 <text x="824.0" y="866" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$16k · 0.4% · 22 items</text>
@@ -341,6 +546,8 @@ Total: $307
 <text class="legend-text" x="1194.0" y="850" font-weight="600">Logistics and Support</text>
 <text x="1194.0" y="866" font-family="JetBrains Mono, monospace" font-size="11" fill="#55556A">$0k · 0.0% · 10 items</text>
 </svg>
+</div>
+
 </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Technology Development Timeline, 1897–1908</title>
+<title>Proposal records by technology and year, 1897–1908 · Fortify</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{
@@ -69,19 +69,211 @@
     white-space:nowrap;flex-shrink:0;
   }
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style id="bof-chart-frame">
+  /* ── Base ─────────────────────────────────────────────────────────── */
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f7f7f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1A1A2E;
+    overflow-x: hidden;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header strip ─────────────────────────────────────────────────── */
+  .bof-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    min-height: 68px;
+    padding: 10px 28px;
+    box-sizing: border-box;
+    background: #fff;
+    border-bottom: 1px solid #daddd8;
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    color: #626862;
+    flex-shrink: 0;
+  }
+  .bof-bar .bof-brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #242824;
+    text-decoration: none;
+  }
+  .bof-bar .bof-brand strong {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+  }
+  .bof-bar a.bof-back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #626862;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .bof-bar a.bof-back:hover {
+    color: #242824;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .bof-bar a:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: 4px;
+  }
+
+  /* ── Chart container ──────────────────────────────────────────────── */
+  .bof-chart-wrap {
+    width: 100%;
+    min-width: 0;
+    padding: 16px 24px 20px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+  .bof-chart-wrap:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: -2px;
+  }
+  .plotly-graph-div {
+    margin: 0 !important;
+    width: 100% !important;
+    height: 560px !important;
+    min-width: 960px;
+  }
+  .plotly-graph-div .gtitle { font-family: 'Source Serif 4', Georgia, serif !important; }
+  .modebar-container, .modebar { display: none !important; }
+  .plotly-graph-div .bartext { font-family: 'Inter', sans-serif !important; }
+
+  /* Subtle scroll hint on narrow screens */
+  .bof-chart-wrap::-webkit-scrollbar { height: 10px; }
+  .bof-chart-wrap::-webkit-scrollbar-track { background: transparent; }
+  .bof-chart-wrap::-webkit-scrollbar-thumb {
+    background: #c4c9c4;
+    border-radius: 5px;
+  }
+  .bof-chart-wrap::-webkit-scrollbar-thumb:hover {
+    background: #939b93;
+  }
+
+  /* ── Responsive breakpoints ───────────────────────────────────────── */
+
+  /* Ultra-wide (1920+) */
+  @media (min-width: 1920px) {
+    .bof-chart-wrap { padding: 20px 40px 28px; }
+    .bof-bar { padding: 10px 40px; }
+  }
+
+  /* Large desktop (1280-1919) */
+  @media (min-width: 1280px) and (max-width: 1919px) {
+    .bof-chart-wrap { padding: 18px 32px 22px; }
+  }
+
+  /* Small laptop / tablet landscape (900-1279) */
+  @media (min-width: 900px) and (max-width: 1279px) {
+    .bof-chart-wrap { padding: 14px 18px 18px; }
+    .bof-bar { padding: 10px 22px; }
+  }
+
+  /* Tablet portrait (600-899) */
+  @media (min-width: 600px) and (max-width: 899px) {
+    .bof-bar { padding: 10px 18px; }
+    .bof-chart-wrap { padding: 10px 12px 14px; }
+  }
+
+  @media (max-width: 1456px) {
+    .bof-chart-wrap::before {
+      content: "Scroll horizontally to see the full chart.";
+      display: block;
+      margin-bottom: 12px;
+      font: 13px/1.5 'Public Sans', sans-serif;
+      color: #626862;
+    }
+  }
+  @media (max-width: 599px) {
+    .bof-bar { padding: 8px 16px; }
+    .bof-chart-wrap { padding: 12px 16px 20px; }
+  }
+
+</style>
+<script id="bof-chart-resize">
+  // Every Plotly chart hard-codes its own height/width on the div inline.
+  // Strip those, set its own layout to autosize, then resize from the
+  // CSS-driven container dimensions. This is what makes every chart fill
+  // its frame identically regardless of what the Python writer set.
+  (function() {
+    function fitAllCharts() {
+      if (typeof Plotly === 'undefined') return;
+      document.querySelectorAll('.plotly-graph-div').forEach(function(div) {
+        try {
+          // Strip Plotly's inline width/height so the CSS wins
+          div.style.removeProperty('height');
+          div.style.removeProperty('width');
+          // Tell Plotly the chart is autosizing — this disables any
+          // Python-side fixed height/width baked into the layout.
+          Plotly.relayout(div, {
+            autosize: true,
+            width: null,
+            height: null,
+          });
+          Plotly.Plots.resize(div);
+        } catch (e) { /* ignore */ }
+      });
+    }
+    var t;
+    window.addEventListener('resize', function() {
+      clearTimeout(t);
+      t = setTimeout(fitAllCharts, 80);
+    });
+    window.addEventListener('orientationchange', function() {
+      setTimeout(fitAllCharts, 200);
+    });
+    // First paint: do it as soon as the document is ready, and again after
+    // load to catch lazy-init charts.
+    if (document.readyState === 'complete') {
+      setTimeout(fitAllCharts, 30);
+    } else {
+      window.addEventListener('load', function() { setTimeout(fitAllCharts, 30); });
+      document.addEventListener('DOMContentLoaded', function() { setTimeout(fitAllCharts, 60); });
+    }
+  })();
+</script>
 </head>
 <body>
+<div class="bof-bar">
+  <a class="bof-brand" href="../" title="Fortify archive"><strong>Fortify</strong></a>
+  <a class="bof-back" href="../">Back to archive</a>
+</div>
+<div class="bof-chart-wrap" role="region" aria-label="Scrollable chart" tabindex="0">
+
 <div class="card">
   <div class="eyebrow">Board of Ordnance &amp; Fortification &nbsp;·&nbsp; Combined Analysis</div>
-  <h1>Technology Development Timeline, 1897–1908</h1>
-  <p class="sub">Each row is a technology cluster. Bubble size reflects the number of proposals dated to that year; shaded bars join the first and last recorded years. Hover for automated approval labels. Undated records are omitted; gaps do not establish that a technology was inactive.</p>
+  <h1>Proposal records by technology and year, 1897–1908</h1>
+  <p class="sub">Bubbles count 1,558 dated records; 133 undated records are omitted. Of these dated records, 910 contain action text and 648 do not. Hover for each group's counts. Approval-label shares use only recorded actions; groups with no action text have no percentage. Approved is an automated wording label, not evidence of adoption or success. Gaps indicate archive coverage, not inactivity.</p>
   <div class="rule"></div>
   <div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="823f185a-7322-4ca3-b2c0-1afb75beef63" class="plotly-graph-div" style="height:460px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("823f185a-7322-4ca3-b2c0-1afb75beef63")) {                    Plotly.newPlot(                        "823f185a-7322-4ca3-b2c0-1afb75beef63",                        [{"customdata":[[11,0,0.0],[2,0,0.0],[1,0,0.0],[1,0,0.0],[8,0,0.0],[5,0,0.0],[9,0,0.0],[2,0,0.0]],"hovertemplate":"\u003cb\u003eArmor and Protection\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(124,67,24,0.75)","line":{"color":"#7C4318","width":1.5},"size":[8,8,8,8,8,8,8,8]},"mode":"markers","name":"Armor and Protection","showlegend":false,"x":[1897.0,1898.0,1900.0,1901.0,1903.0,1904.0,1906.0,1907.0],"y":[0,0,0,0,0,0,0,0],"type":"scatter"},{"customdata":[[53,1,1.9],[34,2,5.9],[22,1,4.5],[42,5,11.9],[34,0,0.0],[23,0,0.0],[20,0,0.0],[19,0,0.0]],"hovertemplate":"\u003cb\u003eArtillery\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(29,52,97,0.75)","line":{"color":"#1D3461","width":1.5},"size":[12.106598984771573,8,8,9.593908629441625,8,8,8,8]},"mode":"markers","name":"Artillery","showlegend":false,"x":[1897.0,1898.0,1900.0,1901.0,1903.0,1904.0,1906.0,1907.0],"y":[1,1,1,1,1,1,1,1],"type":"scatter"},{"customdata":[[7,0,0.0],[3,0,0.0],[2,0,0.0],[3,0,0.0],[2,0,0.0],[2,0,0.0],[3,0,0.0]],"hovertemplate":"\u003cb\u003eCommunications and Observation\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(27,79,114,0.75)","line":{"color":"#1B4F72","width":1.5},"size":[8,8,8,8,8,8,8]},"mode":"markers","name":"Communications and Observation","showlegend":false,"x":[1897.0,1898.0,1900.0,1901.0,1903.0,1904.0,1907.0],"y":[2,2,2,2,2,2,2],"type":"scatter"},{"customdata":[[106,2,1.9],[18,0,0.0],[13,0,0.0],[15,0,0.0],[16,0,0.0],[21,0,0.0],[7,0,0.0],[15,0,0.0]],"hovertemplate":"\u003cb\u003eExplosives\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(107,45,139,0.75)","line":{"color":"#6B2D8B","width":1.5},"size":[24.213197969543145,8,8,8,8,8,8,8]},"mode":"markers","name":"Explosives","showlegend":false,"x":[1897.0,1898.0,1900.0,1901.0,1903.0,1904.0,1906.0,1907.0],"y":[3,3,3,3,3,3,3,3],"type":"scatter"},{"customdata":[[20,0,0.0],[11,0,0.0],[3,0,0.0],[3,0,0.0],[14,0,0.0],[14,0,0.0],[11,0,0.0],[10,0,0.0]],"hovertemplate":"\u003cb\u003eFortification and Engineering\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(45,106,79,0.75)","line":{"color":"#2D6A4F","width":1.5},"size":[8,8,8,8,8,8,8,8]},"mode":"markers","name":"Fortification and Engineering","showlegend":false,"x":[1897.0,1898.0,1900.0,1901.0,1903.0,1904.0,1906.0,1907.0],"y":[4,4,4,4,4,4,4,4],"type":"scatter"},{"customdata":[[1,0,0.0],[1,0,0.0],[1,0,0.0]],"hovertemplate":"\u003cb\u003eLogistics and Support\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(93,64,55,0.75)","line":{"color":"#5D4037","width":1.5},"size":[8,8,8]},"mode":"markers","name":"Logistics and Support","showlegend":false,"x":[1897.0,1900.0,1904.0],"y":[5,5,5],"type":"scatter"},{"customdata":[[2,0,0.0],[3,0,0.0],[3,0,0.0],[12,1,8.3],[6,0,0.0],[2,0,0.0],[1,0,0.0],[1,0,0.0]],"hovertemplate":"\u003cb\u003eSmall Arms\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(10,110,93,0.75)","line":{"color":"#0A6E5D","width":1.5},"size":[8,8,8,8,8,8,8,8]},"mode":"markers","name":"Small Arms","showlegend":false,"x":[1897.0,1898.0,1900.0,1901.0,1903.0,1904.0,1906.0,1907.0],"y":[6,6,6,6,6,6,6,6],"type":"scatter"},{"customdata":[[197,0,0.0],[108,2,1.9],[80,7,8.8],[134,7,5.2],[138,0,0.0],[71,0,0.0],[94,0,0.0],[98,0,0.0]],"hovertemplate":"\u003cb\u003eOther\u002fUnclassified\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposals: %{customdata[0]}\u003cbr\u003eApproved: %{customdata[1]} (%{customdata[2]:.1f}%)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(84,110,122,0.75)","line":{"color":"#546E7A","width":1.5},"size":[45.0,24.67005076142132,18.274111675126903,30.609137055837564,31.522842639593907,16.21827411167513,21.472081218274113,22.385786802030456]},"mode":"markers","name":"Other\u002fUnclassified","showlegend":false,"x":[1897.0,1898.0,1900.0,1901.0,1903.0,1904.0,1906.0,1907.0],"y":[7,7,7,7,7,7,7,7],"type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"shapes":[{"fillcolor":"rgba(124,67,24,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1907.4,"y0":-0.3,"y1":0.3},{"fillcolor":"rgba(29,52,97,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1907.4,"y0":0.7,"y1":1.3},{"fillcolor":"rgba(27,79,114,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1907.4,"y0":1.7,"y1":2.3},{"fillcolor":"rgba(107,45,139,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1907.4,"y0":2.7,"y1":3.3},{"fillcolor":"rgba(45,106,79,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1907.4,"y0":3.7,"y1":4.3},{"fillcolor":"rgba(93,64,55,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1904.4,"y0":4.7,"y1":5.3},{"fillcolor":"rgba(10,110,93,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1907.4,"y0":5.7,"y1":6.3},{"fillcolor":"rgba(84,110,122,0.12)","layer":"below","line":{"width":0},"type":"rect","x0":1896.6,"x1":1907.4,"y0":6.7,"y1":7.3}],"xaxis":{"tickfont":{"size":11},"title":{"text":"Year"},"tickvals":[1897,1898,1899,1900,1901,1902,1903,1904,1905,1906,1907,1908],"gridcolor":"#D6CEBF","linecolor":"#D6CEBF","range":[1896.2,1908.8]},"yaxis":{"tickfont":{"size":12,"family":"Georgia, 'Times New Roman', serif"},"tickvals":[0,1,2,3,4,5,6,7],"ticktext":["Armor and Protection","Artillery","Communications and Observation","Explosives","Fortification and Engineering","Logistics and Support","Small Arms","Other\u002fUnclassified"],"gridcolor":"rgba(0,0,0,0)","linecolor":"#D6CEBF"},"font":{"size":12,"family":"-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif","color":"#1A1A2E"},"margin":{"l":230,"r":40,"t":20,"b":60},"hoverlabel":{"font":{"size":12,"family":"-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif"},"bgcolor":"#FDFBF8","bordercolor":"#D6CEBF"},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"#EAE3D8","height":460,"annotations":[{"font":{"color":"#55556A","family":"-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif","size":10.5},"showarrow":false,"text":"Bubble size = proposal count","x":1908.5,"xanchor":"right","y":-0.8}]},                        {"responsive": true}                    )                };                            </script>        </div>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="ced3e93f-95da-4e15-bb83-f51386da8d49" class="plotly-graph-div" style="height:460px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("ced3e93f-95da-4e15-bb83-f51386da8d49")) {                    Plotly.newPlot(                        "ced3e93f-95da-4e15-bb83-f51386da8d49",                        [{"customdata":[[10,10,0,0,"0.0%"],[2,2,0,0,"0.0%"],[1,1,0,0,"0.0%"],[1,1,0,0,"0.0%"],[8,0,8,0,"Not available (no recorded action)"],[5,0,5,0,"Not available (no recorded action)"],[9,0,9,0,"Not available (no recorded action)"],[2,0,2,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eArmor and Protection\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(124,67,24,0.75)","line":{"color":"#7C4318","width":1.5},"size":[8,8,8,8,8,8,8,8]},"mode":"markers","name":"Armor and Protection","showlegend":false,"x":[1897,1898,1900,1901,1903,1904,1906,1907],"y":[0,0,0,0,0,0,0,0],"type":"scatter"},{"customdata":[[62,62,0,1,"1.6%"],[37,37,0,2,"5.4%"],[29,29,0,3,"10.3%"],[46,46,0,6,"13.0%"],[43,0,43,0,"Not available (no recorded action)"],[31,0,31,0,"Not available (no recorded action)"],[28,0,28,0,"Not available (no recorded action)"],[25,0,25,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eArtillery\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(29,52,97,0.75)","line":{"color":"#1D3461","width":1.5},"size":[15.942857142857141,9.514285714285714,8,11.828571428571427,11.057142857142857,8,8,8]},"mode":"markers","name":"Artillery","showlegend":false,"x":[1897,1898,1900,1901,1903,1904,1906,1907],"y":[1,1,1,1,1,1,1,1],"type":"scatter"},{"customdata":[[7,7,0,0,"0.0%"],[3,3,0,0,"0.0%"],[2,2,0,0,"0.0%"],[3,3,0,0,"0.0%"],[2,0,2,0,"Not available (no recorded action)"],[2,0,2,0,"Not available (no recorded action)"],[3,0,3,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eCommunications and Observation\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(27,79,114,0.75)","line":{"color":"#1B4F72","width":1.5},"size":[8,8,8,8,8,8,8]},"mode":"markers","name":"Communications and Observation","showlegend":false,"x":[1897,1898,1900,1901,1903,1904,1907],"y":[2,2,2,2,2,2,2],"type":"scatter"},{"customdata":[[106,106,0,2,"1.9%"],[18,18,0,0,"0.0%"],[13,13,0,0,"0.0%"],[15,15,0,0,"0.0%"],[16,0,16,0,"Not available (no recorded action)"],[21,0,21,0,"Not available (no recorded action)"],[7,0,7,0,"Not available (no recorded action)"],[15,0,15,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eExplosives\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(107,45,139,0.75)","line":{"color":"#6B2D8B","width":1.5},"size":[27.25714285714286,8,8,8,8,8,8,8]},"mode":"markers","name":"Explosives","showlegend":false,"x":[1897,1898,1900,1901,1903,1904,1906,1907],"y":[3,3,3,3,3,3,3,3],"type":"scatter"},{"customdata":[[19,19,0,0,"0.0%"],[11,11,0,0,"0.0%"],[3,3,0,0,"0.0%"],[3,3,0,0,"0.0%"],[14,0,14,0,"Not available (no recorded action)"],[13,0,13,0,"Not available (no recorded action)"],[11,0,11,0,"Not available (no recorded action)"],[10,0,10,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eFortification and Engineering\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(45,106,79,0.75)","line":{"color":"#2D6A4F","width":1.5},"size":[8,8,8,8,8,8,8,8]},"mode":"markers","name":"Fortification and Engineering","showlegend":false,"x":[1897,1898,1900,1901,1903,1904,1906,1907],"y":[4,4,4,4,4,4,4,4],"type":"scatter"},{"customdata":[[1,1,0,0,"0.0%"],[1,1,0,0,"0.0%"],[1,0,1,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eLogistics and Support\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(93,64,55,0.75)","line":{"color":"#5D4037","width":1.5},"size":[8,8,8]},"mode":"markers","name":"Logistics and Support","showlegend":false,"x":[1897,1900,1904],"y":[5,5,5],"type":"scatter"},{"customdata":[[17,17,0,0,"0.0%"],[5,5,0,0,"0.0%"],[6,6,0,0,"0.0%"],[18,18,0,1,"5.6%"],[15,0,15,0,"Not available (no recorded action)"],[6,0,6,0,"Not available (no recorded action)"],[4,0,4,0,"Not available (no recorded action)"],[4,0,4,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eSmall Arms\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(10,110,93,0.75)","line":{"color":"#0A6E5D","width":1.5},"size":[8,8,8,8,8,8,8,8]},"mode":"markers","name":"Small Arms","showlegend":false,"x":[1897,1898,1900,1901,1903,1904,1906,1907],"y":[6,6,6,6,6,6,6,6],"type":"scatter"},{"customdata":[[175,174,1,0,"0.0%"],[103,103,0,2,"1.9%"],[70,70,0,5,"7.1%"],[124,124,0,6,"4.8%"],[120,0,120,0,"Not available (no recorded action)"],[60,0,60,0,"Not available (no recorded action)"],[83,0,83,0,"Not available (no recorded action)"],[89,0,89,0,"Not available (no recorded action)"]],"hovertemplate":"\u003cb\u003eOther\u002fUnclassified\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eProposal records: %{customdata[0]}\u003cbr\u003eRecorded actions: %{customdata[1]}\u003cbr\u003eMissing actions: %{customdata[2]}\u003cbr\u003eApproved labels: %{customdata[3]}\u003cbr\u003eApproved \u002f recorded actions: %{customdata[4]}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"rgba(84,110,122,0.75)","line":{"color":"#546E7A","width":1.5},"size":[45.0,26.485714285714284,18.0,31.885714285714283,30.857142857142858,15.428571428571429,21.342857142857145,22.885714285714286]},"mode":"markers","name":"Other\u002fUnclassified","showlegend":false,"x":[1897,1898,1900,1901,1903,1904,1906,1907],"y":[7,7,7,7,7,7,7,7],"type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"tickfont":{"size":11},"title":{"text":"Year"},"tickvals":[1897,1898,1899,1900,1901,1902,1903,1904,1905,1906,1907,1908],"gridcolor":"#D6CEBF","linecolor":"#D6CEBF","range":[1896.2,1908.8]},"yaxis":{"tickfont":{"size":12,"family":"Georgia, 'Times New Roman', serif"},"tickvals":[0,1,2,3,4,5,6,7],"ticktext":["Armor and Protection","Artillery","Communications and Observation","Explosives","Fortification and Engineering","Logistics and Support","Small Arms","Other\u002fUnclassified"],"gridcolor":"rgba(0,0,0,0)","linecolor":"#D6CEBF"},"font":{"size":12,"family":"-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif","color":"#1A1A2E"},"margin":{"l":230,"r":40,"t":20,"b":60},"hoverlabel":{"font":{"size":12,"family":"-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif"},"bgcolor":"#FDFBF8","bordercolor":"#D6CEBF"},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"#EAE3D8","height":460,"annotations":[{"font":{"color":"#55556A","family":"-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif","size":10.5},"showarrow":false,"text":"Bubble size = proposal records","x":1908.5,"xanchor":"right","y":-0.8}]},                        {"responsive": true}                    )                };                            </script>        </div>
   <div class="footer">
     <div class="src">Source: BOF Annual Reports &amp; Congressional Appropriations, 1897–1908</div>
     <div class="badge">Interactive</div>
   </div>
+</div>
+
 </div>
 </body>
 </html>

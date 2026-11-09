@@ -9,6 +9,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+from .transform import action_summary
+
 
 # ── Design tokens ─────────────────────────────────────────────────────────────
 
@@ -145,11 +147,7 @@ def save_investment_by_technology(
     output_html: Path,
     thumbnail_png: Optional[Path] = None,
 ) -> None:
-    """
-    Dual-axis chart: military budget (1897-1908) as area backdrop,
-    with proposal volume per technology cluster as stacked bars overlaid.
-    Shows where the money was going vs what technologies were being proposed.
-    """
+    """Place observed proposal counts alongside the separate military budget series."""
     bof_years = range(1897, 1909)
 
     budget = budget_df[budget_df["year"].isin(bof_years)].copy()
@@ -202,7 +200,7 @@ def save_investment_by_technology(
                 hovertemplate=(
                     f"<b>{cluster}</b><br>"
                     "Year: %{x}<br>"
-                    "Proposals: %{y}<extra></extra>"
+                    "Proposal records: %{y}<extra></extra>"
                 ),
             ),
             secondary_y=False,
@@ -228,7 +226,7 @@ def save_investment_by_technology(
         gridcolor=_GRID, linecolor=_GRID, tickfont=dict(size=11),
     )
     fig.update_yaxes(
-        title_text="Proposals Submitted", gridcolor=_GRID,
+        title_text="Proposal records", gridcolor=_GRID,
         linecolor=_GRID, tickfont=dict(size=11), secondary_y=False,
     )
     fig.update_yaxes(
@@ -239,16 +237,21 @@ def save_investment_by_technology(
 
     if thumbnail_png is not None:
         thumbnail_png.parent.mkdir(parents=True, exist_ok=True)
-        fig.write_image(str(thumbnail_png), width=1200, height=750, scale=1)
+        go.Figure(fig).update_layout(paper_bgcolor="#FFFFFF").write_image(
+            str(thumbnail_png), width=1200, height=750, scale=1
+        )
 
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Technology Investment vs. Proposal Activity, 1897–1908",
+        title="Proposal records and military budget context, 1897–1908",
         subtitle=(
-            "Stacked bars show proposal volume by technology cluster each year. "
-            "The dotted area shows total military budget (2025-adjusted) for context — "
-            "revealing whether increased funding correlated with more innovation proposals."
+            f"Bars group {len(props):,} dated records by automated technology label. "
+            f"{proposals_df['year'].isna().sum():,} undated records are omitted. "
+            "Years without bars have no dated records in this archive, not necessarily no proposals. "
+            "The separate Army/Navy budget series is historical context, not spending on these proposals. "
+            "The 2025-dollar values come from the source worksheet; its adjustment method is undocumented. "
+            "This chart does not estimate a funding effect."
         ),
         note=(
             "Source: public proposal records and Army/Navy budget ledger &nbsp;·&nbsp; "
@@ -259,31 +262,21 @@ def save_investment_by_technology(
     output_html.write_text(html, encoding="utf-8")
 
 
-# ── 2. Technology timeline — development periods ─────────────────────────────
+# ── 2. Technology labels across observed years ───────────────────────────────
 
 def save_technology_timeline(
     proposals_df: pd.DataFrame,
     output_html: Path,
     thumbnail_png: Optional[Path] = None,
 ) -> None:
-    """
-    Gantt-style timeline showing when each technology cluster was active
-    (had proposals submitted), with bubble size = proposal count per year.
-    """
+    """Show observed proposal years and recorded-action coverage by cluster."""
     bof_years = range(1897, 1909)
     props = proposals_df[proposals_df["year"].isin(bof_years)].copy()
 
-    cluster_year = (
-        props.groupby(["primary_cluster", "year"])
-        .agg(
-            count=("primary_cluster", "size"),
-            approved=("is_approved", "sum"),
-        )
-        .reset_index()
+    cluster_year = action_summary(props, ["primary_cluster", "year"])
+    cluster_year["share_label"] = cluster_year["approval_share_recorded"].map(
+        lambda value: "Not available (no recorded action)" if pd.isna(value) else f"{value:.1%}"
     )
-    cluster_year["approval_pct"] = (
-        cluster_year["approved"] / cluster_year["count"] * 100
-    ).round(1)
 
     clusters = sorted(
         [c for c in cluster_year["primary_cluster"].unique() if c != "Other/Unclassified"]
@@ -291,30 +284,14 @@ def save_technology_timeline(
 
     fig = go.Figure()
 
-    # Horizontal span lines (light bars showing active range)
-    for i, cluster in enumerate(clusters):
-        sub = cluster_year[cluster_year["primary_cluster"] == cluster]
-        if sub.empty:
-            continue
-        color = _CLUSTER_PALETTE.get(cluster, "#546E7A")
-        min_year, max_year = sub["year"].min(), sub["year"].max()
-        fig.add_shape(
-            type="rect",
-            x0=min_year - 0.4, x1=max_year + 0.4,
-            y0=i - 0.3, y1=i + 0.3,
-            fillcolor=_rgba(color, 0.12),
-            line=dict(width=0),
-            layer="below",
-        )
-
     # Bubbles
     for i, cluster in enumerate(clusters):
         sub = cluster_year[cluster_year["primary_cluster"] == cluster].sort_values("year")
         if sub.empty:
             continue
         color = _CLUSTER_PALETTE.get(cluster, "#546E7A")
-        max_count = cluster_year["count"].max()
-        sizes = [max(8, (c / max_count) * 45) for c in sub["count"]]
+        max_count = cluster_year["submissions"].max()
+        sizes = [max(8, (c / max_count) * 45) for c in sub["submissions"]]
 
         fig.add_trace(
             go.Scatter(
@@ -330,11 +307,13 @@ def save_technology_timeline(
                 hovertemplate=(
                     f"<b>{cluster}</b><br>"
                     "Year: %{x}<br>"
-                    "Proposals: %{customdata[0]}<br>"
-                    "Approved: %{customdata[1]} (%{customdata[2]:.1f}%)"
-                    "<extra></extra>"
+                    "Proposal records: %{customdata[0]}<br>"
+                    "Recorded actions: %{customdata[1]}<br>"
+                    "Missing actions: %{customdata[2]}<br>"
+                    "Approved labels: %{customdata[3]}<br>"
+                    "Approved / recorded actions: %{customdata[4]}<extra></extra>"
                 ),
-                customdata=list(zip(sub["count"], sub["approved"], sub["approval_pct"])),
+                customdata=sub[["submissions", "recorded_actions", "missing_actions", "approved", "share_label"]].values.tolist(),
                 showlegend=False,
             )
         )
@@ -365,24 +344,28 @@ def save_technology_timeline(
     # Size legend annotation
     fig.add_annotation(
         x=1908.5, y=-0.8,
-        text="Bubble size = proposal count",
+        text="Bubble size = proposal records",
         showarrow=False, xanchor="right",
         font=dict(size=10.5, color=_TEXT_MID, family=_SANS),
     )
 
     if thumbnail_png is not None:
         thumbnail_png.parent.mkdir(parents=True, exist_ok=True)
-        fig.write_image(str(thumbnail_png), width=1200, height=750, scale=1)
+        go.Figure(fig).update_layout(paper_bgcolor="#FFFFFF").write_image(
+            str(thumbnail_png), width=1200, height=750, scale=1
+        )
 
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Technology Development Timeline, 1897–1908",
+        title="Proposal records by technology and year, 1897–1908",
         subtitle=(
-            "Each row is a technology cluster. Bubble size reflects the number of proposals "
-            "dated to that year; shaded bars join the first and last recorded years. "
-            "Hover for automated approval labels. Undated records are omitted; "
-            "gaps do not establish that a technology was inactive."
+            f"Bubbles count {len(props):,} dated records; {proposals_df['year'].isna().sum():,} undated records are omitted. "
+            f"Of these dated records, {int(cluster_year['recorded_actions'].sum()):,} contain action text "
+            f"and {int(cluster_year['missing_actions'].sum()):,} do not. "
+            "Hover for each group's counts. Approval-label shares use only recorded actions; "
+            "groups with no action text have no percentage. Approved is an automated wording label, "
+            "not evidence of adoption or success. Gaps indicate archive coverage, not inactivity."
         ),
     )
     output_html.write_text(html, encoding="utf-8")
@@ -395,10 +378,7 @@ def save_technology_prevalence(
     output_html: Path,
     thumbnail_png: Optional[Path] = None,
 ) -> None:
-    """
-    100% stacked area showing the proportion of each technology cluster over time.
-    Reveals shifting priorities across the BOF reporting period.
-    """
+    """Show technology-label shares within each observed year, without interpolation."""
     bof_years = range(1897, 1909)
     props = proposals_df[proposals_df["year"].isin(bof_years)].copy()
 
@@ -425,20 +405,18 @@ def save_technology_prevalence(
         color = _CLUSTER_PALETTE.get(cluster, "#546E7A")
         counts = pivot[cluster] if cluster in pivot.columns else [0] * len(pct)
         fig.add_trace(
-            go.Scatter(
-                x=pct.index,
-                y=pct[cluster],
+            go.Bar(
+                x=pct.index.tolist(),
+                y=pct[cluster].tolist(),
                 name=cluster,
-                stackgroup="prevalence",
-                fillcolor=_rgba(color, 0.65),
-                line=dict(color=color, width=1),
+                marker=dict(color=_rgba(color, 0.85), line=dict(color=color, width=0.5)),
                 hovertemplate=(
                     f"<b>{cluster}</b><br>"
                     "Year: %{x}<br>"
                     "Share: %{y:.1f}%<br>"
                     "Count: %{customdata}<extra></extra>"
                 ),
-                customdata=counts.values if hasattr(counts, 'values') else counts,
+                customdata=counts.tolist(),
             )
         )
 
@@ -462,6 +440,7 @@ def save_technology_prevalence(
             bgcolor="rgba(0,0,0,0)",
         ),
         font=dict(size=12, family=_SANS, color=_TEXT_DARK),
+        barmode="stack",
         hovermode="x unified",
         hoverlabel=dict(bgcolor="#FDFBF8", bordercolor=_GRID,
                         font=dict(size=12, family=_SANS)),
@@ -471,16 +450,19 @@ def save_technology_prevalence(
 
     if thumbnail_png is not None:
         thumbnail_png.parent.mkdir(parents=True, exist_ok=True)
-        fig.write_image(str(thumbnail_png), width=1200, height=750, scale=1)
+        go.Figure(fig).update_layout(paper_bgcolor="#FFFFFF").write_image(
+            str(thumbnail_png), width=1200, height=750, scale=1
+        )
 
     plot_div = fig.to_html(full_html=False, include_plotlyjs="cdn")
     html = _card_html(
         plot_div,
-        title="Technology Type Prevalence by Year, 1897–1908",
+        title="Technology labels within each recorded year, 1897–1908",
         subtitle=(
-            "Proportional breakdown of proposal submissions by technology cluster each year. "
-            "Shows how the Board's attention shifted — from fortification-heavy early years "
-            "toward explosives and small arms as the period progressed."
+            f"Each bar divides that year's available records by automated technology label. "
+            f"The chart includes {len(props):,} dated records and omits {proposals_df['year'].isna().sum():,} undated records. "
+            "Other/Unclassified stays in each denominator. Missing years are left blank; "
+            "the chart does not interpolate across gaps or establish historical research priorities."
         ),
     )
     output_html.write_text(html, encoding="utf-8")

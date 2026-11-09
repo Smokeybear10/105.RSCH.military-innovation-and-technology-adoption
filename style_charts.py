@@ -17,18 +17,18 @@ from html import escape
 from pathlib import Path
 
 OUTPUT = Path(__file__).parent / "output"
-PROJECT_TITLE = "Military Innovation and Technology Adoption"
+PROJECT_TITLE = "Fortify"
 
 CHART_CSS = """
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style id="bof-chart-frame">
   /* ── Base ─────────────────────────────────────────────────────────── */
   html, body {
     margin: 0;
     padding: 0;
-    background: #EAE3D8;
+    background: #f7f7f5;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: #1A1A2E;
     overflow-x: hidden;
@@ -41,74 +41,70 @@ CHART_CSS = """
 
   /* ── Header strip ─────────────────────────────────────────────────── */
   .bof-bar {
-    flex-wrap: wrap;
-    gap: 10px 24px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 28px;
-    background: #FBF6E6;
-    border-bottom: 1px solid #D6CEBF;
-    font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
-    font-size: 11px;
-    letter-spacing: 1.2px;
-    color: #55556A;
+    gap: 8px 24px;
+    min-height: 68px;
+    padding: 10px 28px;
+    box-sizing: border-box;
+    background: #fff;
+    border-bottom: 1px solid #daddd8;
+    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    color: #626862;
     flex-shrink: 0;
   }
   .bof-bar .bof-brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    color: inherit;
+    min-height: 44px;
+    color: #242824;
     text-decoration: none;
-    min-width: 0;
   }
-  .bof-bar .bof-brand svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    color: #C9A24C;
-    transition: transform .5s cubic-bezier(.2,.8,.2,1);
-  }
-  .bof-bar .bof-brand:hover svg { transform: rotate(45deg); }
   .bof-bar .bof-brand strong {
-    line-height: 1.5;
-    color: #1A1A2E;
-    font-weight: 700;
-    letter-spacing: 1.4px;
-    white-space: normal;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
   }
   .bof-bar a.bof-back {
-    color: #55556A;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #626862;
     text-decoration: none;
-    letter-spacing: 1.2px;
     white-space: nowrap;
   }
-  .bof-bar a.bof-back:hover { color: #C9A24C; }
+  .bof-bar a.bof-back:hover {
+    color: #242824;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .bof-bar a:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: 4px;
+  }
 
   /* ── Chart container ──────────────────────────────────────────────── */
   .bof-chart-wrap {
-    flex: 1;
-    display: flex;
-    align-items: stretch;             /* chart fills full height of wrap */
-    justify-content: center;
+    width: 100%;
+    min-width: 0;
     padding: 16px 24px 20px;
     box-sizing: border-box;
-    min-height: 0;
     overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-inline: contain;
   }
-  /* Chart fills BOTH dimensions of the wrap (which is flex:1, so it takes
-     all remaining viewport after the header). On narrow screens, min-width
-     forces horizontal scroll instead of collapsing the chart. */
+  .bof-chart-wrap:focus-visible {
+    outline: 2px solid #52645b;
+    outline-offset: -2px;
+  }
   .plotly-graph-div {
-    margin: 0 auto !important;
+    margin: 0 !important;
     width: 100% !important;
-    height: 100% !important;
-    min-width: 720px;
-    min-height: 520px;
-    flex-shrink: 0;
+    height: 560px !important;
+    min-width: 960px;
   }
   .plotly-graph-div .gtitle { font-family: 'Source Serif 4', Georgia, serif !important; }
   .modebar-container, .modebar { display: none !important; }
@@ -118,11 +114,11 @@ CHART_CSS = """
   .bof-chart-wrap::-webkit-scrollbar { height: 10px; }
   .bof-chart-wrap::-webkit-scrollbar-track { background: transparent; }
   .bof-chart-wrap::-webkit-scrollbar-thumb {
-    background: rgba(201, 162, 76, 0.35);
+    background: #c4c9c4;
     border-radius: 5px;
   }
   .bof-chart-wrap::-webkit-scrollbar-thumb:hover {
-    background: rgba(201, 162, 76, 0.65);
+    background: #939b93;
   }
 
   /* ── Responsive breakpoints ───────────────────────────────────────── */
@@ -130,7 +126,7 @@ CHART_CSS = """
   /* Ultra-wide (1920+) */
   @media (min-width: 1920px) {
     .bof-chart-wrap { padding: 20px 40px 28px; }
-    .bof-bar { padding: 16px 40px; font-size: 12px; }
+    .bof-bar { padding: 10px 40px; }
   }
 
   /* Large desktop (1280-1919) */
@@ -141,60 +137,29 @@ CHART_CSS = """
   /* Small laptop / tablet landscape (900-1279) */
   @media (min-width: 900px) and (max-width: 1279px) {
     .bof-chart-wrap { padding: 14px 18px 18px; }
-    .bof-bar { padding: 12px 22px; }
+    .bof-bar { padding: 10px 22px; }
   }
 
   /* Tablet portrait (600-899) */
   @media (min-width: 600px) and (max-width: 899px) {
-    .bof-bar { padding: 12px 18px; font-size: 10.5px; }
+    .bof-bar { padding: 10px 18px; }
     .bof-chart-wrap { padding: 10px 12px 14px; }
-    .plotly-graph-div { min-height: 440px; }
   }
 
-  /* Mobile (<600): chart keeps 720px min-width and scrolls horizontally.
-     Hint banner tells the user the chart is scrollable. */
+  @media (max-width: 1456px) {
+    .bof-chart-wrap::before {
+      content: "Scroll horizontally to see the full chart.";
+      display: block;
+      margin-bottom: 12px;
+      font: 13px/1.5 'Public Sans', sans-serif;
+      color: #626862;
+    }
+  }
   @media (max-width: 599px) {
-    .bof-bar {
-      padding: 10px 12px;
-      font-size: 9.5px;
-      letter-spacing: 0.9px;
-      gap: 8px;
-    }
-    .bof-bar .bof-brand { gap: 6px; }
-    .bof-bar .bof-brand strong { letter-spacing: 1px; font-size: 10px; }
-    .bof-bar .bof-brand svg { width: 14px; height: 14px; }
-    .bof-chart-wrap {
-      padding: 8px 6px 16px;
-      align-items: flex-start;
-    }
-    .plotly-graph-div { min-height: 420px; }
-    body::before {
-      content: "↔ swipe to scroll chart";
-      position: fixed;
-      bottom: 8px;
-      right: 8px;
-      padding: 4px 8px;
-      background: rgba(201, 162, 76, 0.92);
-      color: #1A1A2E;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.8px;
-      border-radius: 4px;
-      pointer-events: none;
-      z-index: 100;
-      animation: bof-hint-fade 5s ease-in forwards;
-    }
-  }
-  @keyframes bof-hint-fade {
-    0%, 60% { opacity: 1; }
-    100% { opacity: 0; }
+    .bof-bar { padding: 8px 16px; }
+    .bof-chart-wrap { padding: 12px 16px 20px; }
   }
 
-  /* Very small (<380): hide "back to dashboard" text, keep just back arrow */
-  @media (max-width: 379px) {
-    .bof-bar a.bof-back { font-size: 16px; }
-    .bof-bar a.bof-back .bof-back-text { display: none; }
-  }
 </style>
 <script id="bof-chart-resize">
   // Every Plotly chart hard-codes its own height/width on the div inline.
@@ -243,16 +208,10 @@ CHART_CSS = """
 # Header strip that gets injected at the start of <body>
 CHART_HEADER = """
 <div class="bof-bar">
-  <a class="bof-brand" href="../" title="Back to dashboard">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3 L42 22 L61 32 L42 42 L32 61 L22 42 L3 32 L22 22 Z M32 26 A6 6 0 1 0 32 38 A6 6 0 1 0 32 26 Z" fill="currentColor"/>
-      <circle cx="32" cy="32" r="2.2" fill="currentColor"/>
-    </svg>
-    <strong>Military Innovation and Technology Adoption</strong>
-  </a>
-  <a class="bof-back" href="../" aria-label="Back to dashboard">←<span class="bof-back-text">&nbsp;back to dashboard</span></a>
+  <a class="bof-brand" href="../" title="Fortify archive"><strong>Fortify</strong></a>
+  <a class="bof-back" href="../">Back to archive</a>
 </div>
-<div class="bof-chart-wrap">
+<div class="bof-chart-wrap" role="region" aria-label="Scrollable chart" tabindex="0">
 """
 
 CHART_FOOTER = """
@@ -274,10 +233,27 @@ def patch_one(path: Path) -> bool:
     head = re.search(r"<head[^>]*>(.*?)</head>", html, re.DOTALL)
     if not head:
         return False
+    if not re.search(r"""<meta\b[^>]*\bname=["']viewport["']""", head.group(1), re.IGNORECASE):
+        html = html.replace(
+            "</head>",
+            '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n</head>',
+            1,
+        )
     title = re.search(r"<title>(.*?)</title>", head.group(1), re.DOTALL)
     if title:
-        chart_title = re.sub("Fortify the Ordnance", PROJECT_TITLE, title.group(1), flags=re.IGNORECASE)
-        if PROJECT_TITLE not in chart_title:
+        chart_title = re.sub(
+            r"\b(?:Military Innovation and Technology Adoption|Fortify the Ordnance)\b",
+            PROJECT_TITLE,
+            title.group(1),
+            flags=re.IGNORECASE,
+        )
+        chart_title = re.sub(
+            r"(?:\s*[·|—–-]\s*Fortify)+\s*$",
+            f" · {PROJECT_TITLE}",
+            chart_title,
+            flags=re.IGNORECASE,
+        )
+        if not re.search(r"\bFortify\b", chart_title, flags=re.IGNORECASE):
             chart_title = f"{chart_title} · {PROJECT_TITLE}"
         html = html.replace(title.group(0), f"<title>{chart_title}</title>", 1)
     else:
@@ -294,7 +270,7 @@ def patch_one(path: Path) -> bool:
             flags=re.DOTALL,
         )
         html = re.sub(
-            r"<div class=\"bof-bar\">.*?<div class=\"bof-chart-wrap\">",
+            r"<div class=\"bof-bar\">.*?<div class=\"bof-chart-wrap\"[^>]*>",
             "",
             html,
             count=1,

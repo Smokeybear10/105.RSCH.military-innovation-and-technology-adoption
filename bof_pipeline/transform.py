@@ -13,6 +13,7 @@ from .config import (
     ACTION_STATUS_PATTERNS,
     COLUMN_ALIASES,
     GOVERNMENT_PROPOSER_PATTERNS,
+    PRIVATE_PROPOSER_PATTERNS,
     TECHNOLOGY_CLUSTER_PATTERNS,
 )
 
@@ -47,6 +48,51 @@ def _match_multiple_categories(text: str, mapping: dict[str, list[str]]) -> list
 
 def classify_action(text: object) -> str:
     return _match_first_category(_to_lower(text), ACTION_STATUS_PATTERNS, "Other")
+
+
+def classify_technology(text: object) -> list[str]:
+    subject = _to_lower(text)
+    categories = _match_multiple_categories(subject, TECHNOLOGY_CLUSTER_PATTERNS)
+    if "Artillery" in categories and "Small Arms" in categories and re.search(
+        r"\b(?:[2-9]|\d{2,})(?:\.\d+)?[- ]inch\s+rifles?\b", subject
+    ):
+        categories.remove("Artillery")
+        categories.insert(0, "Artillery")
+    return categories
+
+
+def proposer_identity(text: object) -> tuple[str, str]:
+    identity = _to_lower(text)
+    if re.search(r"\b(?:was|were|is|are)\s+(?:a|an|the)\b", identity):
+        return "Unknown", "narrative in identity field"
+    government = any(re.search(pattern, identity) for pattern in GOVERNMENT_PROPOSER_PATTERNS)
+    private = any(re.search(pattern, identity) for pattern in PRIVATE_PROPOSER_PATTERNS)
+    if government and private:
+        return "Unknown", "conflicting identity cues"
+    if government and not re.search(r"\b(?:retired|former)\b|\bret(?:\.|['’]?d\b)|\bex[- ]", identity):
+        return "Government", "government identity cue"
+    if private:
+        return "Private", "company identity cue"
+    return "Unknown", "insufficient identity evidence"
+
+
+def classify_proposer(text: object) -> str:
+    return proposer_identity(text)[0]
+
+
+def action_summary(df: pd.DataFrame, groups: list[str]) -> pd.DataFrame:
+    observed = df.assign(action_recorded=df["action_text"].map(_normalize).ne("").astype(int))
+    grouped = observed.groupby(groups, dropna=False).agg(
+        submissions=("action_recorded", "size"),
+        recorded_actions=("action_recorded", "sum"),
+        approved=("is_approved", "sum"),
+    ).reset_index()
+    grouped["missing_actions"] = grouped["submissions"] - grouped["recorded_actions"]
+    denominator = grouped["recorded_actions"].where(grouped["recorded_actions"].gt(0))
+    grouped["approval_share_recorded"] = grouped["approved"] / denominator
+    if "year" in groups:
+        grouped["year"] = grouped["year"].astype("Int64")
+    return grouped
 
 
 @dataclass
@@ -111,17 +157,17 @@ class BOFTransformer:
         out["proposer_text"] = out[proposer_col].map(_normalize) if proposer_col else ""
 
         out["status"] = out["action_text"].map(classify_action)
+        out["action_recorded"] = out["action_text"].ne("").astype(int)
 
         # Technology taxonomy from Subject.
-        out["technology_clusters"] = out["subject_text"].map(
-            lambda t: _match_multiple_categories(_to_lower(t), TECHNOLOGY_CLUSTER_PATTERNS)
-        )
+        out["technology_clusters"] = out["subject_text"].map(classify_technology)
         out["primary_cluster"] = out["technology_clusters"].map(
             lambda tags: tags[0] if tags else "Other/Unclassified"
         )
 
-        # Proposer type using proposer text and subject/reasoning fallback.
-        out["proposer_type"] = out.apply(self._classify_proposer_type, axis=1)
+        identity = out["proposer_text"].map(proposer_identity)
+        out["proposer_type"] = identity.str[0]
+        out["proposer_classification_basis"] = identity.str[1]
 
         # Year extraction supports explicit year field or date in any available field.
         if year_col:
@@ -146,21 +192,6 @@ class BOFTransformer:
         out["is_unknown"] = out["action_text"].eq("").astype(int)
         return out
 
-    def _classify_proposer_type(self, row: pd.Series) -> str:
-        source_text = " ".join(
-            [
-                _normalize(row.get("proposer_text", "")),
-                _normalize(row.get("subject_text", "")),
-                _normalize(row.get("reasoning_text", "")),
-            ]
-        ).lower()
-        for pattern in GOVERNMENT_PROPOSER_PATTERNS:
-            if re.search(pattern, source_text, flags=re.IGNORECASE):
-                return "Government"
-        if source_text:
-            return "Private"
-        return "Unknown"
-
     @staticmethod
     def _extract_year(value: object) -> int | pd.NA:
         text = _normalize(value)
@@ -172,26 +203,15 @@ class BOFTransformer:
     @staticmethod
     def approval_ratio_by_cluster_1901(df: pd.DataFrame) -> pd.DataFrame:
         yearly = df[df["year"] == 1901].copy()
-        grouped = (
-            yearly.groupby("primary_cluster", dropna=False)
-            .agg(
-                submissions=("primary_cluster", "count"),
-                approved=("is_approved", "sum"),
-            )
-            .reset_index()
+        return action_summary(yearly, ["primary_cluster"]).sort_values(
+            "approval_share_recorded", ascending=False
         )
-        grouped["approval_to_submission_ratio"] = grouped["approved"] / grouped["submissions"]
-        return grouped.sort_values("approval_to_submission_ratio", ascending=False)
 
     @staticmethod
-    def proposer_success_table(df: pd.DataFrame) -> pd.DataFrame:
-        grouped = (
-            df.groupby(["year", "proposer_type"], dropna=False)
-            .agg(submissions=("proposer_type", "count"), approved=("is_approved", "sum"))
-            .reset_index()
+    def proposer_action_summary(df: pd.DataFrame) -> pd.DataFrame:
+        return action_summary(df, ["year", "proposer_type"]).sort_values(
+            ["year", "proposer_type"]
         )
-        grouped["success_rate"] = grouped["approved"] / grouped["submissions"]
-        return grouped.sort_values(["year", "success_rate"], ascending=[True, False])
 
 
 def run_batch_analysis(input_files: list[Path], output_dir: Path) -> pd.DataFrame:
@@ -213,8 +233,8 @@ def run_batch_analysis(input_files: list[Path], output_dir: Path) -> pd.DataFram
     all_data.to_csv(output_dir / "all_structured_records.csv", index=False)
 
     ratio_1901 = BOFTransformer.approval_ratio_by_cluster_1901(all_data)
-    ratio_1901.to_csv(output_dir / "approval_ratio_by_cluster_1901.csv", index=False)
+    ratio_1901.to_csv(output_dir / "proposal_actions_by_cluster_1901.csv", index=False)
 
-    proposer_rates = BOFTransformer.proposer_success_table(all_data)
-    proposer_rates.to_csv(output_dir / "proposer_success_rate_by_year.csv", index=False)
+    proposer_rates = BOFTransformer.proposer_action_summary(all_data)
+    proposer_rates.to_csv(output_dir / "proposal_actions_by_proposer_year.csv", index=False)
     return all_data
